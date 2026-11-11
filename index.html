@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="VerbMaster – französische Verben Level für Level lernen.">
+<title>VerbMaster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+:root{--g:#2F7D5B;--gd:#1F5C42;--soft:#F1F7F3;--line:#E3ECE6;--line2:#D5E2DA;--ink:#1C2B24;--mute:#5C6B63;--grey:#F1F3F2;--bad:#A3392F;--badbg:#FBEFED}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;font-size:16px;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,p{margin:0}
+#app{max-width:440px;margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+#view{flex:1;padding:8px 24px 24px;display:flex;flex-direction:column;gap:14px}
+#view.full{padding:16px 24px 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.grow{flex:1;min-width:0}.tc{text-align:center}
+.muted{color:var(--mute);font-size:14px}.strong{font-weight:600;font-size:16px}.accent{color:var(--gd);font-weight:500;font-size:14px;margin:6px 0}
+h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,sans-serif}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px}
+.head h1{font-size:26px;font-weight:700}.brand span{color:var(--g)}
+.lang select{height:44px;padding:0 12px;border:1px solid var(--line2);border-radius:22px;background:#fff;font-weight:500;font-size:14px}
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:14px}
+.seg button{flex:1;min-width:0;height:44px;padding:0 4px;border:0;border-radius:10px;background:transparent;color:var(--mute);font-weight:500;font-size:15px}
+.seg button[aria-selected=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(28,43,36,.08)}
+.sub{font-size:13px;font-weight:500;color:var(--mute);margin-top:4px}
+.list{display:flex;flex-direction:column;gap:10px}
+.card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px 16px}
+.card h2{font-size:16px;font-weight:600}
+.lvl{display:flex;align-items:center;gap:14px;width:100%;text-align:left;min-height:64px}
+.lvl b{display:block;font-weight:600}.lvl small{font-size:13px;color:var(--mute)}
+.lvl.off b{font-weight:500;color:var(--mute)}
+.set .bar{display:block;margin-top:8px;background:var(--soft)}.q h1.long{font-size:24px;line-height:1.25}
+.act{background:var(--soft);border:1.5px solid var(--g);padding:18px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:14px}
+.dot{width:36px;height:36px;flex:none;border-radius:50%;background:var(--grey);color:#6B7872;display:flex;align-items:center;justify-content:center}
+.dot.ok{background:var(--g);color:#fff}
+.dot.num{background:#fff;border:1.5px solid var(--g);color:var(--g);font-weight:700;font-size:15px}
+.dot.xl{width:72px;height:72px}.dot.xl svg{width:32px;height:32px}
+.bar{height:8px;background:#fff;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--g);border-radius:4px;transition:width .3s}
+.top .bar,.trow .bar,.bar.thin{background:var(--soft)}.bar.thin{height:6px}
+.trow.off .bar{background:var(--grey)}
+.btn{min-height:48px;padding:0 18px;border:0;border-radius:12px;background:var(--g);color:#fff;font-weight:600;font-size:16px}
+.btn.big{min-height:56px;border-radius:16px;font-size:17px;width:100%}
+.btn.ghost{background:transparent;color:var(--g)}
+.btn:disabled{background:var(--line2);color:#fff;cursor:default}
+.hint{font-size:13px;color:var(--mute);text-align:center;padding:4px 8px}
+.icon{width:44px;height:44px;border:0;background:transparent;color:var(--mute);display:flex;align-items:center;justify-content:center;border-radius:12px}
+.top{display:flex;align-items:center;gap:12px}.top .icon{margin-left:-10px}
+.q{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:20px;text-align:center}
+.q h1{font-size:40px;font-weight:700;margin-top:10px;overflow-wrap:anywhere}.q p{color:var(--mute)}
+.chip{display:inline-block;padding:6px 14px;background:var(--soft);border-radius:16px;font-size:13px;font-weight:600;color:var(--g)}
+.lbl{font-size:14px;font-weight:500;color:var(--mute);margin-top:10px}
+.field{display:flex;align-items:center;gap:12px;min-height:64px;padding:0 18px;border:1.5px solid var(--g);border-radius:16px}
+.field span{font-size:21px;font-weight:500;color:var(--mute);white-space:nowrap}
+.field input{flex:1;min-width:0;height:44px;border:0;outline:0;background:transparent;font-size:21px;font-weight:600}
+.field:focus-within{box-shadow:0 0 0 3px rgba(47,125,91,.18)}
+.keys{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.keys button{height:44px;border:1px solid var(--line2);border-radius:10px;background:#fff;font-weight:500;font-size:17px}
+.keys button:active{background:var(--soft)}
+.fb{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:16px}
+.fb b{display:block}.fb p{margin-top:2px}
+.fb.good{background:var(--soft)}.fb.good b{color:var(--gd)}
+.fb.bad{background:var(--badbg)}.fb.bad b{color:var(--bad)}
+.fb input{width:100%;height:44px;margin:8px 0 0;padding:0 12px;border:1px solid var(--line2);border-radius:10px;background:#fff}
+.link{min-height:44px;padding:0;border:0;background:transparent;color:var(--g);font-weight:600;font-size:14px}
+.mini{font-size:14px;text-align:center}.mini.good{color:var(--gd)}.mini.bad{color:var(--bad)}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px 0}
+.center h1{font-size:26px}.lead{font-size:16px;color:var(--ink);max-width:300px;line-height:1.45}
+.bignum{font-size:28px;font-weight:700}.bignum.xl{font-size:72px;line-height:1;color:var(--g)}
+.timer{font-size:60px;font-weight:700;line-height:1;color:var(--g);text-align:center;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
+.stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
+.stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.hero{display:flex;align-items:center;gap:20px;padding:20px;background:var(--soft);border-radius:20px}
+.ring{position:relative;width:120px;height:120px;flex:none}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 26px 'Space Grotesk',sans-serif}
+.block{display:flex;flex-direction:column;gap:12px;margin-top:8px}.block h2{font-size:15px;font-weight:600}
+.trow{display:flex;flex-direction:column;gap:6px;font-size:14px}.trow>div:first-child{display:flex;justify-content:space-between}
+.trow span:last-child{font-weight:600;color:var(--gd)}.trow.off,.trow.off span:last-child{color:var(--mute);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:8px 14px;border:1px solid var(--line2);border-radius:18px;font-size:14px;font-weight:500}
+.form{display:flex;flex-direction:column;gap:8px;padding:20px;border-radius:20px}
+.form label{font-size:13px;font-weight:500;color:var(--mute);margin-top:6px}
+.form input,.form select,.form textarea{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line2);border-radius:12px;background:#fff}
+.form input:focus,.form select:focus,.form textarea:focus,.lang select:focus,.fb input:focus{outline:2px solid var(--g);outline-offset:1px}
+.form .btn{margin-top:10px}
+.form code{display:block;padding:10px 12px;background:var(--soft);border-radius:10px;font-size:13px;overflow-wrap:anywhere}
+.form details{margin-top:8px;font-size:14px}.form summary{min-height:44px;display:flex;align-items:center;color:var(--g);font-weight:600;cursor:pointer}
+.form details p{color:var(--mute);line-height:1.45}
+.prev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;padding:14px;background:var(--soft);border-radius:12px;font-size:14px;margin-top:6px}
+.prev.warn,.note.warn{display:block;background:var(--badbg);color:var(--bad)}
+.note{padding:12px 16px;background:var(--soft);border-radius:12px;font-size:14px;color:var(--gd);overflow-wrap:anywhere}
+.vrow{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--line)}
+.vrow b{display:block;font-weight:500}.vrow small{font-size:13px;color:var(--mute)}
+.intro{padding:14px 16px;background:var(--soft);border-radius:14px;font-size:14px;line-height:1.5}
+.sentence{font-size:24px;font-weight:600;text-align:center;padding:12px 0;line-height:1.4}
+mark{background:#DCEDE3;color:var(--gd);padding:2px 6px;border-radius:6px}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.opts button{height:52px;border:1.5px solid var(--line2);border-radius:14px;background:#fff;font-weight:600;font-size:18px;color:var(--ink)}
+.opts button.yes{border-color:var(--g);background:var(--soft);color:var(--gd)}
+.opts button.no{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
+#nav{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);padding:8px 8px calc(10px + env(safe-area-inset-bottom));background:#fff}
+#nav[hidden]{display:none}
+#nav button{flex:1;min-height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:500;color:var(--mute)}
+#nav button.on{color:var(--g);font-weight:600}
+button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="VerbMaster">
+<script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
+</head>
+<body>
+<div id="app"><main id="view"></main><nav id="nav" aria-label="Navigation"></nav></div>
+<script>
+/* Mitgelieferte Vokabel-Listen: [französisch, Bedeutung]. Neue Liste = neues Objekt in diesem Array. */
+const VOCAB_SETS = [];
+/* ============================================================
+   VerbMaster – Engine (Daten + Konjugation). Keine DOM-Zugriffe.
+   ============================================================ */
+
+/* ---------- Zeiten = Level (Reihenfolge = Level-Reihenfolge) ---------- */
+const TENSES = [
+  { k: 'pr',   n: 'Présent',                     m: 'Indicatif' },
+  { k: 'impf', n: 'Imparfait',                   m: 'Indicatif' },
+  { k: 'pc',   n: 'Passé composé',               m: 'Indicatif',    aux: 'pr' },
+  { k: 'fut',  n: 'Futur simple',                m: 'Indicatif' },
+  { k: 'pqp',  n: 'Plus-que-parfait',            m: 'Indicatif',    aux: 'impf' },
+  { k: 'cond', n: 'Conditionnel présent',        m: 'Conditionnel' },
+  { k: 'imp',  n: 'Impératif présent',           m: 'Impératif' },
+  { k: 'fa',   n: 'Futur antérieur',             m: 'Indicatif',    aux: 'fut' },
+  { k: 'cp',   n: 'Conditionnel passé',          m: 'Conditionnel', aux: 'cond' },
+  { k: 'sp',   n: 'Subjonctif présent',          m: 'Subjonctif' },
+  { k: 'spa',  n: 'Subjonctif passé',            m: 'Subjonctif',   aux: 'sp' },
+  { k: 'ps',   n: 'Passé simple',                m: 'Indicatif' },
+  { k: 'pa',   n: 'Passé antérieur',             m: 'Indicatif',    aux: 'ps' },
+  { k: 'ipa',  n: 'Impératif passé',             m: 'Impératif',    aux: 'imp' },
+  { k: 'si',   n: 'Subjonctif imparfait',        m: 'Subjonctif' },
+  { k: 'spq',  n: 'Subjonctif plus-que-parfait', m: 'Subjonctif',   aux: 'si' }
+];
+const TMAP = {}; TENSES.forEach(t => TMAP[t.k] = t);
+
+/* ---------- Endungen ---------- */
+const E_IMPF = ['ais', 'ais', 'ait', 'ions', 'iez', 'aient'];
+const E_FUT  = ['ai', 'as', 'a', 'ons', 'ez', 'ont'];
+const E_PS = {
+  a:  ['ai', 'as', 'a', 'âmes', 'âtes', 'èrent'],
+  i:  ['is', 'is', 'it', 'îmes', 'îtes', 'irent'],
+  u:  ['us', 'us', 'ut', 'ûmes', 'ûtes', 'urent'],
+  in: ['ins', 'ins', 'int', 'înmes', 'întes', 'inrent']
+};
+const E_SI = {
+  a:  ['asse', 'asses', 'ât', 'assions', 'assiez', 'assent'],
+  i:  ['isse', 'isses', 'ît', 'issions', 'issiez', 'issent'],
+  u:  ['usse', 'usses', 'ût', 'ussions', 'ussiez', 'ussent'],
+  in: ['insse', 'insses', 'înt', 'inssions', 'inssiez', 'inssent']
+};
+
+/* ---------- Unregelmässige Modelle ----------
+   inf = Endung des Infinitivs, die das Modell ersetzt (Rest = Präfix).
+   p = Présent, pp = Participe passé, f = Futur-Stamm, ps = [Typ, Stamm] Passé simple,
+   sp = Subjonctif présent (falls unregelmässig), imp = Impératif (null = keiner). */
+const M = {
+  etre:    { inf: 'être',   p: ['suis', 'es', 'est', 'sommes', 'êtes', 'sont'], pp: 'été', f: 'ser', ps: ['u', 'f'], impf: 'ét',
+             sp: ['sois', 'sois', 'soit', 'soyons', 'soyez', 'soient'], imp: ['sois', 'soyons', 'soyez'] },
+  avoir:   { inf: 'avoir',  p: ['ai', 'as', 'a', 'avons', 'avez', 'ont'], pp: 'eu', f: 'aur', ps: ['u', 'e'],
+             sp: ['aie', 'aies', 'ait', 'ayons', 'ayez', 'aient'], imp: ['aie', 'ayons', 'ayez'] },
+  aller:   { inf: 'aller',  p: ['vais', 'vas', 'va', 'allons', 'allez', 'vont'], pp: 'allé', f: 'ir', ps: ['a', 'all'],
+             sp: ['aille', 'ailles', 'aille', 'allions', 'alliez', 'aillent'] },
+  faire:   { inf: 'faire',  p: ['fais', 'fais', 'fait', 'faisons', 'faites', 'font'], pp: 'fait', f: 'fer', ps: ['i', 'f'],
+             sp: ['fasse', 'fasses', 'fasse', 'fassions', 'fassiez', 'fassent'] },
+  dire:    { inf: 'dire',   p: ['dis', 'dis', 'dit', 'disons', 'dites', 'disent'], pp: 'dit', f: 'dir', ps: ['i', 'd'] },
+  d2:      { inf: 'dire',   p: ['dis', 'dis', 'dit', 'disons', 'disez', 'disent'], pp: 'dit', f: 'dir', ps: ['i', 'd'] },
+  pouvoir: { inf: 'pouvoir', p: ['peux', 'peux', 'peut', 'pouvons', 'pouvez', 'peuvent'], pp: 'pu', f: 'pourr', ps: ['u', 'p'],
+             sp: ['puisse', 'puisses', 'puisse', 'puissions', 'puissiez', 'puissent'], imp: null },
+  vouloir: { inf: 'vouloir', p: ['veux', 'veux', 'veut', 'voulons', 'voulez', 'veulent'], pp: 'voulu', f: 'voudr', ps: ['u', 'voul'],
+             sp: ['veuille', 'veuilles', 'veuille', 'voulions', 'vouliez', 'veuillent'], imp: ['veuille', 'veuillons', 'veuillez'] },
+  savoir:  { inf: 'savoir', p: ['sais', 'sais', 'sait', 'savons', 'savez', 'savent'], pp: 'su', f: 'saur', ps: ['u', 's'],
+             sp: ['sache', 'saches', 'sache', 'sachions', 'sachiez', 'sachent'], imp: ['sache', 'sachons', 'sachez'] },
+  devoir:  { inf: 'devoir', p: ['dois', 'dois', 'doit', 'devons', 'devez', 'doivent'], pp: 'dû', f: 'devr', ps: ['u', 'd'], imp: null },
+  valoir:  { inf: 'valoir', p: ['vaux', 'vaux', 'vaut', 'valons', 'valez', 'valent'], pp: 'valu', f: 'vaudr', ps: ['u', 'val'],
+             sp: ['vaille', 'vailles', 'vaille', 'valions', 'valiez', 'vaillent'], imp: null },
+  falloir: { inf: 'falloir', only3: true, p: [null, null, 'faut', null, null, null], pp: 'fallu', f: 'faudr', ps: ['u', 'fall'], impf: 'fall',
+             sp: [null, null, 'faille', null, null, null], imp: null },
+  pleuvoir:{ inf: 'pleuvoir', only3: true, p: [null, null, 'pleut', null, null, null], pp: 'plu', f: 'pleuvr', ps: ['u', 'pl'], impf: 'pleuv',
+             sp: [null, null, 'pleuve', null, null, null], imp: null },
+  voir:    { inf: 'voir',   p: ['vois', 'vois', 'voit', 'voyons', 'voyez', 'voient'], pp: 'vu', f: 'verr', ps: ['i', 'v'] },
+  prevoir: { inf: 'voir',   p: ['vois', 'vois', 'voit', 'voyons', 'voyez', 'voient'], pp: 'vu', f: 'voir', ps: ['i', 'v'] },
+  cevoir:  { inf: 'cevoir', p: ['çois', 'çois', 'çoit', 'cevons', 'cevez', 'çoivent'], pp: 'çu', f: 'cevr', ps: ['u', 'ç'] },
+  enir:    { inf: 'enir',   p: ['iens', 'iens', 'ient', 'enons', 'enez', 'iennent'], pp: 'enu', f: 'iendr', ps: ['in', ''] },
+  courir:  { inf: 'courir', p: ['cours', 'cours', 'court', 'courons', 'courez', 'courent'], pp: 'couru', f: 'courr', ps: ['u', 'cour'] },
+  mourir:  { inf: 'mourir', p: ['meurs', 'meurs', 'meurt', 'mourons', 'mourez', 'meurent'], pp: 'mort', f: 'mourr', ps: ['u', 'mour'] },
+  fuir:    { inf: 'fuir',   p: ['fuis', 'fuis', 'fuit', 'fuyons', 'fuyez', 'fuient'], pp: 'fui', f: 'fuir', ps: ['i', 'fu'] },
+  querir:  { inf: 'quérir', p: ['quiers', 'quiers', 'quiert', 'quérons', 'quérez', 'quièrent'], pp: 'quis', f: 'querr', ps: ['i', 'qu'] },
+  prendre: { inf: 'prendre', p: ['prends', 'prends', 'prend', 'prenons', 'prenez', 'prennent'], pp: 'pris', f: 'prendr', ps: ['i', 'pr'] },
+  mettre:  { inf: 'mettre', p: ['mets', 'mets', 'met', 'mettons', 'mettez', 'mettent'], pp: 'mis', f: 'mettr', ps: ['i', 'm'] },
+  battre:  { inf: 'battre', p: ['bats', 'bats', 'bat', 'battons', 'battez', 'battent'], pp: 'battu', f: 'battr', ps: ['i', 'batt'] },
+  aitre:   { inf: 'aître',  p: ['ais', 'ais', 'aît', 'aissons', 'aissez', 'aissent'], pp: 'u', f: 'aîtr', ps: ['u', ''] },
+  naitre:  { inf: 'naître', p: ['nais', 'nais', 'naît', 'naissons', 'naissez', 'naissent'], pp: 'né', f: 'naîtr', ps: ['i', 'naqu'] },
+  croire:  { inf: 'croire', p: ['crois', 'crois', 'croit', 'croyons', 'croyez', 'croient'], pp: 'cru', f: 'croir', ps: ['u', 'cr'] },
+  boire:   { inf: 'boire',  p: ['bois', 'bois', 'boit', 'buvons', 'buvez', 'boivent'], pp: 'bu', f: 'boir', ps: ['u', 'b'] },
+  lire:    { inf: 'lire',   p: ['lis', 'lis', 'lit', 'lisons', 'lisez', 'lisent'], pp: 'lu', f: 'lir', ps: ['u', 'l'] },
+  crire:   { inf: 'crire',  p: ['cris', 'cris', 'crit', 'crivons', 'crivez', 'crivent'], pp: 'crit', f: 'crir', ps: ['i', 'criv'] },
+  rire:    { inf: 'rire',   p: ['ris', 'ris', 'rit', 'rions', 'riez', 'rient'], pp: 'ri', f: 'rir', ps: ['i', 'r'] },
+  suivre:  { inf: 'suivre', p: ['suis', 'suis', 'suit', 'suivons', 'suivez', 'suivent'], pp: 'suivi', f: 'suivr', ps: ['i', 'suiv'] },
+  vivre:   { inf: 'vivre',  p: ['vis', 'vis', 'vit', 'vivons', 'vivez', 'vivent'], pp: 'vécu', f: 'vivr', ps: ['u', 'véc'] },
+  uire:    { inf: 'uire',   p: ['uis', 'uis', 'uit', 'uisons', 'uisez', 'uisent'], pp: 'uit', f: 'uir', ps: ['i', 'uis'] },
+  plaire:  { inf: 'plaire', p: ['plais', 'plais', 'plaît', 'plaisons', 'plaisez', 'plaisent'], pp: 'plu', f: 'plair', ps: ['u', 'pl'] },
+  taire:   { inf: 'taire',  p: ['tais', 'tais', 'tait', 'taisons', 'taisez', 'taisent'], pp: 'tu', f: 'tair', ps: ['u', 't'] },
+  indre:   { inf: 'indre',  p: ['ins', 'ins', 'int', 'ignons', 'ignez', 'ignent'], pp: 'int', f: 'indr', ps: ['i', 'ign'] },
+  resoudre:{ inf: 'résoudre', p: ['résous', 'résous', 'résout', 'résolvons', 'résolvez', 'résolvent'], pp: 'résolu', f: 'résoudr', ps: ['u', 'résol'] },
+  vaincre: { inf: 'vaincre', p: ['vaincs', 'vaincs', 'vainc', 'vainquons', 'vainquez', 'vainquent'], pp: 'vaincu', f: 'vaincr', ps: ['i', 'vainqu'] },
+  conclure:{ inf: 'clure',  p: ['clus', 'clus', 'clut', 'cluons', 'cluez', 'cluent'], pp: 'clu', f: 'clur', ps: ['u', 'cl'] },
+  asseoir: { inf: 'asseoir', p: ['assieds', 'assieds', 'assied', 'asseyons', 'asseyez', 'asseyent'], pp: 'assis', f: 'assiér', ps: ['i', 'ass'] },
+  rompre:  { inf: 'rompre', p: ['romps', 'romps', 'rompt', 'rompons', 'rompez', 'rompent'], pp: 'rompu', f: 'rompr', ps: ['i', 'romp'] },
+  suffire: { inf: 'suffire', p: ['suffis', 'suffis', 'suffit', 'suffisons', 'suffisez', 'suffisent'], pp: 'suffi', f: 'suffir', ps: ['i', 'suff'] }
+};
+/* Berechnete Modelle: P = wie partir, O = wie ouvrir, Q = wie cueillir, D = Doppelkonsonant (appeler, jeter) */
+const COMPUTED_TAGS = { P: 'ir', O: 'ir', Q: 'ir', D: 'er' };
+
+/* ---------- 300 Start-Verben: französisch|deutsch|englisch|italienisch|Modell ---------- */
+const VERB_DATA = `être|sein|to be|essere|etre
+avoir|haben|to have|avere|avoir
+faire|machen|to do, to make|fare|faire
+dire|sagen|to say|dire|dire
+aller|gehen|to go|andare|aller
+pouvoir|können|to be able to|potere|pouvoir
+vouloir|wollen|to want|volere|vouloir
+voir|sehen|to see|vedere|voir
+savoir|wissen|to know|sapere|savoir
+venir|kommen|to come|venire|enir
+devoir|müssen|to have to|dovere|devoir
+prendre|nehmen|to take|prendere|prendre
+parler|sprechen|to speak|parlare
+aimer|lieben, mögen|to love, to like|amare
+donner|geben|to give|dare
+trouver|finden|to find|trovare
+mettre|setzen, legen|to put|mettere|mettre
+passer|vorbeigehen, verbringen|to pass, to spend|passare
+regarder|anschauen|to watch|guardare
+demander|fragen|to ask|chiedere
+penser|denken|to think|pensare
+croire|glauben|to believe|credere|croire
+rester|bleiben|to stay|restare
+arriver|ankommen|to arrive|arrivare
+manger|essen|to eat|mangiare
+finir|beenden|to finish|finire
+connaître|kennen|to know (someone)|conoscere|aitre
+partir|weggehen|to leave|partire|P
+sortir|hinausgehen|to go out|uscire|P
+tenir|halten|to hold|tenere|enir
+comprendre|verstehen|to understand|capire|prendre
+attendre|warten|to wait|aspettare
+entendre|hören|to hear|sentire
+chercher|suchen|to look for|cercare
+travailler|arbeiten|to work|lavorare
+appeler|rufen, anrufen|to call|chiamare|D
+vivre|leben|to live|vivere|vivre
+écrire|schreiben|to write|scrivere|crire
+lire|lesen|to read|leggere|lire
+boire|trinken|to drink|bere|boire
+jouer|spielen|to play|giocare
+habiter|wohnen|to live (reside)|abitare
+acheter|kaufen|to buy|comprare
+ouvrir|öffnen|to open|aprire|O
+fermer|schliessen|to close|chiudere
+commencer|beginnen|to begin|cominciare
+répondre|antworten|to answer|rispondere
+écouter|zuhören|to listen|ascoltare
+apprendre|lernen|to learn|imparare|prendre
+devenir|werden|to become|diventare|enir
+revenir|zurückkommen|to come back|ritornare|enir
+entrer|eintreten|to enter|entrare
+porter|tragen|to carry, to wear|portare
+montrer|zeigen|to show|mostrare
+choisir|wählen|to choose|scegliere
+dormir|schlafen|to sleep|dormire|P
+courir|rennen|to run|correre|courir
+recevoir|erhalten|to receive|ricevere|cevoir
+envoyer|schicken|to send|inviare
+payer|bezahlen|to pay|pagare
+vendre|verkaufen|to sell|vendere
+perdre|verlieren|to lose|perdere
+gagner|gewinnen|to win|vincere
+tomber|fallen|to fall|cadere
+monter|hinaufgehen|to go up|salire
+descendre|hinuntergehen|to go down|scendere
+rendre|zurückgeben|to give back|restituire
+suivre|folgen|to follow|seguire|suivre
+sentir|fühlen, riechen|to feel, to smell|sentire|P
+servir|dienen, servieren|to serve|servire|P
+conduire|fahren|to drive|guidare|uire
+offrir|schenken|to offer|offrire|O
+oublier|vergessen|to forget|dimenticare
+essayer|versuchen|to try|provare
+changer|ändern, wechseln|to change|cambiare
+préférer|bevorzugen|to prefer|preferire
+espérer|hoffen|to hope|sperare
+répéter|wiederholen|to repeat|ripetere
+expliquer|erklären|to explain|spiegare
+raconter|erzählen|to tell|raccontare
+rencontrer|treffen|to meet|incontrare
+inviter|einladen|to invite|invitare
+aider|helfen|to help|aiutare
+utiliser|benutzen|to use|usare
+préparer|vorbereiten|to prepare|preparare
+étudier|studieren, lernen|to study|studiare
+chanter|singen|to sing|cantare
+danser|tanzen|to dance|ballare
+marcher|gehen, laufen|to walk|camminare
+voyager|reisen|to travel|viaggiare
+visiter|besichtigen|to visit|visitare
+téléphoner|telefonieren|to phone|telefonare
+laver|waschen|to wash|lavare
+cuisiner|kochen|to cook|cucinare
+nager|schwimmen|to swim|nuotare
+rire|lachen|to laugh|ridere|rire
+sourire|lächeln|to smile|sorridere|rire
+pleurer|weinen|to cry|piangere
+crier|schreien|to shout|gridare
+tirer|ziehen|to pull|tirare
+pousser|stossen, schieben|to push|spingere
+lever|heben|to lift|alzare
+poser|hinlegen, stellen|to put down|posare
+garder|behalten|to keep|conservare
+laisser|lassen|to let, to leave|lasciare
+quitter|verlassen|to leave (a place)|lasciare
+rentrer|heimkehren|to go home|rientrare
+retourner|zurückkehren|to return|ritornare
+apporter|mitbringen|to bring|portare
+emmener|mitnehmen|to take along|portare con sé
+amener|herbringen|to bring along|condurre
+jeter|werfen|to throw|gettare|D
+lancer|werfen, starten|to throw, to launch|lanciare
+casser|zerbrechen|to break|rompere
+réparer|reparieren|to repair|riparare
+construire|bauen|to build|costruire|uire
+détruire|zerstören|to destroy|distruggere|uire
+produire|herstellen|to produce|produrre|uire
+traduire|übersetzen|to translate|tradurre|uire
+réduire|verringern|to reduce|ridurre|uire
+permettre|erlauben|to allow|permettere|mettre
+promettre|versprechen|to promise|promettere|mettre
+admettre|zugeben|to admit|ammettere|mettre
+battre|schlagen|to beat|battere|battre
+combattre|bekämpfen|to fight|combattere|battre
+reconnaître|erkennen|to recognise|riconoscere|aitre
+paraître|scheinen|to seem|sembrare|aitre
+apparaître|erscheinen|to appear|apparire|aitre
+disparaître|verschwinden|to disappear|scomparire|aitre
+naître|geboren werden|to be born|nascere|naitre
+mourir|sterben|to die|morire|mourir
+plaire|gefallen|to please|piacere|plaire
+falloir|nötig sein, müssen|to be necessary|bisognare|falloir
+pleuvoir|regnen|to rain|piovere|pleuvoir
+valoir|wert sein|to be worth|valere|valoir
+décrire|beschreiben|to describe|descrivere|crire
+inscrire|einschreiben|to register|iscrivere|crire
+interdire|verbieten|to forbid|vietare|d2
+prévoir|vorhersehen, planen|to foresee, to plan|prevedere|prevoir
+revoir|wiedersehen|to see again|rivedere|voir
+apercevoir|erblicken|to catch sight of|scorgere|cevoir
+décevoir|enttäuschen|to disappoint|deludere|cevoir
+obtenir|bekommen|to obtain|ottenere|enir
+retenir|zurückhalten, behalten|to hold back, to retain|trattenere|enir
+appartenir|gehören|to belong|appartenere|enir
+maintenir|aufrechterhalten|to maintain|mantenere|enir
+soutenir|unterstützen|to support|sostenere|enir
+contenir|enthalten|to contain|contenere|enir
+prévenir|warnen|to warn|avvertire|enir
+intervenir|eingreifen|to intervene|intervenire|enir
+surprendre|überraschen|to surprise|sorprendere|prendre
+reprendre|wieder aufnehmen|to resume|riprendere|prendre
+entreprendre|unternehmen|to undertake|intraprendere|prendre
+découvrir|entdecken|to discover|scoprire|O
+couvrir|bedecken|to cover|coprire|O
+souffrir|leiden|to suffer|soffrire|O
+accueillir|empfangen|to welcome|accogliere|Q
+cueillir|pflücken|to pick|cogliere|Q
+mentir|lügen|to lie|mentire|P
+ressentir|empfinden|to feel (emotion)|provare|P
+fuir|fliehen|to flee|fuggire|fuir
+acquérir|erwerben|to acquire|acquisire|querir
+conquérir|erobern|to conquer|conquistare|querir
+craindre|fürchten|to fear|temere|indre
+plaindre|bemitleiden|to pity|compatire|indre
+peindre|malen|to paint|dipingere|indre
+éteindre|ausschalten|to switch off|spegnere|indre
+atteindre|erreichen|to reach|raggiungere|indre
+joindre|verbinden|to join|unire|indre
+rejoindre|sich anschliessen, einholen|to join, to catch up|raggiungere|indre
+résoudre|lösen|to solve|risolvere|resoudre
+convaincre|überzeugen|to convince|convincere|vaincre
+vaincre|besiegen|to defeat|sconfiggere|vaincre
+conclure|abschliessen, folgern|to conclude|concludere|conclure
+exclure|ausschliessen|to exclude|escludere|conclure
+interrompre|unterbrechen|to interrupt|interrompere|rompre
+rompre|brechen|to break (off)|rompere|rompre
+suffire|genügen|to be enough|bastare|suffire
+poursuivre|verfolgen, fortsetzen|to pursue, to continue|proseguire|suivre
+survivre|überleben|to survive|sopravvivere|vivre
+parcourir|durchlaufen|to travel through|percorrere|courir
+élire|wählen (Wahl)|to elect|eleggere|lire
+relire|nochmals lesen|to reread|rileggere|lire
+refaire|nochmals machen|to redo|rifare|faire
+satisfaire|zufriedenstellen|to satisfy|soddisfare|faire
+introduire|einführen|to introduce|introdurre|uire
+séduire|verführen|to seduce|sedurre|uire
+cuire|kochen, backen|to cook, to bake|cuocere|uire
+se lever|aufstehen|to get up|alzarsi
+se laver|sich waschen|to wash oneself|lavarsi
+se coucher|ins Bett gehen|to go to bed|coricarsi
+se réveiller|aufwachen|to wake up|svegliarsi
+s'habiller|sich anziehen|to get dressed|vestirsi
+se promener|spazieren gehen|to go for a walk|passeggiare
+se souvenir|sich erinnern|to remember|ricordarsi|enir
+s'asseoir|sich hinsetzen|to sit down|sedersi|asseoir
+se taire|schweigen|to be silent|tacere|taire
+s'appeler|heissen|to be called|chiamarsi|D
+se dépêcher|sich beeilen|to hurry|sbrigarsi
+s'amuser|sich amüsieren|to have fun|divertirsi
+se reposer|sich ausruhen|to rest|riposarsi
+s'endormir|einschlafen|to fall asleep|addormentarsi|P
+se tromper|sich irren|to be mistaken|sbagliarsi
+s'intéresser|sich interessieren|to be interested|interessarsi
+s'excuser|sich entschuldigen|to apologise|scusarsi
+se sentir|sich fühlen|to feel|sentirsi|P
+s'enfuir|davonlaufen|to run away|scappare|fuir
+se plaindre|sich beklagen|to complain|lamentarsi|indre
+arrêter|anhalten, aufhören|to stop|fermare
+continuer|weitermachen|to continue|continuare
+décider|entscheiden|to decide|decidere
+accepter|annehmen|to accept|accettare
+refuser|ablehnen|to refuse|rifiutare
+proposer|vorschlagen|to suggest|proporre
+présenter|vorstellen|to present|presentare
+compter|zählen|to count|contare
+coûter|kosten|to cost|costare
+durer|dauern|to last|durare
+sembler|scheinen|to seem|sembrare
+exister|existieren|to exist|esistere
+ajouter|hinzufügen|to add|aggiungere
+créer|erschaffen|to create|creare
+dessiner|zeichnen|to draw|disegnare
+sauver|retten|to save|salvare
+goûter|probieren|to taste|assaggiare
+commander|bestellen|to order|ordinare
+réserver|reservieren|to book|prenotare
+louer|mieten|to rent|affittare
+prêter|ausleihen|to lend|prestare
+emprunter|sich ausleihen|to borrow|prendere in prestito
+voler|fliegen, stehlen|to fly, to steal|volare, rubare
+sauter|springen|to jump|saltare
+traverser|überqueren|to cross|attraversare
+tourner|drehen, abbiegen|to turn|girare
+toucher|berühren|to touch|toccare
+frapper|klopfen, schlagen|to knock, to hit|bussare, colpire
+couper|schneiden|to cut|tagliare
+brûler|brennen|to burn|bruciare
+allumer|einschalten, anzünden|to switch on, to light|accendere
+nettoyer|putzen|to clean|pulire
+ranger|aufräumen|to tidy up|mettere in ordine
+partager|teilen|to share|condividere
+protéger|schützen|to protect|proteggere
+corriger|korrigieren|to correct|correggere
+diriger|leiten|to lead, to manage|dirigere
+déranger|stören|to disturb|disturbare
+mélanger|mischen|to mix|mescolare
+bouger|sich bewegen|to move|muoversi
+avancer|vorwärtsgehen|to move forward|avanzare
+placer|platzieren|to place|collocare
+remplacer|ersetzen|to replace|sostituire
+annoncer|ankündigen|to announce|annunciare
+prononcer|aussprechen|to pronounce|pronunciare
+employer|verwenden, anstellen|to use, to employ|impiegare
+ennuyer|langweilen|to bore|annoiare
+appuyer|drücken|to press|premere
+rappeler|erinnern, zurückrufen|to remind, to call back|ricordare, richiamare|D
+enlever|wegnehmen, ausziehen|to remove|togliere
+peser|wiegen|to weigh|pesare
+geler|gefrieren|to freeze|gelare
+posséder|besitzen|to own|possedere
+célébrer|feiern|to celebrate|celebrare
+considérer|betrachten|to consider|considerare
+inquiéter|beunruhigen|to worry|preoccupare
+gérer|verwalten|to manage|gestire
+régler|regeln, begleichen|to settle, to adjust|regolare
+sécher|trocknen|to dry|asciugare
+céder|nachgeben|to give in|cedere
+réussir|gelingen, bestehen|to succeed|riuscire
+réfléchir|nachdenken|to think over|riflettere
+remplir|füllen|to fill|riempire
+grandir|wachsen|to grow|crescere
+grossir|zunehmen|to gain weight|ingrassare
+maigrir|abnehmen|to lose weight|dimagrire
+vieillir|altern|to grow old|invecchiare
+rougir|erröten|to blush|arrossire
+obéir|gehorchen|to obey|obbedire
+punir|bestrafen|to punish|punire
+guérir|heilen|to heal|guarire
+nourrir|ernähren|to feed|nutrire
+agir|handeln|to act|agire
+réagir|reagieren|to react|reagire
+établir|errichten, aufstellen|to establish|stabilire
+fournir|liefern|to supply|fornire
+garantir|garantieren|to guarantee|garantire
+investir|investieren|to invest|investire
+ralentir|verlangsamen|to slow down|rallentare
+avertir|warnen|to warn|avvertire
+saisir|ergreifen|to seize|afferrare
+unir|vereinen|to unite|unire
+réunir|versammeln|to gather|riunire
+applaudir|applaudieren|to applaud|applaudire
+défendre|verteidigen, verbieten|to defend, to forbid|difendere
+dépendre|abhängen|to depend|dipendere
+confondre|verwechseln|to confuse|confondere
+correspondre|entsprechen|to correspond|corrispondere
+fondre|schmelzen|to melt|fondere
+mordre|beissen|to bite|mordere
+tendre|spannen, reichen|to stretch, to hand|tendere
+prétendre|behaupten|to claim|sostenere`;
+
+/* Verben, die die zusammengesetzten Zeiten mit «être» bilden (Reflexive automatisch) */
+const ETRE = new Set(['aller', 'venir', 'arriver', 'partir', 'entrer', 'rentrer', 'sortir', 'monter', 'descendre', 'rester',
+  'tomber', 'naître', 'mourir', 'devenir', 'revenir', 'retourner', 'intervenir']);
+
+function makeVerb(fr, meaning, tag, custom) {
+  fr = fr.trim().toLowerCase().replace(/[’`´]/g, "'").replace(/\s+/g, ' ');
+  let base = fr, refl = false;
+  if (/^se /.test(fr)) { base = fr.slice(3); refl = true; }
+  else if (/^s'/.test(fr)) { base = fr.slice(2); refl = true; }
+  return { fr, base, refl, etre: refl || ETRE.has(base), tag: tag || '', m: meaning, custom: !!custom };
+}
+const BUILTIN = VERB_DATA.split('\n').map(l => {
+  const p = l.split('|');
+  return makeVerb(p[0], { de: p[1], en: p[2], it: p[3], fr: p[2] }, p[4]);
+});
+
+/* ---------- Paradigma (Stammformen) eines Verbs ---------- */
+function J(stem, end, soft) {            // -ger / -cer: e bzw. ç vor a, â, o
+  if (soft && /^[aâo]/.test(end)) return soft === 'g' ? stem + 'e' + end : stem.slice(0, -1) + 'ç' + end;
+  return stem + end;
+}
+function lastRepl(s, a, b) { const i = s.lastIndexOf(a); return i < 0 ? s : s.slice(0, i) + b + s.slice(i + a.length); }
+
+function buildP(base, tag, vr) {
+  if (tag && M[tag]) {
+    const m = M[tag];
+    if (!base.endsWith(m.inf)) return null;
+    const p = base.slice(0, -m.inf.length);
+    return {
+      pr: m.p.map(x => x ? p + x : null), pp: p + m.pp, fs: p + m.f, pst: m.ps[0], pss: p + m.ps[1],
+      impf: m.impf != null ? p + m.impf : null, sp: m.sp ? m.sp.map(x => x ? p + x : null) : null,
+      imp: m.imp === null ? null : (m.imp ? m.imp.map(x => p + x) : undefined), only3: !!m.only3, soft: null
+    };
+  }
+  if (tag === 'P' || tag === 'O' || tag === 'Q') {
+    if (!/ir$/.test(base)) return null;
+    const s = base.slice(0, -2);
+    if (tag === 'P') return { pr: [s.slice(0, -1) + 's', s.slice(0, -1) + 's', s.slice(0, -1) + 't', s + 'ons', s + 'ez', s + 'ent'], pp: s + 'i', fs: base, pst: 'i', pss: s };
+    const pr = [s + 'e', s + 'es', s + 'e', s + 'ons', s + 'ez', s + 'ent'];
+    if (tag === 'O') return { pr, pp: s.slice(0, -1) + 'ert', fs: base, pst: 'i', pss: s };
+    return { pr, pp: s + 'i', fs: s + 'er', pst: 'i', pss: s };
+  }
+  if (/er$/.test(base)) {
+    const s = base.slice(0, -2);
+    const soft = /ger$/.test(base) ? 'g' : /cer$/.test(base) ? 'c' : null;
+    let s2 = s, fs = base;
+    if (tag === 'D') { s2 = s + s.slice(-1); fs = s2 + 'er'; }
+    else if (/[aou]y$/.test(s)) {
+      if (!(vr && /ay$/.test(s))) { s2 = s.slice(0, -1) + 'i'; fs = s2 + 'er'; }
+      if (/envoy$/.test(s)) fs = s.slice(0, -2) + 'err';
+    }
+    else if (/e[^aeiouéèêyx]$/.test(s)) { s2 = lastRepl(s, 'e', 'è'); fs = s2 + 'er'; }
+    else if (/é[^aeiouéèêy]+$/.test(s)) { s2 = lastRepl(s, 'é', 'è'); fs = vr ? s2 + 'er' : base; }
+    return { pr: [s2 + 'e', s2 + 'es', s2 + 'e', J(s, 'ons', soft), s + 'ez', s2 + 'ent'], pp: s + 'é', fs, pst: 'a', pss: s, impf: s, soft };
+  }
+  if (tag === 'D') return null;
+  if (/ir$/.test(base) && !/oir$/.test(base)) {
+    const s = base.slice(0, -2);
+    return { pr: [s + 'is', s + 'is', s + 'it', s + 'issons', s + 'issez', s + 'issent'], pp: s + 'i', fs: base, pst: 'i', pss: s };
+  }
+  if (/re$/.test(base)) {
+    const s = base.slice(0, -2);
+    return { pr: [s + 's', s + 's', /d$/.test(s) ? s : s + 't', s + 'ons', s + 'ez', s + 'ent'], pp: s + 'u', fs: s + 'r', pst: 'i', pss: s };
+  }
+  return null;
+}
+
+/* ---------- Einfache Zeiten ---------- */
+function simple(P, k) {
+  const only = a => P.only3 ? a.map((x, i) => i === 2 ? x : null) : a;
+  const impfStem = P.impf != null ? P.impf : P.pr[3].slice(0, -3);
+  const impf = () => E_IMPF.map(e => J(impfStem, e, P.soft));
+  switch (k) {
+    case 'pr':   return only(P.pr.slice());
+    case 'impf': return only(impf());
+    case 'fut':  return only(E_FUT.map(e => P.fs + e));
+    case 'cond': return only(E_IMPF.map(e => P.fs + e));
+    case 'ps':   return only(E_PS[P.pst].map(e => J(P.pss, e, P.soft)));
+    case 'si':   return only(E_SI[P.pst].map(e => J(P.pss, e, P.soft)));
+    case 'sp': {
+      if (P.sp) return P.sp.slice();
+      const s1 = P.pr[5].slice(0, -3), im = impf();
+      return [s1 + 'e', s1 + 'es', s1 + 'e', im[3], im[4], s1 + 'ent'];
+    }
+    case 'imp': {
+      if (P.imp === null || P.only3) return [null, null, null, null, null, null];
+      if (P.imp) return [null, P.imp[0], null, P.imp[1], P.imp[2], null];
+      return [null, P.pr[1].replace(/([ea])s$/, '$1'), null, P.pr[3], P.pr[4], null];
+    }
+  }
+  return null;
+}
+
+/* ---------- Vollständige Formen inkl. Hilfsverb, Reflexivpronomen, Varianten ---------- */
+const REFL = ['me', 'te', 'se', 'nous', 'vous', 'se'];
+const IMP_REFL = ['', '-toi', '', '-nous', '-vous', ''];
+const VOWEL = /^[aeiouhéèêâîôû]/;
+function withRefl(i, s) { const r = REFL[i]; return (r.length === 2 && VOWEL.test(s)) ? r[0] + "'" + s : r + ' ' + s; }
+function agree(pp, i) {
+  const pl = /s$/.test(pp) ? pp : pp + 's';
+  if (i < 3) return [pp, pp + 'e'];
+  if (i === 4) return [pl, pp + 'es', pp, pp + 'e'];
+  return [pl, pp + 'es'];
+}
+const P_ETRE = buildP('être', 'etre'), P_AVOIR = buildP('avoir', 'avoir');
+
+function one(v, k, vr) {
+  const P = buildP(v.base, v.tag, vr); if (!P) return null;
+  const T = TMAP[k];
+  if (!T.aux) {
+    return simple(P, k).map((s, i) => {
+      if (!s) return null;
+      if (v.refl) s = k === 'imp' ? s + IMP_REFL[i] : withRefl(i, s);
+      return [s];
+    });
+  }
+  if (k === 'ipa' && v.refl) return [null, null, null, null, null, null];
+  const af = simple(v.etre ? P_ETRE : P_AVOIR, T.aux);
+  const own = k === 'ipa' ? simple(P, 'imp') : null;
+  return af.map((a, i) => {
+    if (!a || (P.only3 && i !== 2) || (own && !own[i])) return null;
+    const pps = v.etre ? agree(P.pp, i) : [P.pp];
+    return pps.map(pp => v.refl ? withRefl(i, a + ' ' + pp) : a + ' ' + pp);
+  });
+}
+const _cache = {};
+/** conj(verb, tenseKey) -> Array[6]; jeder Eintrag null oder Liste akzeptierter Antworten (erste = Musterlösung) */
+function conj(v, k) {
+  const key = v.fr + '|' + v.tag + '|' + k;
+  if (key in _cache) return _cache[key];
+  const a = one(v, k, false), b = one(v, k, true);
+  const r = a ? a.map((x, i) => x ? [...new Set(x.concat((b && b[i]) || []))] : null) : null;
+  return _cache[key] = r;
+}
+function canConjugate(base, tag) { return !!buildP(base, tag, false); }
+
+/** Modell für ein neues Verb erraten: null = unbekannte Endung */
+function autoTag(base) {
+  let best = null;
+  for (const v of BUILTIN) {
+    if (v.tag && !v.refl && v.base.length >= 5 && base.endsWith(v.base) && (!best || v.base.length > best.base.length)) best = v;
+  }
+  if (best) return best.tag;
+  return /(er|ir|re)$/.test(base) && !/oir$/.test(base) ? '' : null;
+}
+
+/* ---------- Subjekt-Anzeige ---------- */
+const SUBJ = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
+function subject(i, k, answer) {
+  if (k === 'imp' || k === 'ipa') return '(' + SUBJ[i] + ')';
+  const el = i === 0 && VOWEL.test(answer);
+  const s = el ? "j'" : SUBJ[i];
+  if (TMAP[k].m === 'Subjonctif') return (i === 2 || i === 5 ? "qu'" : 'que ') + s;
+  return s;
+}
+
+/* ---------- Antwort prüfen ---------- */
+function norm(s) {
+  return s.toLowerCase().replace(/[’`´]/g, "'").replace(/\s+/g, ' ').replace(/\s*'\s*/g, "'").replace(/\s*-\s*/g, '-').trim();
+}
+function stripSubj(s) { return s.replace(/^(que |qu')?(je |j'|tu |il |elle |on |nous |vous |ils |elles )/, ''); }
+function flat(s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+/** -> 'ok' | 'accent' | 'no' */
+function grade(input, accepted) {
+  const a = norm(input), b = stripSubj(a), acc = accepted.map(norm);
+  if (acc.includes(a) || acc.includes(b)) return 'ok';
+  const fa = flat(a), fb = flat(b);
+  if (acc.some(x => flat(x) === fa || flat(x) === fb)) return 'accent';
+  return 'no';
+}
+
+if (typeof module !== 'undefined' && module.exports) module.exports = { TENSES, BUILTIN, M, conj, makeVerb, autoTag, canConjugate, subject, grade };
+
+</script>
+<script>
+/* ============================================================
+   VerbMaster – Oberfläche
+   ============================================================ */
+
+/* ---------- Oberflächen-Sprachen: neue Sprache = neuer Block mit denselben Schlüsseln ---------- */
+const I18N = {
+  de: {
+    name: 'Deutsch', master: 'Meister', add: 'Hinzufügen', learn: 'Lernen', challenge: 'Challenge', progress: 'Fortschritt', verbs: 'Verben', grammar: 'Grammatik',
+    levelOf: 'Level {a} von {b}', done: 'Geschafft', nSure: '{a} sicher', goal: '{a} / {b} Verben sicher', cont: 'Weiterlernen',
+    practise: 'Üben', level: 'Level {a}', unlockInfo: 'Das nächste Level öffnet sich bei {b} sicheren Verben. Sicher heisst: zweimal richtig beantwortet.',
+    whichForm: 'Wie lautet die Form?', check: 'Prüfen', next: 'Weiter', right: 'Richtig', wrong: 'Nicht ganz',
+    accent: 'Fast – achte auf die Akzente', solution: 'Lösung', fix: 'Lösung korrigieren', saveFix: 'Speichern', fixed: 'Gespeichert. Ab jetzt gilt deine Lösung.',
+    roundDone: 'Runde geschafft', score: '{a} von {b} richtig', newLevel: 'Neues Level freigeschaltet: {a}', again: 'Noch eine Runde',
+    overview: 'Zur Übersicht', quit: 'Beenden',
+    chDesc: '60 Sekunden, so viele Formen wie möglich – gemischt aus allen freigeschalteten Zeiten.', chStart: 'Challenge starten',
+    record: 'Rekord', points: 'Punkte', streak: 'Serie', inRow: 'in Folge', fast: 'Schnell – wie lautet die Form?', timeUp: 'Zeit abgelaufen', newRecord: 'Neuer Rekord!',
+    overallSure: '{a} von {b} sicher (Verben × Zeiten)', days: 'Lerntage in Folge: {a}', byTense: 'Nach Zeitform', locked: 'gesperrt',
+    hard: 'Schwierige Verben', hardDesc: 'Diese kommen im Training häufiger dran.', noHard: 'Noch keine – weiter so.',
+    ownCount: '{a} + {b} eigene', addVerb: 'Neues Verb hinzufügen', inf: 'Infinitiv (Französisch)', meaning: 'Bedeutung', model: 'Konjugation',
+    auto: 'Automatisch erkennen', regular: 'Regelmässig', like: 'wie «{a}»', saveVerb: 'Verb speichern', added: '«{a}» gespeichert.',
+    dup: 'Dieses Verb gibt es schon.', bad: 'Diese Endung kenne ich nicht. Wähle bei «Konjugation» ein passendes Modellverb.', needInf: 'Bitte einen Infinitiv eingeben.',
+    bulk: 'Liste einfügen', bulkDesc: 'Füge hier eine ganze Liste ein, zum Beispiel von einer KI. Format:', bulkFmt: 'französisch;deutsch,französisch;deutsch',
+    bulkBtn: 'Liste importieren', bulkRes: '{a} hinzugefügt, {b} übersprungen.', skipped: 'Übersprungen:', aiPrompt: 'Prompt für die KI',
+    aiText: 'Gib mir 20 französische Verben im Infinitiv mit deutscher Übersetzung. Antworte nur in diesem Format, ohne weiteren Text: französischesverb;deutschesverb,französischesverb;deutschesverb',
+    copy: 'Kopieren', copied: 'Kopiert', myVerbs: 'Meine Verben', noneYet: 'Noch keine eigenen Verben.', del: 'löschen',
+    solved: '{a} / {b} gelöst', gramMore: 'Weitere Grammatik-Module werden laufend ergänzt.', lang: 'Sprache', yourAnswer: 'Deine Antwort',
+    vocab: 'Vokabeln', verbOne: 'Verb', wordOne: 'Wort', addWord: 'Neues Wort hinzufügen', wordFr: 'Französisches Wort', saveWord: 'Wort speichern',
+    wSure: '{a} / {b} Wörter sicher', vocabEmpty: 'Noch keine Vokabeln. Füge unter «Hinzufügen» eigene Wörter hinzu – einzeln oder als ganze Liste.',
+    addNow: 'Wörter hinzufügen', myWords: 'Meine Vokabeln', noWords: 'Noch keine Vokabeln.', translate: 'Wie heisst das auf Französisch?',
+    dupW: 'Dieses Wort gibt es schon.', needWord: 'Bitte Wort und Bedeutung eingeben.', wCount: '{a} Vokabeln', ownEmpty: 'Noch leer – füge eigene Wörter hinzu.',
+    aiTextW: 'Gib mir 20 französische Wörter (Nomen mit Artikel) zum Thema … mit deutscher Übersetzung. Antworte nur in diesem Format, ohne weiteren Text: französischeswort;deutscheswort,französischeswort;deutscheswort'
+  },
+  en: {
+    name: 'English', master: 'Master', add: 'Add', learn: 'Learn', challenge: 'Challenge', progress: 'Progress', verbs: 'Verbs', grammar: 'Grammar',
+    levelOf: 'Level {a} of {b}', done: 'Completed', nSure: '{a} mastered', goal: '{a} / {b} verbs mastered', cont: 'Continue',
+    practise: 'Practise', level: 'Level {a}', unlockInfo: 'The next level opens at {b} mastered verbs. Mastered means: answered correctly twice.',
+    whichForm: 'What is the form?', check: 'Check', next: 'Next', right: 'Correct', wrong: 'Not quite',
+    accent: 'Almost – watch the accents', solution: 'Answer', fix: 'Correct this answer', saveFix: 'Save', fixed: 'Saved. Your answer is used from now on.',
+    roundDone: 'Round complete', score: '{a} of {b} correct', newLevel: 'New level unlocked: {a}', again: 'Another round',
+    overview: 'Back to overview', quit: 'Quit',
+    chDesc: '60 seconds, as many forms as you can – mixed from all unlocked tenses.', chStart: 'Start challenge',
+    record: 'Record', points: 'Points', streak: 'Streak', inRow: 'in a row', fast: 'Quick – what is the form?', timeUp: 'Time is up', newRecord: 'New record!',
+    overallSure: '{a} of {b} mastered (verbs × tenses)', days: 'Days in a row: {a}', byTense: 'By tense', locked: 'locked',
+    hard: 'Difficult verbs', hardDesc: 'These come up more often in training.', noHard: 'None yet – keep going.',
+    ownCount: '{a} + {b} own', addVerb: 'Add a new verb', inf: 'Infinitive (French)', meaning: 'Meaning', model: 'Conjugation',
+    auto: 'Detect automatically', regular: 'Regular', like: 'like «{a}»', saveVerb: 'Save verb', added: '«{a}» saved.',
+    dup: 'This verb already exists.', bad: 'I do not know this ending. Choose a matching model verb under «Conjugation».', needInf: 'Please enter an infinitive.',
+    bulk: 'Paste a list', bulkDesc: 'Paste a whole list here, for example from an AI. Format:', bulkFmt: 'french;english,french;english',
+    bulkBtn: 'Import list', bulkRes: '{a} added, {b} skipped.', skipped: 'Skipped:', aiPrompt: 'Prompt for the AI',
+    aiText: 'Give me 20 French verbs in the infinitive with their English translation. Answer only in this format, with no other text: frenchverb;englishverb,frenchverb;englishverb',
+    copy: 'Copy', copied: 'Copied', myVerbs: 'My verbs', noneYet: 'No verbs of your own yet.', del: 'delete',
+    solved: '{a} / {b} solved', gramMore: 'More grammar modules are added over time.', lang: 'Language', yourAnswer: 'Your answer',
+    vocab: 'Vocabulary', verbOne: 'Verb', wordOne: 'Word', addWord: 'Add a new word', wordFr: 'French word', saveWord: 'Save word',
+    wSure: '{a} / {b} words mastered', vocabEmpty: 'No vocabulary yet. Add your own words under «Add» – one by one or as a whole list.',
+    addNow: 'Add words', myWords: 'My vocabulary', noWords: 'No vocabulary yet.', translate: 'What is this in French?',
+    dupW: 'This word already exists.', needWord: 'Please enter a word and its meaning.', wCount: '{a} words', ownEmpty: 'Still empty – add your own words.',
+    aiTextW: 'Give me 20 French words (nouns with article) on the topic … with their English translation. Answer only in this format, with no other text: frenchword;englishword,frenchword;englishword'
+  },
+  it: {
+    name: 'Italiano', master: 'Maestro', add: 'Aggiungi', learn: 'Impara', challenge: 'Sfida', progress: 'Progressi', verbs: 'Verbi', grammar: 'Grammatica',
+    levelOf: 'Livello {a} di {b}', done: 'Completato', nSure: '{a} sicuri', goal: '{a} / {b} verbi sicuri', cont: 'Continua',
+    practise: 'Esercitati', level: 'Livello {a}', unlockInfo: 'Il livello successivo si apre con {b} verbi sicuri. Sicuro significa: risposta corretta due volte.',
+    whichForm: 'Qual è la forma?', check: 'Verifica', next: 'Avanti', right: 'Corretto', wrong: 'Non proprio',
+    accent: 'Quasi – attenzione agli accenti', solution: 'Soluzione', fix: 'Correggi la soluzione', saveFix: 'Salva', fixed: 'Salvato. Da ora vale la tua soluzione.',
+    roundDone: 'Round completato', score: '{a} su {b} corrette', newLevel: 'Nuovo livello sbloccato: {a}', again: 'Un altro round',
+    overview: 'Alla panoramica', quit: 'Esci',
+    chDesc: '60 secondi, più forme possibili – da tutti i tempi sbloccati.', chStart: 'Inizia la sfida',
+    record: 'Record', points: 'Punti', streak: 'Serie', inRow: 'di fila', fast: 'Veloce – qual è la forma?', timeUp: 'Tempo scaduto', newRecord: 'Nuovo record!',
+    overallSure: '{a} di {b} sicuri (verbi × tempi)', days: 'Giorni di fila: {a}', byTense: 'Per tempo verbale', locked: 'bloccato',
+    hard: 'Verbi difficili', hardDesc: 'Questi compaiono più spesso negli esercizi.', noHard: 'Ancora nessuno – continua così.',
+    ownCount: '{a} + {b} tuoi', addVerb: 'Aggiungi un verbo', inf: 'Infinito (francese)', meaning: 'Significato', model: 'Coniugazione',
+    auto: 'Riconosci automaticamente', regular: 'Regolare', like: 'come «{a}»', saveVerb: 'Salva verbo', added: '«{a}» salvato.',
+    dup: 'Questo verbo esiste già.', bad: 'Non conosco questa desinenza. Scegli un verbo modello in «Coniugazione».', needInf: 'Inserisci un infinito.',
+    bulk: 'Incolla una lista', bulkDesc: 'Incolla qui una lista intera, per esempio da un’IA. Formato:', bulkFmt: 'francese;italiano,francese;italiano',
+    bulkBtn: 'Importa lista', bulkRes: '{a} aggiunti, {b} saltati.', skipped: 'Saltati:', aiPrompt: 'Prompt per l’IA',
+    aiText: 'Dammi 20 verbi francesi all’infinito con la traduzione italiana. Rispondi solo in questo formato, senza altro testo: verbofrancese;verboitaliano,verbofrancese;verboitaliano',
+    copy: 'Copia', copied: 'Copiato', myVerbs: 'I miei verbi', noneYet: 'Ancora nessun verbo tuo.', del: 'elimina',
+    solved: '{a} / {b} risolti', gramMore: 'Altri moduli di grammatica vengono aggiunti man mano.', lang: 'Lingua', yourAnswer: 'La tua risposta',
+    vocab: 'Vocaboli', verbOne: 'Verbo', wordOne: 'Parola', addWord: 'Aggiungi una parola', wordFr: 'Parola francese', saveWord: 'Salva parola',
+    wSure: '{a} / {b} parole sicure', vocabEmpty: 'Ancora nessun vocabolo. Aggiungi le tue parole in «Aggiungi» – una alla volta o come lista.',
+    addNow: 'Aggiungi parole', myWords: 'I miei vocaboli', noWords: 'Ancora nessun vocabolo.', translate: 'Come si dice in francese?',
+    dupW: 'Questa parola esiste già.', needWord: 'Inserisci parola e significato.', wCount: '{a} vocaboli', ownEmpty: 'Ancora vuoto – aggiungi le tue parole.',
+    aiTextW: 'Dammi 20 parole francesi (nomi con articolo) sul tema … con la traduzione italiana. Rispondi solo in questo formato, senza altro testo: parolafrancese;parolaitaliana,parolafrancese;parolaitaliana'
+  },
+  fr: {
+    name: 'Français', master: 'Maître', add: 'Ajouter', learn: 'Apprendre', challenge: 'Défi', progress: 'Progrès', verbs: 'Verbes', grammar: 'Grammaire',
+    levelOf: 'Niveau {a} sur {b}', done: 'Réussi', nSure: '{a} maîtrisés', goal: '{a} / {b} verbes maîtrisés', cont: 'Continuer',
+    practise: 'S’exercer', level: 'Niveau {a}', unlockInfo: 'Le niveau suivant s’ouvre à {b} verbes maîtrisés. Maîtrisé veut dire : deux bonnes réponses.',
+    whichForm: 'Quelle est la forme ?', check: 'Vérifier', next: 'Suivant', right: 'Correct', wrong: 'Pas tout à fait',
+    accent: 'Presque – attention aux accents', solution: 'Solution', fix: 'Corriger la solution', saveFix: 'Enregistrer', fixed: 'Enregistré. Ta solution est utilisée désormais.',
+    roundDone: 'Série terminée', score: '{a} sur {b} correctes', newLevel: 'Nouveau niveau débloqué : {a}', again: 'Encore une série',
+    overview: 'Vue d’ensemble', quit: 'Quitter',
+    chDesc: '60 secondes, autant de formes que possible – parmi tous les temps débloqués.', chStart: 'Lancer le défi',
+    record: 'Record', points: 'Points', streak: 'Série', inRow: 'de suite', fast: 'Vite – quelle est la forme ?', timeUp: 'Temps écoulé', newRecord: 'Nouveau record !',
+    overallSure: '{a} sur {b} maîtrisés (verbes × temps)', days: 'Jours de suite : {a}', byTense: 'Par temps', locked: 'verrouillé',
+    hard: 'Verbes difficiles', hardDesc: 'Ils reviennent plus souvent à l’entraînement.', noHard: 'Aucun pour l’instant – continue.',
+    ownCount: '{a} + {b} à toi', addVerb: 'Ajouter un verbe', inf: 'Infinitif', meaning: 'Signification', model: 'Conjugaison',
+    auto: 'Détection automatique', regular: 'Régulier', like: 'comme «{a}»', saveVerb: 'Enregistrer le verbe', added: '«{a}» enregistré.',
+    dup: 'Ce verbe existe déjà.', bad: 'Je ne connais pas cette terminaison. Choisis un verbe modèle sous «Conjugaison».', needInf: 'Saisis un infinitif.',
+    bulk: 'Coller une liste', bulkDesc: 'Colle ici une liste entière, par exemple d’une IA. Format :', bulkFmt: 'verbe;signification,verbe;signification',
+    bulkBtn: 'Importer la liste', bulkRes: '{a} ajoutés, {b} ignorés.', skipped: 'Ignorés :', aiPrompt: 'Prompt pour l’IA',
+    aiText: 'Donne-moi 20 verbes français à l’infinitif avec une courte signification. Réponds uniquement dans ce format, sans autre texte : verbe;signification,verbe;signification',
+    copy: 'Copier', copied: 'Copié', myVerbs: 'Mes verbes', noneYet: 'Pas encore de verbes à toi.', del: 'supprimer',
+    solved: '{a} / {b} résolus', gramMore: 'D’autres modules de grammaire seront ajoutés au fur et à mesure.', lang: 'Langue', yourAnswer: 'Ta réponse',
+    vocab: 'Vocabulaire', verbOne: 'Verbe', wordOne: 'Mot', addWord: 'Ajouter un mot', wordFr: 'Mot français', saveWord: 'Enregistrer le mot',
+    wSure: '{a} / {b} mots maîtrisés', vocabEmpty: 'Pas encore de vocabulaire. Ajoute tes mots sous «Ajouter» – un par un ou en liste.',
+    addNow: 'Ajouter des mots', myWords: 'Mon vocabulaire', noWords: 'Pas encore de vocabulaire.', translate: 'Comment dit-on en français ?',
+    dupW: 'Ce mot existe déjà.', needWord: 'Saisis un mot et sa signification.', wCount: '{a} mots', ownEmpty: 'Encore vide – ajoute tes mots.',
+    aiTextW: 'Donne-moi 20 mots français (noms avec article) sur le thème … avec une courte signification. Réponds uniquement dans ce format, sans autre texte : mot;signification,mot;signification'
+  }
+};
+
+/* ============================================================
+   GRAMMATIK-MODULE – hier wird erweitert.
+   Ein neues Modul = ein neues Objekt in diesem Array. Mehr braucht es nicht:
+   Es erscheint automatisch unter «Grammatik», mit Fortschritt und Auswertung.
+     id     eindeutiger Name (wird für den Fortschritt gespeichert)
+     title  Titel pro Sprache          intro  kurze Erklärung pro Sprache
+     task   Aufgabenstellung pro Sprache
+     items  Aufgaben. type 'choice' = Auswahl (options, sonst PRONOUNS), type 'input' = Eintippen.
+            s = Satz, [eckige Klammern] markieren den Teil, um den es geht
+            a = richtige Antwort (bei 'input' auch Liste möglich), r = Lösungssatz, tag = kleines Etikett
+   Neue Aufgabenarten kommen in GRAM_TYPES weiter unten.
+   ============================================================ */
+const PRONOUNS = ['le', 'la', "l'", 'les', 'lui', 'leur'];
+const TASK_REPLACE = {
+  de: 'Ersetze den markierten Teil durch ein Pronomen.', en: 'Replace the highlighted part with a pronoun.',
+  it: 'Sostituisci la parte evidenziata con un pronome.', fr: 'Remplace la partie surlignée par un pronom.'
+};
+const GRAMMAR = [
+  {
+    id: 'cod',
+    title: { de: 'COD – direktes Objekt', en: 'COD – direct object', it: 'COD – oggetto diretto', fr: 'COD – complément d’objet direct' },
+    intro: {
+      de: 'Das COD steht direkt nach dem Verb, ohne Präposition (wen? was?). Pronomen: le, la, les – vor Vokal oder stummem h wird le/la zu l’. Das Pronomen steht vor dem Verb.',
+      en: 'The COD follows the verb directly, with no preposition (whom? what?). Pronouns: le, la, les – before a vowel or silent h, le/la becomes l’. The pronoun goes before the verb.',
+      it: 'Il COD segue direttamente il verbo, senza preposizione (chi? che cosa?). Pronomi: le, la, les – davanti a vocale o h muta le/la diventa l’. Il pronome sta prima del verbo.',
+      fr: 'Le COD suit directement le verbe, sans préposition (qui ? quoi ?). Pronoms : le, la, les – devant une voyelle ou un h muet, le/la devient l’. Le pronom se place avant le verbe.'
+    },
+    task: TASK_REPLACE,
+    items: [
+      { type: 'choice', s: 'Je regarde [le film].', a: 'le', r: 'Je le regarde.', tag: 'COD' },
+      { type: 'choice', s: 'Elle mange [la pomme].', a: 'la', r: 'Elle la mange.', tag: 'COD' },
+      { type: 'choice', s: 'Nous invitons [nos amis].', a: 'les', r: 'Nous les invitons.', tag: 'COD' },
+      { type: 'choice', s: 'Tu aimes [cette chanson] ?', a: "l'", r: "Tu l'aimes ?", tag: 'COD' },
+      { type: 'choice', s: 'Il attend [le bus].', a: "l'", r: "Il l'attend.", tag: 'COD' },
+      { type: 'choice', s: 'Vous connaissez [Marie] ?', a: 'la', r: 'Vous la connaissez ?', tag: 'COD' },
+      { type: 'choice', s: 'Je cherche [mes clés].', a: 'les', r: 'Je les cherche.', tag: 'COD' },
+      { type: 'choice', s: 'Elle écoute [le professeur].', a: "l'", r: "Elle l'écoute.", tag: 'COD' },
+      { type: 'choice', s: 'Ils vendent [leur maison].', a: 'la', r: 'Ils la vendent.', tag: 'COD' },
+      { type: 'choice', s: 'Tu fais [tes devoirs].', a: 'les', r: 'Tu les fais.', tag: 'COD' },
+      { type: 'choice', s: 'Je lis [ce livre].', a: 'le', r: 'Je le lis.', tag: 'COD' },
+      { type: 'choice', s: 'Nous prenons [le train].', a: 'le', r: 'Nous le prenons.', tag: 'COD' }
+    ]
+  },
+  {
+    id: 'coi',
+    title: { de: 'COI – indirektes Objekt', en: 'COI – indirect object', it: 'COI – oggetto indiretto', fr: 'COI – complément d’objet indirect' },
+    intro: {
+      de: 'Das COI wird mit «à» angeschlossen (wem?). Für Personen: lui (Einzahl, männlich und weiblich) und leur (Mehrzahl). Das Pronomen steht vor dem Verb.',
+      en: 'The COI is introduced by «à» (to whom?). For people: lui (singular, masculine and feminine) and leur (plural). The pronoun goes before the verb.',
+      it: 'Il COI è introdotto da «à» (a chi?). Per le persone: lui (singolare, maschile e femminile) e leur (plurale). Il pronome sta prima del verbo.',
+      fr: 'Le COI est introduit par «à» (à qui ?). Pour les personnes : lui (singulier, masculin et féminin) et leur (pluriel). Le pronom se place avant le verbe.'
+    },
+    task: TASK_REPLACE,
+    items: [
+      { type: 'choice', s: 'Je téléphone [à ma mère].', a: 'lui', r: 'Je lui téléphone.', tag: 'COI · téléphoner à' },
+      { type: 'choice', s: 'Il écrit [à ses parents].', a: 'leur', r: 'Il leur écrit.', tag: 'COI · écrire à' },
+      { type: 'choice', s: 'Nous parlons [au professeur].', a: 'lui', r: 'Nous lui parlons.', tag: 'COI · parler à' },
+      { type: 'choice', s: 'Tu réponds [à tes amis].', a: 'leur', r: 'Tu leur réponds.', tag: 'COI · répondre à' },
+      { type: 'choice', s: 'Elle sourit [à son frère].', a: 'lui', r: 'Elle lui sourit.', tag: 'COI · sourire à' },
+      { type: 'choice', s: 'Je demande [à Paul].', a: 'lui', r: 'Je lui demande.', tag: 'COI · demander à' },
+      { type: 'choice', s: 'Ce livre plaît [aux enfants].', a: 'leur', r: 'Ce livre leur plaît.', tag: 'COI · plaire à' },
+      { type: 'choice', s: 'Elle ressemble [à sa sœur].', a: 'lui', r: 'Elle lui ressemble.', tag: 'COI · ressembler à' },
+      { type: 'choice', s: 'Je dis bonjour [à mes voisins].', a: 'leur', r: 'Je leur dis bonjour.', tag: 'COI · dire à' },
+      { type: 'choice', s: 'Tu offres un cadeau [à Léa].', a: 'lui', r: 'Tu lui offres un cadeau.', tag: 'COI · offrir à' },
+      { type: 'choice', s: 'Il explique la règle [aux élèves].', a: 'leur', r: 'Il leur explique la règle.', tag: 'COI · expliquer à' },
+      { type: 'choice', s: 'Nous donnons les clés [au gardien].', a: 'lui', r: 'Nous lui donnons les clés.', tag: 'COI · donner à' }
+    ]
+  },
+  {
+    id: 'codcoi',
+    title: { de: 'COD oder COI?', en: 'COD or COI?', it: 'COD o COI?', fr: 'COD ou COI ?' },
+    intro: {
+      de: 'Entscheidend ist das französische Verb, nicht das deutsche: «aider quelqu’un» hat ein COD, «téléphoner à quelqu’un» ein COI. Steht «à» vor der Person, ist es ein COI (lui, leur) – sonst ein COD (le, la, l’, les).',
+      en: 'What counts is the French verb: «aider quelqu’un» takes a COD, «téléphoner à quelqu’un» a COI. If «à» comes before the person it is a COI (lui, leur) – otherwise a COD (le, la, l’, les).',
+      it: 'Conta il verbo francese: «aider quelqu’un» ha un COD, «téléphoner à quelqu’un» un COI. Se c’è «à» davanti alla persona è un COI (lui, leur) – altrimenti un COD (le, la, l’, les).',
+      fr: 'C’est le verbe qui décide : «aider quelqu’un» a un COD, «téléphoner à quelqu’un» un COI. Avec «à» devant la personne, c’est un COI (lui, leur) – sinon un COD (le, la, l’, les).'
+    },
+    task: TASK_REPLACE,
+    items: [
+      { type: 'choice', s: 'Elle aide [sa sœur].', a: "l'", r: "Elle l'aide.", tag: 'COD · aider qqn' },
+      { type: 'choice', s: 'Il téléphone [à ses grands-parents].', a: 'leur', r: 'Il leur téléphone.', tag: 'COI · téléphoner à' },
+      { type: 'choice', s: 'Tu écoutes [la radio].', a: "l'", r: "Tu l'écoutes.", tag: 'COD · écouter qqch' },
+      { type: 'choice', s: 'Nous écrivons [à la directrice].', a: 'lui', r: 'Nous lui écrivons.', tag: 'COI · écrire à' },
+      { type: 'choice', s: "J'attends [mes cousins].", a: 'les', r: 'Je les attends.', tag: 'COD · attendre qqn' },
+      { type: 'choice', s: 'Elle répond [au client].', a: 'lui', r: 'Elle lui répond.', tag: 'COI · répondre à' },
+      { type: 'choice', s: 'Vous remerciez [vos collègues].', a: 'les', r: 'Vous les remerciez.', tag: 'COD · remercier qqn' },
+      { type: 'choice', s: 'Il montre ses photos [à ses amis].', a: 'leur', r: 'Il leur montre ses photos.', tag: 'COI · montrer à' },
+      { type: 'choice', s: 'Je montre [mes photos] à Julie.', a: 'les', r: 'Je les montre à Julie.', tag: 'COD · montrer qqch' },
+      { type: 'choice', s: 'Tu demandes [à ta mère].', a: 'lui', r: 'Tu lui demandes.', tag: 'COI · demander à' },
+      { type: 'choice', s: 'Elle appelle [le médecin].', a: "l'", r: "Elle l'appelle.", tag: 'COD · appeler qqn' },
+      { type: 'choice', s: 'Nous regardons [la télévision].', a: 'la', r: 'Nous la regardons.', tag: 'COD · regarder qqch' },
+      { type: 'choice', s: 'Il achète [le pain].', a: "l'", r: "Il l'achète.", tag: 'COD · acheter qqch' },
+      { type: 'choice', s: 'Je prête mon vélo [à mon frère].', a: 'lui', r: 'Je lui prête mon vélo.', tag: 'COI · prêter à' }
+    ]
+  }
+];
+
+/* ---------- Einstellungen ---------- */
+const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
+const ROUND = 10;       // Aufgaben pro Runde
+const CH_SECONDS = 60;  // Dauer der Challenge
+const STORE = 'verbmaster.v1';
+const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
+
+/* ---------- Speicher (lokal auf dem Gerät) ---------- */
+function loadState() {
+  const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
+  const d = { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {} };
+  try { const r = localStorage.getItem(STORE); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
+  return d;
+}
+let S = loadState();
+function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* ohne Speicher weiter */ } }
+
+/* ---------- Helfer ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+function t(k, o) {
+  let s = (I18N[S.lang] && I18N[S.lang][k]) || I18N.de[k] || k;
+  if (o) for (const x in o) s = s.replace('{' + x + '}', o[x]);
+  return s;
+}
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const L = (o) => o[S.lang] || o.de;
+
+let _verbs = null;
+function verbs() {
+  if (!_verbs) _verbs = S.custom.map(c => makeVerb(c.fr, c.m, c.tag, true)).concat(BUILTIN);
+  return _verbs;
+}
+const meaning = v => typeof v.m === 'string' ? v.m : (v.m[S.lang] || v.m.en);
+function forms(v, k) {
+  const r = conj(v, k); if (!r) return null;
+  return r.map((x, i) => { const o = S.ov[v.fr + '|' + k + '|' + i]; return x && o ? [o] : x; });
+}
+function persons(v, k) { const f = forms(v, k); const out = []; if (f) f.forEach((x, i) => { if (x) out.push(i); }); return out; }
+const boxOf = (k, v) => (S.box[k] || {})[v.fr] || 0;
+function sure(k) { const b = S.box[k] || {}; let n = 0; for (const v of verbs()) if (b[v.fr] >= 2) n++; return n; }
+function level() { let n = 0; while (n < TENSES.length - 1 && sure(TENSES[n].k) >= GOAL) n++; return n; }
+function markDay() {
+  const d = new Date(), today = d.toISOString().slice(0, 10);
+  if (S.day === today) return;
+  const y = new Date(d.getTime() - 864e5).toISOString().slice(0, 10);
+  S.days = S.day === y ? (S.days || 0) + 1 : 1; S.day = today;
+}
+
+/* ---------- Icons ---------- */
+const svg = (d, w) => `<svg aria-hidden="true" width="${w || 22}" height="${w || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const IC = {
+  book: svg('<path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>'),
+  bolt: svg('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'),
+  bars: svg('<path d="M5 20V10M12 20V4M19 20v-7"/>'),
+  plus: svg('<path d="M12 5v14M5 12h14"/>'),
+  lock: svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 16),
+  check: svg('<path d="M5 12l5 5 9-10"/>', 18),
+  x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
+  trash: svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 18)
+};
+
+/* ---------- Ansichten ---------- */
+let V = { name: 'learn', tab: 'verbs' };
+let X = null;   // laufende Verb-Runde
+let C = null;   // laufende Challenge
+let G = null;   // laufende Grammatik-Runde
+let W = null;   // laufende Vokabel-Runde
+let addMode = 'verb'; // Hinzufügen: 'verb' oder 'word'
+let msg = '';   // Meldung im Verben-Bereich
+
+function go(name, extra) { V = Object.assign({ name, tab: V.tab }, extra || {}); render(); }
+
+function render() {
+  document.documentElement.lang = S.lang; document.title = 'Verb' + t('master');
+  const full = ['ex', 'chrun', 'gram', 'voc'].includes(V.name);
+  $('#nav').hidden = full;
+  $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
+    `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${t(n === 'verbs' ? 'add' : n)}</span></button>`).join('');
+  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum };
+  $('#view').innerHTML = views[V.name]();
+  $('#view').className = full ? 'full' : '';
+  if (V.name === 'verbs') preview();
+  const inp = $('#ans'); if (inp && !inp.readOnly) inp.focus();
+  window.scrollTo(0, 0);
+}
+function navActive(n) {
+  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend');
+}
+
+/* --- Lernen --- */
+function vLearn() {
+  const head = `<header class="head"><h1 class="brand">Verb<span>${t('master')}</span></h1>
+    <label class="lang"><span class="sr">${t('lang')}</span><select id="lang" data-c="lang">${Object.keys(I18N).map(l => `<option value="${l}"${l === S.lang ? ' selected' : ''}>${l.toUpperCase()}</option>`).join('')}</select></label></header>
+    <div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${V.tab === 'verbs'}" data-a="tab" data-n="verbs">${t('verbs')}</button><button type="button" role="tab" aria-selected="${V.tab === 'vocab'}" data-a="tab" data-n="vocab">${t('vocab')}</button><button type="button" role="tab" aria-selected="${V.tab === 'gram'}" data-a="tab" data-n="gram">${t('grammar')}</button></div>`;
+  if (V.tab === 'vocab') {
+    return head + `<div class="list">` + vocSets().map(set => {
+      const N = set.items.length, n = vocSure(set);
+      if (!N) return `<button type="button" class="card lvl" data-a="addwords"><span class="dot num">${IC.plus}</span><span class="grow"><b>${esc(set.title)}</b><small>${t('ownEmpty')}</small></span></button>`;
+      return `<button type="button" class="card lvl set" data-a="vstart" data-id="${set.id}"><span class="grow"><b>${esc(set.title)}</b><small>${t('wSure', { a: n, b: N })}</small><span class="bar"><i style="width:${Math.round(100 * n / N)}%"></i></span></span></button>`;
+    }).join('') + `<button type="button" class="btn ghost" data-a="addwords">${t('addNow')}</button></div>`;
+  }
+  if (V.tab === 'gram') {
+    return head + `<div class="list">` + GRAMMAR.map(m => {
+      const n = Object.keys(S.gram[m.id] || {}).length;
+      return `<section class="card act"><div class="row"><div class="grow"><h2>${esc(L(m.title))}</h2><p class="muted">${t('solved', { a: n, b: m.items.length })}</p></div></div>
+        <div class="bar"><i style="width:${Math.round(100 * n / m.items.length)}%"></i></div>
+        <button type="button" class="btn" data-a="gstart" data-id="${m.id}">${t('practise')}</button></section>`;
+    }).join('') + `<p class="hint">${t('gramMore')}</p></div>`;
+  }
+  const lv = level();
+  let h = head + `<p class="sub">${t('levelOf', { a: lv + 1, b: TENSES.length })} · ${TENSES[lv].m}</p><div class="list">`;
+  TENSES.forEach((T, i) => {
+    const n = sure(T.k);
+    if (i < lv) {
+      h += `<button type="button" class="card lvl" data-a="start" data-k="${T.k}"><span class="dot ok">${IC.check}</span><span class="grow"><b>${T.n}</b><small>${t('done')} · ${t('nSure', { a: n })}</small></span></button>`;
+    } else if (i === lv) {
+      h += `<section class="card act"><div class="row"><span class="dot num">${i + 1}</span><div class="grow"><h2>${T.n}</h2><p class="muted">${t('goal', { a: n, b: GOAL })}</p></div></div>
+        <div class="bar"><i style="width:${Math.min(100, Math.round(100 * n / GOAL))}%"></i></div>
+        <button type="button" class="btn" data-a="start" data-k="${T.k}">${t('cont')}</button></section>`;
+    } else {
+      h += `<div class="card lvl off"><span class="dot">${IC.lock}</span><span class="grow"><b>${T.n}</b></span><small>${t('level', { a: i + 1 })}</small></div>`;
+    }
+  });
+  return h + `<p class="hint">${t('unlockInfo', { b: GOAL })}</p></div>`;
+}
+
+/* --- Verb-Runde --- */
+function makeQ(v, k) { const f = forms(v, k); const i = pick(persons(v, k)); return { v, k, i, f: f[i] }; }
+function buildRound(k) {
+  const b = S.box[k] || {};
+  const vs = verbs().filter(v => persons(v, k).length);
+  const review = shuffle(vs.filter(v => v.fr in b && b[v.fr] < 2));
+  const hard = review.filter(v => S.err[v.fr] > 0), rest = review.filter(v => !(S.err[v.fr] > 0));
+  const fresh = vs.filter(v => !(v.fr in b));
+  let list = hard.concat(rest).slice(0, fresh.length ? 6 : ROUND);
+  list = list.concat(fresh.slice(0, ROUND - list.length));
+  if (list.length < ROUND) list = list.concat(shuffle(vs.filter(v => !list.includes(v))).slice(0, ROUND - list.length));
+  return shuffle(list).map(v => makeQ(v, k));
+}
+function startRound(k) {
+  X = { k, list: buildRound(k), n: 0, right: 0, done: false, lv: level() };
+  go('ex');
+}
+function qCard(q, label, ask) {
+  return `<div class="q"><span class="chip">${label}</span><h1>${esc(q.v.fr)}</h1><p>${esc(meaning(q.v))}</p></div>
+    <label class="lbl" for="ans">${ask}</label>
+    <div class="field"><span>${esc(subject(q.i, q.k, q.f[0]))}</span><input id="ans" type="text" aria-label="${t('yourAnswer')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+    <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>`;
+}
+function vExercise() {
+  const q = X.list[X.n], idx = TENSES.indexOf(TMAP[q.k]);
+  return `<header class="top"><button type="button" class="icon" data-a="quit" aria-label="${t('quit')}">${IC.x}</button>
+    <div class="bar grow"><i style="width:${Math.round(100 * X.n / X.list.length)}%"></i></div><span class="muted">${X.n + 1} / ${X.list.length}</span></header>
+    ${qCard(q, t('level', { a: idx + 1 }) + ' · ' + TMAP[q.k].n, t('whichForm'))}
+    <div id="fb" aria-live="polite"></div><div class="grow"></div>
+    <button type="button" class="btn big" id="go" data-a="check">${t('check')}</button>`;
+}
+function phrase(i, k, form) { const s = subject(i, k, form); return s + (/'$/.test(s) ? '' : ' ') + form; }
+function full(q) { return esc(phrase(q.i, q.k, q.f[0])); }
+function record(q, ok) {
+  const b = S.box[q.k] = S.box[q.k] || {};
+  if (ok) { b[q.v.fr] = Math.min(3, (b[q.v.fr] || 0) + 1); if (S.err[q.v.fr] > 0) S.err[q.v.fr]--; }
+  else { b[q.v.fr] = 0; S.err[q.v.fr] = (S.err[q.v.fr] || 0) + 1; }
+  markDay(); save();
+}
+function checkAnswer() {
+  if (X.done) return nextQ();
+  const inp = $('#ans'), q = X.list[X.n];
+  if (!inp.value.trim()) return inp.focus();
+  const g = grade(inp.value, q.f), ok = g === 'ok';
+  X.done = true; inp.readOnly = true; if (ok) X.right++;
+  record(q, ok);
+  $('#fb').innerHTML = ok
+    ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${full(q)}</p></div></div>`
+    : `<div class="fb bad"><div><b>${g === 'accent' ? t('accent') : t('wrong')}</b><p>${t('solution')}: <strong>${full(q)}</strong></p>
+        <button type="button" class="link" data-a="fix">${t('fix')}</button></div></div>`;
+  $('#go').textContent = t('next');
+}
+function nextQ() {
+  X.n++; X.done = false;
+  if (X.n >= X.list.length) return go('sum');
+  render();
+}
+function vSummary() {
+  const lv = level(), up = lv > X.lv;
+  return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${t('roundDone')}</h1>
+    <p class="bignum">${t('score', { a: X.right, b: X.list.length })}</p>
+    ${up ? `<p class="chip">${t('newLevel', { a: TENSES[lv].n })}</p>` : `<p class="muted">${TMAP[X.k].n}: ${t('goal', { a: sure(X.k), b: GOAL })}</p>`}
+    <button type="button" class="btn big" data-a="start" data-k="${up ? TENSES[lv].k : X.k}">${up ? t('cont') : t('again')}</button>
+    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+}
+
+/* --- Vokabeln --- */
+function vocSets() {
+  return [{ id: 'own', title: t('myWords'), items: S.vocab }].concat(VOCAB_SETS.map(s => ({ id: s.id, title: s.title, items: s.items.map(x => ({ fr: x[0], m: x[1] })) })));
+}
+const vocSure = set => set.items.filter(w => S.vbox[w.fr] >= 2).length;
+const noArt = s => s.replace(/^(le |la |les |l'|un |une |des )/, '');
+/** Alle akzeptierten Schreibweisen: ohne Artikel, ohne Klammerzusatz, einzelne Teile bei «/» oder Komma */
+function vocVariants(fr) {
+  const out = new Set(), add = x => { x = noArt(norm(x).replace(/[.!?…]+$/, '').trim()); if (x) out.add(x); };
+  const base = norm(fr);
+  for (const f of [base, base.replace(/\s*\([^)]*\)/g, ''), base.replace(/[()]/g, '')]) {
+    add(f);
+    f.split(/\s*\/\s*|,\s*/).forEach(p => { if (p.length > 1) add(p); });
+    const m = f.match(/^(.+?),\s*(e|ne|le|se|te|ve|ère|euse|trice)$/);
+    if (m) { add(m[1]); add(m[1] + m[2]); }
+  }
+  return out;
+}
+function vocStart(id) {
+  const set = vocSets().find(s => s.id === id) || vocSets()[0], all = set.items;
+  if (!all.length) { addMode = 'word'; return go('verbs'); }
+  const seen = shuffle(all.filter(w => w.fr in S.vbox && S.vbox[w.fr] < 2)), fresh = all.filter(w => !(w.fr in S.vbox));
+  let list = seen.slice(0, fresh.length ? 6 : ROUND).concat(fresh).slice(0, ROUND);
+  if (list.length < ROUND) list = list.concat(shuffle(all.filter(w => !list.includes(w))).slice(0, ROUND - list.length));
+  W = { set, list: shuffle(list), n: 0, right: 0, done: false };
+  go('voc');
+}
+function vVoc() {
+  const w = W.list[W.n];
+  return `<header class="top"><button type="button" class="icon" data-a="vquit" aria-label="${t('quit')}">${IC.x}</button>
+    <div class="bar grow"><i style="width:${Math.round(100 * W.n / W.list.length)}%"></i></div><span class="muted">${W.n + 1} / ${W.list.length}</span></header>
+    <div class="q"><span class="chip">${esc(W.set.title)}</span><h1 class="${w.m.length > 28 ? 'long' : ''}">${esc(w.m)}</h1></div>
+    <label class="lbl" for="ans">${t('translate')}</label>
+    <div class="field"><input id="ans" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+    <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>
+    <div id="fb" aria-live="polite"></div><div class="grow"></div>
+    <button type="button" class="btn big" id="go" data-a="vcheck">${t('check')}</button>`;
+}
+function vocCheck() {
+  if (W.done) { W.n++; W.done = false; return W.n >= W.list.length ? go('vsum') : render(); }
+  const inp = $('#ans'), w = W.list[W.n];
+  if (!inp.value.trim()) return inp.focus();
+  const a = noArt(norm(inp.value).replace(/[.!?…]+$/, '').trim()), acc = [...vocVariants(w.fr)], ok = acc.includes(a);
+  W.done = true; inp.readOnly = true;
+  if (ok) { W.right++; S.vbox[w.fr] = Math.min(3, (S.vbox[w.fr] || 0) + 1); } else S.vbox[w.fr] = 0;
+  markDay(); save();
+  $('#fb').innerHTML = ok
+    ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${esc(w.fr)}</p></div></div>`
+    : `<div class="fb bad"><div><b>${acc.some(x => flat(x) === flat(a)) ? t('accent') : t('wrong')}</b><p>${t('solution')}: <strong>${esc(w.fr)}</strong></p></div></div>`;
+  $('#go').textContent = t('next');
+}
+function vVocSum() {
+  const set = vocSets().find(s => s.id === W.set.id) || W.set;
+  return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${t('roundDone')}</h1>
+    <p class="bignum">${t('score', { a: W.right, b: W.list.length })}</p>
+    <p class="muted">${esc(set.title)}: ${t('wSure', { a: vocSure(set), b: set.items.length })}</p>
+    <button type="button" class="btn big" data-a="vstart" data-id="${set.id}">${t('again')}</button>
+    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+}
+
+/* --- Challenge --- */
+function vChallenge() {
+  return `<header class="head"><h1>${t('challenge')}</h1></header>
+    <div class="center"><span class="dot num xl">${IC.bolt}</span><p class="lead">${t('chDesc')}</p>
+    <p class="muted">${t('record')}: <b>${S.hi}</b></p>
+    <button type="button" class="btn big" data-a="chstart">${t('chStart')}</button></div>`;
+}
+function chQuestion() {
+  const ks = TENSES.slice(0, level() + 1).map(T => T.k);
+  const seen = new Set(); for (const k in S.box) for (const f in S.box[k]) seen.add(f);
+  const all = verbs(); let pool = all.filter(v => v.custom || seen.has(v.fr));
+  if (pool.length < 30) pool = pool.concat(BUILTIN.slice(0, 60));
+  for (let n = 0; n < 50; n++) { const v = pick(pool), k = pick(ks); if (persons(v, k).length) return makeQ(v, k); }
+  return makeQ(BUILTIN[0], 'pr');
+}
+function chStart() {
+  if (C && C.timer) clearInterval(C.timer);
+  C = { left: CH_SECONDS, score: 0, streak: 0, last: '', q: chQuestion(), timer: null };
+  C.timer = setInterval(() => {
+    C.left--;
+    const el = $('#timer'); if (el) { el.textContent = clock(C.left); $('#tbar').style.width = (100 * C.left / CH_SECONDS) + '%'; }
+    if (C.left <= 0) chEnd();
+  }, 1000);
+  go('chrun');
+}
+const clock = s => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+function vChRun() {
+  return `<header class="top"><button type="button" class="icon" data-a="chquit" aria-label="${t('quit')}">${IC.x}</button>
+    <b class="grow tc">${t('challenge')}</b><span class="muted">${t('record')} ${S.hi}</span></header>
+    <div class="timer" id="timer">${clock(C.left)}</div><div class="bar thin"><i id="tbar" style="width:${100 * C.left / CH_SECONDS}%"></i></div>
+    <div class="stats"><div><small>${t('points')}</small><b>${C.score}</b></div><div><small>${t('streak')}</small><b>${C.streak} <em>${t('inRow')}</em></b></div></div>
+    ${qCard(C.q, TMAP[C.q.k].n, t('fast'))}
+    <div id="fb" aria-live="polite">${C.last}</div><div class="grow"></div>
+    <button type="button" class="btn big" data-a="chcheck">${t('check')}</button>`;
+}
+function chCheck() {
+  const inp = $('#ans'); if (!inp.value.trim()) return inp.focus();
+  const ok = grade(inp.value, C.q.f) === 'ok';
+  if (ok) { C.score++; C.streak++; C.last = `<p class="mini good">${t('right')}: ${full(C.q)}</p>`; }
+  else { C.streak = 0; C.last = `<p class="mini bad">${t('solution')}: <strong>${full(C.q)}</strong></p>`; }
+  markDay(); C.q = chQuestion(); render();
+}
+function chEnd() {
+  clearInterval(C.timer); C.timer = null;
+  C.isNew = C.score > S.hi; if (C.isNew) S.hi = C.score; save();
+  go('chend');
+}
+function vChEnd() {
+  return `<div class="center"><h1>${t('timeUp')}</h1><p class="bignum xl">${C.score}</p><p class="muted">${t('points')}</p>
+    <p class="chip">${C.isNew ? t('newRecord') : t('record') + ': ' + S.hi}</p>
+    <button type="button" class="btn big" data-a="chstart">${t('again')}</button>
+    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+}
+
+/* --- Fortschritt --- */
+function vProgress() {
+  const N = verbs().length, lv = level();
+  const counts = TENSES.map(T => sure(T.k)), total = counts.reduce((a, b) => a + b, 0), max = N * TENSES.length;
+  const pct = Math.round(100 * total / max), circ = 2 * Math.PI * 50;
+  const vs = vocSets(), vAll = vs.reduce((a, x) => a + x.items.length, 0) || 1, vOk = vs.reduce((a, x) => a + vocSure(x), 0);
+  const hard = verbs().filter(v => S.err[v.fr] > 0).sort((a, b) => S.err[b.fr] - S.err[a.fr]).slice(0, 10);
+  return `<header class="head"><h1>${t('progress')}</h1></header>
+    <section class="hero"><div class="ring"><svg role="img" aria-label="${pct} %" width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#fff" stroke-width="12"/>
+      ${total ? `<circle cx="60" cy="60" r="50" fill="none" stroke="#2F7D5B" stroke-width="12" stroke-linecap="round" stroke-dasharray="${Math.max(1, circ * total / max).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 60 60)"/>` : ''}</svg><b>${pct} %</b></div>
+      <div><p class="strong">${t('overallSure', { a: total, b: max })}</p><p class="accent">${t('days', { a: S.days || 0 })}</p><p class="muted">${t('record')} ${t('challenge')}: ${S.hi}</p></div></section>
+    <section class="block"><h2>${t('vocab')}</h2><div class="trow"><div><span>${t('wCount', { a: vAll })}</span><span>${vOk} / ${vAll}</span></div><div class="bar"><i style="width:${100 * vOk / vAll}%"></i></div></div></section>
+    <section class="block"><h2>${t('byTense')}</h2>${TENSES.map((T, i) => `<div class="trow${i > lv ? ' off' : ''}"><div><span>${T.n}</span><span>${i > lv ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`).join('')}</section>
+    <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>`;
+}
+
+/* --- Verben hinzufügen --- */
+function modelOptions() {
+  const seen = {}, out = [`<option value="auto">${t('auto')}</option>`, `<option value="">${t('regular')}</option>`];
+  for (const v of BUILTIN) if (v.tag && !seen[v.tag] && !v.refl) { seen[v.tag] = 1; out.push(`<option value="${v.tag}">${t('like', { a: v.fr })}</option>`); }
+  return out.join('');
+}
+function vVerbs() {
+  const m = msg; msg = ''; const word = addMode === 'word';
+  const seg = `<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${!word}" data-a="addmode" data-n="verb">${t('verbs')}</button><button type="button" role="tab" aria-selected="${word}" data-a="addmode" data-n="word">${t('vocab')}</button></div>`;
+  const form = word
+    ? `<form class="card form" id="wordform" novalidate><h2>${t('addWord')}</h2>
+      <label for="wfr">${t('wordFr')}</label><input id="wfr" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="la maison">
+      <label for="wmean">${t('meaning')}</label><input id="wmean" type="text" autocomplete="off">
+      <button type="submit" class="btn">${t('saveWord')}</button></form>`
+    : `<form class="card form" id="addform" novalidate><h2>${t('addVerb')}</h2>
+      <label for="inf">${t('inf')}</label><input id="inf" type="text" data-i="prev" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="bricoler">
+      <label for="mean">${t('meaning')}</label><input id="mean" type="text" autocomplete="off">
+      <label for="model">${t('model')}</label><select id="model" data-c="prev">${modelOptions()}</select>
+      <div id="prev" class="prev" hidden></div>
+      <button type="submit" class="btn">${t('saveVerb')}</button></form>`;
+  const rows = word
+    ? (S.vocab.length ? S.vocab.map((c, i) => `<div class="vrow"><div class="grow"><b>${esc(c.fr)}</b><small>${esc(c.m)}</small></div><button type="button" class="icon" data-a="wdel" data-i="${i}" aria-label="${esc(c.fr)} ${t('del')}">${IC.trash}</button></div>`).join('') : `<p class="muted">${t('noWords')}</p>`)
+    : (S.custom.length ? S.custom.map((c, i) => `<div class="vrow"><div class="grow"><b>${esc(c.fr)}</b><small>${esc(c.m)}</small></div><button type="button" class="icon" data-a="del" data-i="${i}" aria-label="${esc(c.fr)} ${t('del')}">${IC.trash}</button></div>`).join('') : `<p class="muted">${t('noneYet')}</p>`);
+  return `<header class="head"><h1>${t('add')}</h1><span class="muted">${word ? t('wCount', { a: S.vocab.length }) : t('ownCount', { a: BUILTIN.length, b: S.custom.length })}</span></header>
+    ${seg}${form}
+    <div id="msg" aria-live="polite">${m}</div>
+    <section class="card form"><h2>${t('bulk')}</h2><p class="muted">${t('bulkDesc')}</p><code>${esc(t('bulkFmt'))}</code>
+      <label for="bulk" class="sr">${t('bulk')}</label><textarea id="bulk" rows="4" spellcheck="false" placeholder="${word ? 'la maison;das Haus,le chien;der Hund' : 'bricoler;basteln,grignoter;knabbern'}"></textarea>
+      <button type="button" class="btn" data-a="bulk">${t('bulkBtn')}</button>
+      <details><summary>${t('aiPrompt')}</summary><p id="aitext">${esc(t(word ? 'aiTextW' : 'aiText'))}</p><button type="button" class="btn ghost" data-a="copy">${t('copy')}</button></details></section>
+    <section class="block"><h2>${t(word ? 'myWords' : 'myVerbs')}</h2>${rows}</section>`;
+}
+/** -> {ok, why, word} */
+function prepWord(fr, mean) {
+  fr = fr.trim().replace(/[’`´]/g, "'").replace(/\s+/g, ' '); mean = (mean || '').trim();
+  if (!fr || !mean) return { ok: false, why: 'needWord' };
+  if (S.vocab.some(w => norm(w.fr) === norm(fr))) return { ok: false, why: 'dupW' };
+  return { ok: true, word: { fr, m: mean } };
+}
+function submitWord() {
+  const r = prepWord($('#wfr').value, $('#wmean').value);
+  if (!r.ok) { $('#msg').innerHTML = `<p class="note warn">${t(r.why)}</p>`; return; }
+  S.vocab.unshift(r.word); save(); msg = `<p class="note">${t('added', { a: esc(r.word.fr) })}</p>`; render();
+}
+/** -> {ok, why, verb} */
+function prepVerb(fr, mean, sel) {
+  const v = makeVerb(fr, mean || '', '', true);
+  if (!v.base || !/^[a-zàâçéèêëîïôûùüœ' -]+$/.test(v.fr)) return { ok: false, why: 'needInf' };
+  if (verbs().some(x => x.fr === v.fr)) return { ok: false, why: 'dup' };
+  const tag = sel === 'auto' ? autoTag(v.base) : sel;
+  if (tag === null || !canConjugate(v.base, tag)) return { ok: false, why: 'bad' };
+  v.tag = tag; return { ok: true, verb: v };
+}
+function preview() {
+  const box = $('#prev'); if (!box) return; const fr = $('#inf').value;
+  if (!fr.trim()) { box.hidden = true; return; }
+  const r = prepVerb(fr, '', $('#model').value);
+  box.hidden = false;
+  if (!r.ok) { box.className = 'prev warn'; box.textContent = t(r.why); return; }
+  const f = conj(r.verb, 'pr');
+  box.className = 'prev';
+  box.innerHTML = f.map((x, i) => x ? `<span>${esc(phrase(i, 'pr', x[0]))}</span>` : '').join('');
+}
+function addCustom(v) { S.custom.unshift({ fr: v.fr, m: v.m, tag: v.tag }); _verbs = null; }
+function submitVerb() {
+  const r = prepVerb($('#inf').value, $('#mean').value.trim(), $('#model').value);
+  if (!r.ok) { msg = `<p class="note warn">${t(r.why)}</p>`; $('#msg').innerHTML = msg; msg = ''; return; }
+  addCustom(r.verb); save(); msg = `<p class="note">${t('added', { a: esc(r.verb.fr) })}</p>`; render();
+}
+function bulkImport() {
+  const parts = $('#bulk').value.split(/[,\n]+/).map(s => s.trim()).filter(Boolean);
+  if (!parts.length) return $('#bulk').focus();
+  let ok = 0; const skip = [];
+  for (const p of parts) {
+    const i = p.indexOf(';'), fr = i < 0 ? p : p.slice(0, i), mean = i < 0 ? '' : p.slice(i + 1).trim();
+    if (addMode === 'word') { const r = prepWord(fr, mean); if (r.ok) { S.vocab.unshift(r.word); ok++; } else skip.push(fr.trim()); continue; }
+    const r = prepVerb(fr, mean, 'auto');
+    if (r.ok) { addCustom(r.verb); ok++; } else skip.push(fr.trim());
+  }
+  save();
+  msg = `<p class="note">${t('bulkRes', { a: ok, b: skip.length })}${skip.length ? ' ' + t('skipped') + ' ' + esc(skip.join(', ')) : ''}</p>`;
+  render();
+}
+
+/* --- Grammatik --- */
+/* Aufgabenarten: neue Art = neuer Eintrag mit html(item). Geprüft wird immer gegen item.a. */
+const GRAM_TYPES = {
+  choice: item => `<div class="opts">${(item.options || PRONOUNS).map(o => `<button type="button" data-a="gopt" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`,
+  input: () => `<div class="field"><input id="ans" type="text" aria-label="${t('yourAnswer')}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>`
+};
+function gStart(id) {
+  const mod = GRAMMAR.find(m => m.id === id), done = S.gram[id] || {};
+  const order = shuffle(mod.items.map((_, i) => i)).sort((a, b) => (done[a] ? 1 : 0) - (done[b] ? 1 : 0));
+  G = { mod, order, n: 0, right: 0, done: false };
+  go('gram');
+}
+function vGram() {
+  const item = G.mod.items[G.order[G.n]];
+  const sent = esc(item.s).replace('[', '<mark>').replace(']', '</mark>');
+  return `<header class="top"><button type="button" class="icon" data-a="gquit" aria-label="${t('quit')}">${IC.x}</button>
+    <div class="bar grow"><i style="width:${Math.round(100 * G.n / G.order.length)}%"></i></div><span class="muted">${G.n + 1} / ${G.order.length}</span></header>
+    <div class="q"><span class="chip">${esc(L(G.mod.title))}</span></div>
+    ${G.n === 0 ? `<p class="intro">${esc(L(G.mod.intro))}</p>` : ''}
+    <p class="lbl">${esc(L(G.mod.task))}</p><p class="sentence">${sent}</p>
+    ${(GRAM_TYPES[item.type] || GRAM_TYPES.choice)(item)}
+    <div id="fb" aria-live="polite"></div><div class="grow"></div>
+    <button type="button" class="btn big" id="go" data-a="gnext"${item.type === 'input' ? '' : ' disabled'}>${item.type === 'input' ? t('check') : t('next')}</button>`;
+}
+function gAnswer(value, btn) {
+  if (G.done) return;
+  const idx = G.order[G.n], item = G.mod.items[idx];
+  const ok = [].concat(item.a).map(norm).includes(norm(value));
+  G.done = true; if (ok) { G.right++; (S.gram[G.mod.id] = S.gram[G.mod.id] || {})[idx] = 1; }
+  markDay(); save();
+  document.querySelectorAll('.opts button').forEach(b => {
+    b.disabled = true;
+    if ([].concat(item.a).includes(b.dataset.v)) b.classList.add('yes'); else if (b === btn) b.classList.add('no');
+  });
+  $('#fb').innerHTML = `<div class="fb ${ok ? 'good' : 'bad'}"><div><b>${ok ? t('right') : t('wrong')}</b><p><strong>${esc(item.r)}</strong></p>${item.tag ? `<p class="muted">${esc(item.tag)}</p>` : ''}</div></div>`;
+  const goBtn = $('#go'); goBtn.disabled = false; goBtn.textContent = t('next');
+}
+function gNext() {
+  if (!G.done) { const inp = $('#ans'); if (inp && inp.value.trim()) { inp.readOnly = true; gAnswer(inp.value); } else if (inp) inp.focus(); return; }
+  G.n++; G.done = false;
+  if (G.n >= G.order.length) return go('gsum');
+  render();
+}
+function vGramSum() {
+  return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${esc(L(G.mod.title))}</h1>
+    <p class="bignum">${t('score', { a: G.right, b: G.order.length })}</p>
+    <button type="button" class="btn big" data-a="gstart" data-id="${G.mod.id}">${t('again')}</button>
+    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+}
+
+/* ---------- Ereignisse ---------- */
+const ACT = {
+  nav: el => { if (C && C.timer) { clearInterval(C.timer); C.timer = null; } go(el.dataset.n); },
+  tab: el => go('learn', { tab: el.dataset.n }),
+  start: el => startRound(el.dataset.k),
+  quit: () => go('learn'),
+  check: checkAnswer,
+  key: el => {
+    const inp = $('#ans'); if (!inp || inp.readOnly) return;
+    const a = inp.selectionStart ?? inp.value.length, b = inp.selectionEnd ?? a;
+    inp.value = inp.value.slice(0, a) + el.dataset.c + inp.value.slice(b);
+    inp.focus(); inp.setSelectionRange(a + 1, a + 1);
+  },
+  fix: () => {
+    const q = X.list[X.n];
+    $('#fb').innerHTML = `<div class="fb bad"><div class="grow"><label for="fixin"><b>${t('fix')}</b></label>
+      <input id="fixin" type="text" value="${esc(q.f[0])}" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button type="button" class="link" data-a="fixsave">${t('saveFix')}</button></div></div>`;
+    $('#fixin').focus();
+  },
+  fixsave: () => {
+    const q = X.list[X.n], val = $('#fixin').value.trim(); if (!val) return;
+    S.ov[q.v.fr + '|' + q.k + '|' + q.i] = norm(val); save();
+    $('#fb').innerHTML = `<div class="fb good"><div><b>${t('fixed')}</b><p>${esc(norm(val))}</p></div></div>`;
+  },
+  chstart: chStart,
+  chcheck: chCheck,
+  chquit: () => { clearInterval(C.timer); C.timer = null; go('challenge'); },
+  bulk: bulkImport,
+  copy: el => {
+    const done = () => { el.textContent = t('copied'); };
+    try { navigator.clipboard.writeText($('#aitext').textContent).then(done, () => {}); } catch (e) { /* Text bleibt zum Markieren sichtbar */ }
+  },
+  del: el => { S.custom.splice(+el.dataset.i, 1); _verbs = null; save(); render(); },
+  gstart: el => gStart(el.dataset.id),
+  gopt: el => gAnswer(el.dataset.v, el),
+  gnext: gNext,
+  gquit: () => go('learn', { tab: 'gram' }),
+  vstart: el => vocStart(el.dataset.id),
+  vcheck: vocCheck,
+  vquit: () => go('learn', { tab: 'vocab' }),
+  addwords: () => { addMode = 'word'; go('verbs'); },
+  addmode: el => { addMode = el.dataset.n; render(); },
+  wdel: el => { const w = S.vocab.splice(+el.dataset.i, 1)[0]; if (w) delete S.vbox[w.fr]; save(); render(); }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]'); if (!el || el.disabled) return;
+  const f = ACT[el.dataset.a]; if (f) f(el);
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'ans') { e.preventDefault(); V.name === 'chrun' ? chCheck() : V.name === 'gram' ? gNext() : V.name === 'voc' ? vocCheck() : checkAnswer(); }
+  else if (e.target.id === 'fixin') { e.preventDefault(); ACT.fixsave(); }
+});
+document.addEventListener('submit', e => { e.preventDefault(); if (e.target.id === 'addform') submitVerb(); else if (e.target.id === 'wordform') submitWord(); });
+document.addEventListener('input', e => { if (e.target.dataset.i === 'prev') preview(); });
+document.addEventListener('change', e => {
+  if (e.target.dataset.c === 'lang') { S.lang = e.target.value; save(); render(); }
+  else if (e.target.dataset.c === 'prev') preview();
+});
+
+render();
+
+</script>
+</body>
+</html>

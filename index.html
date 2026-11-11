@@ -133,7 +133,11 @@ button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="VerbMaster">
-<script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
+<script>if ('serviceWorker' in navigator) window.addEventListener('load', function () {
+  var had = !!navigator.serviceWorker.controller, done = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () { if (had && !done) { done = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js').then(function (r) { r.update(); }).catch(function () {});
+});</script>
 </head>
 <body>
 <input id="kbkeep" type="text" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="off">
@@ -943,6 +947,7 @@ const GRAMMAR = [
 ];
 
 /* ---------- Einstellungen ---------- */
+const APP_VERSION = '1.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1310,7 +1315,8 @@ function vProgress() {
       <button type="button" class="btn" data-a="bexport">${t('exportFile')}</button><button type="button" class="btn ghost" data-a="bcopy">${t('exportCopy')}</button>
       <label for="bfile">${t('importTitle')}</label><input id="bfile" type="file" accept=".json,application/json,text/plain" data-c="bfile">
       <label for="btext" class="sr">${t('importPh')}</label><textarea id="btext" rows="3" spellcheck="false" placeholder="${t('importPh')}"></textarea>
-      <button type="button" class="btn ghost" data-a="bcheck">${t('importBtn')}</button><div id="bmsg" aria-live="polite">${bmsg()}</div></section>`;
+      <button type="button" class="btn ghost" data-a="bcheck">${t('importBtn')}</button><div id="bmsg" aria-live="polite">${bmsg()}</div></section>
+    <p class="hint">Version ${APP_VERSION}</p>`;
 }
 
 let _bmsg = '';

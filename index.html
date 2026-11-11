@@ -17,7 +17,21 @@ button{cursor:pointer}
 h1,h2,p{margin:0}
 #app{max-width:440px;margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 #view{flex:1;padding:8px 24px 24px;display:flex;flex-direction:column;gap:14px}
-#view.full{padding:16px 24px 24px}
+#view.full{padding:8px 20px 12px;gap:10px}
+#view.full>.grow{display:none}
+html.lock,html.lock body{height:100%;overflow:hidden;overscroll-behavior:none}
+html.lock #app{position:fixed;left:0;right:0;top:var(--vvt,0px);height:var(--vvh,100dvh);min-height:0}
+html.lock #view{overflow-y:auto;-webkit-overflow-scrolling:touch}
+#kbkeep{position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0;font-size:16px;pointer-events:none}
+.full .q{padding-top:2px;gap:4px}.full .q h1{font-size:32px;margin-top:4px;line-height:1.15}.full .q h1.long{font-size:22px}
+.full .chip{padding:4px 12px;font-size:12px}
+.full .field{min-height:54px}.full .field span,.full .field input{font-size:20px}
+.full .keys{grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}.full .keys button{height:42px;font-size:16px;padding:0;border-radius:8px}
+.full.answered .keys{display:none}
+.full .fb{padding:8px 14px}.full .fb .link{min-height:28px;margin-top:2px}.full .btn.big{min-height:50px}
+.full .timer{font-size:28px;margin:0;text-align:left}
+.chstat{font-size:13px;color:var(--mute);margin-left:10px;white-space:nowrap}.chstat b{font:700 17px 'Space Grotesk',sans-serif;color:var(--ink)}
+.full .lbl{margin-top:0}.full .sentence{padding:6px 0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .grow{flex:1;min-width:0}.tc{text-align:center}
 .muted{color:var(--mute);font-size:14px}.strong{font-weight:600;font-size:16px}.accent{color:var(--gd);font-weight:500;font-size:14px;margin:6px 0}
@@ -122,6 +136,7 @@ button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head>
 <body>
+<input id="kbkeep" type="text" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="off">
 <div id="app"><main id="view"></main><nav id="nav" aria-label="Navigation"></nav></div>
 <script>
 /* Mitgelieferte Vokabel-Listen: [französisch, Bedeutung]. Neue Liste = neues Objekt in diesem Array. */
@@ -1034,12 +1049,27 @@ function render() {
   $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
     `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${t(n === 'verbs' ? 'add' : n)}</span></button>`).join('');
   const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum };
+  // Tastatur offen halten, während die nächste Aufgabe aufgebaut wird (sonst springt der Bildschirm auf dem Handy)
+  const keep = $('#kbkeep'), hadFocus = document.activeElement && document.activeElement.id === 'ans';
+  if (hadFocus && keep) keep.focus({ preventScroll: true });
   $('#view').innerHTML = views[V.name]();
   $('#view').className = full ? 'full' : '';
+  document.documentElement.classList.toggle('lock', full);
   if (V.name === 'verbs') preview();
-  const inp = $('#ans'); if (inp && !inp.readOnly) inp.focus();
-  window.scrollTo(0, 0);
+  const inp = $('#ans');
+  if (inp && !inp.readOnly) inp.focus({ preventScroll: true });
+  else if (keep && document.activeElement === keep) keep.blur();
+  $('#view').scrollTop = 0; window.scrollTo(0, 0); fitViewport();
 }
+/* Sichtbaren Bereich (über der Tastatur) messen, damit die Übung nicht verrutscht */
+function fitViewport() {
+  const vv = window.visualViewport, root = document.documentElement;
+  root.style.setProperty('--vvh', (vv ? vv.height : window.innerHeight) + 'px');
+  root.style.setProperty('--vvt', (vv ? vv.offsetTop : 0) + 'px');
+  if (root.classList.contains('lock') && (window.scrollY || (vv && vv.offsetTop))) window.scrollTo(0, 0);
+}
+if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
+window.addEventListener('resize', fitViewport);
 function navActive(n) {
   return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend');
 }
@@ -1100,7 +1130,7 @@ function startRound(k) {
 }
 function qCard(q, label, ask) {
   return `<div class="q"><span class="chip">${label}</span><h1>${esc(q.v.fr)}</h1><p>${esc(meaning(q.v))}</p></div>
-    <label class="lbl" for="ans">${ask}</label>
+    <label class="sr" for="ans">${ask}</label>
     <div class="field"><span>${esc(subject(q.i, q.k, q.f[0]))}</span><input id="ans" type="text" aria-label="${t('yourAnswer')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
     <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>`;
 }
@@ -1125,7 +1155,7 @@ function checkAnswer() {
   const inp = $('#ans'), q = X.list[X.n];
   if (!inp.value.trim()) return inp.focus();
   const g = grade(inp.value, q.f), ok = g === 'ok';
-  X.done = true; inp.readOnly = true; if (ok) X.right++;
+  X.done = true; inp.readOnly = true; if (ok) X.right++; $('#view').classList.add('answered');
   record(q, ok);
   $('#fb').innerHTML = ok
     ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${full(q)}</p></div></div>`
@@ -1179,7 +1209,7 @@ function vVoc() {
   return `<header class="top"><button type="button" class="icon" data-a="vquit" aria-label="${t('quit')}">${IC.x}</button>
     <div class="bar grow"><i style="width:${Math.round(100 * W.n / W.list.length)}%"></i></div><span class="muted">${W.n + 1} / ${W.list.length}</span></header>
     <div class="q"><span class="chip">${esc(W.set.title)}</span><h1 class="${w.m.length > 28 ? 'long' : ''}">${esc(w.m)}</h1></div>
-    <label class="lbl" for="ans">${t('translate')}</label>
+    <label class="sr" for="ans">${t('translate')}</label>
     <div class="field"><input id="ans" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
     <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>
     <div id="fb" aria-live="polite"></div><div class="grow"></div>
@@ -1190,7 +1220,7 @@ function vocCheck() {
   const inp = $('#ans'), w = W.list[W.n];
   if (!inp.value.trim()) return inp.focus();
   const a = noArt(norm(inp.value).replace(/[.!?…]+$/, '').trim()), acc = [...vocVariants(w.fr)], ok = acc.includes(a);
-  W.done = true; inp.readOnly = true;
+  W.done = true; inp.readOnly = true; $('#view').classList.add('answered');
   if (ok) { W.right++; S.vbox[w.fr] = Math.min(3, (S.vbox[w.fr] || 0) + 1); } else S.vbox[w.fr] = 0;
   markDay(); save();
   $('#fb').innerHTML = ok
@@ -1235,11 +1265,11 @@ function chStart() {
 const clock = s => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
 function vChRun() {
   return `<header class="top"><button type="button" class="icon" data-a="chquit" aria-label="${t('quit')}">${IC.x}</button>
-    <b class="grow tc">${t('challenge')}</b><span class="muted">${t('record')} ${S.hi}</span></header>
-    <div class="timer" id="timer">${clock(C.left)}</div><div class="bar thin"><i id="tbar" style="width:${100 * C.left / CH_SECONDS}%"></i></div>
-    <div class="stats"><div><small>${t('points')}</small><b>${C.score}</b></div><div><small>${t('streak')}</small><b>${C.streak} <em>${t('inRow')}</em></b></div></div>
+    <div class="timer" id="timer">${clock(C.left)}</div><span class="grow"></span>
+    <span class="chstat">${t('points')} <b>${C.score}</b></span><span class="chstat">${t('streak')} <b>${C.streak}</b></span></header>
+    <div class="bar thin"><i id="tbar" style="width:${100 * C.left / CH_SECONDS}%"></i></div>
     ${qCard(C.q, TMAP[C.q.k].n, t('fast'))}
-    <div id="fb" aria-live="polite">${C.last}</div><div class="grow"></div>
+    <div id="fb" aria-live="polite">${C.last}</div>
     <button type="button" class="btn big" data-a="chcheck">${t('check')}</button>`;
 }
 function chCheck() {

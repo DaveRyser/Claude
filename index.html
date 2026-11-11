@@ -736,6 +736,9 @@ const I18N = {
     wSure: '{a} / {b} Wörter sicher', vocabEmpty: 'Noch keine Vokabeln. Füge unter «Hinzufügen» eigene Wörter hinzu – einzeln oder als ganze Liste.',
     addNow: 'Wörter hinzufügen', myWords: 'Meine Vokabeln', noWords: 'Noch keine Vokabeln.', translate: 'Wie heisst das auf Französisch?',
     dupW: 'Dieses Wort gibt es schon.', needWord: 'Bitte Wort und Bedeutung eingeben.', wCount: '{a} Vokabeln', ownEmpty: 'Noch leer – füge eigene Wörter hinzu.',
+    backup: 'Sicherung', backupDesc: 'Nimm deinen Fortschritt und deine eigenen Einträge auf ein anderes Gerät mit.', exportFile: 'Als Datei speichern', exportCopy: 'Code kopieren',
+    importTitle: 'Sicherung laden', importPh: 'Datei wählen oder Code hier einfügen', importBtn: 'Sicherung prüfen', importWarn: 'Sicherung vom {a} gefunden. Laden ersetzt den Fortschritt auf diesem Gerät.',
+    importDo: 'Jetzt ersetzen', importOk: 'Sicherung geladen.', importBad: 'Das ist keine gültige VerbMaster-Sicherung.',
     aiTextW: 'Gib mir 20 französische Wörter (Nomen mit Artikel) zum Thema … mit deutscher Übersetzung. Antworte nur in diesem Format, ohne weiteren Text: französischeswort;deutscheswort,französischeswort;deutscheswort'
   },
   en: {
@@ -762,6 +765,9 @@ const I18N = {
     wSure: '{a} / {b} words mastered', vocabEmpty: 'No vocabulary yet. Add your own words under «Add» – one by one or as a whole list.',
     addNow: 'Add words', myWords: 'My vocabulary', noWords: 'No vocabulary yet.', translate: 'What is this in French?',
     dupW: 'This word already exists.', needWord: 'Please enter a word and its meaning.', wCount: '{a} words', ownEmpty: 'Still empty – add your own words.',
+    backup: 'Backup', backupDesc: 'Take your progress and your own entries to another device.', exportFile: 'Save as file', exportCopy: 'Copy code',
+    importTitle: 'Load a backup', importPh: 'Choose a file or paste the code here', importBtn: 'Check backup', importWarn: 'Backup from {a} found. Loading it replaces the progress on this device.',
+    importDo: 'Replace now', importOk: 'Backup loaded.', importBad: 'This is not a valid VerbMaster backup.',
     aiTextW: 'Give me 20 French words (nouns with article) on the topic … with their English translation. Answer only in this format, with no other text: frenchword;englishword,frenchword;englishword'
   },
   it: {
@@ -788,6 +794,9 @@ const I18N = {
     wSure: '{a} / {b} parole sicure', vocabEmpty: 'Ancora nessun vocabolo. Aggiungi le tue parole in «Aggiungi» – una alla volta o come lista.',
     addNow: 'Aggiungi parole', myWords: 'I miei vocaboli', noWords: 'Ancora nessun vocabolo.', translate: 'Come si dice in francese?',
     dupW: 'Questa parola esiste già.', needWord: 'Inserisci parola e significato.', wCount: '{a} vocaboli', ownEmpty: 'Ancora vuoto – aggiungi le tue parole.',
+    backup: 'Backup', backupDesc: 'Porta i tuoi progressi e le tue voci su un altro dispositivo.', exportFile: 'Salva come file', exportCopy: 'Copia codice',
+    importTitle: 'Carica un backup', importPh: 'Scegli un file o incolla qui il codice', importBtn: 'Controlla backup', importWarn: 'Trovato un backup del {a}. Caricandolo sostituisci i progressi su questo dispositivo.',
+    importDo: 'Sostituisci ora', importOk: 'Backup caricato.', importBad: 'Questo non è un backup valido di VerbMaster.',
     aiTextW: 'Dammi 20 parole francesi (nomi con articolo) sul tema … con la traduzione italiana. Rispondi solo in questo formato, senza altro testo: parolafrancese;parolaitaliana,parolafrancese;parolaitaliana'
   },
   fr: {
@@ -814,6 +823,9 @@ const I18N = {
     wSure: '{a} / {b} mots maîtrisés', vocabEmpty: 'Pas encore de vocabulaire. Ajoute tes mots sous «Ajouter» – un par un ou en liste.',
     addNow: 'Ajouter des mots', myWords: 'Mon vocabulaire', noWords: 'Pas encore de vocabulaire.', translate: 'Comment dit-on en français ?',
     dupW: 'Ce mot existe déjà.', needWord: 'Saisis un mot et sa signification.', wCount: '{a} mots', ownEmpty: 'Encore vide – ajoute tes mots.',
+    backup: 'Sauvegarde', backupDesc: 'Emporte tes progrès et tes propres entrées sur un autre appareil.', exportFile: 'Enregistrer en fichier', exportCopy: 'Copier le code',
+    importTitle: 'Charger une sauvegarde', importPh: 'Choisis un fichier ou colle le code ici', importBtn: 'Vérifier la sauvegarde', importWarn: 'Sauvegarde du {a} trouvée. La charger remplace les progrès sur cet appareil.',
+    importDo: 'Remplacer maintenant', importOk: 'Sauvegarde chargée.', importBad: 'Ce n’est pas une sauvegarde VerbMaster valide.',
     aiTextW: 'Donne-moi 20 mots français (noms avec article) sur le thème … avec une courte signification. Réponds uniquement dans ce format, sans autre texte : mot;signification,mot;signification'
   }
 };
@@ -923,14 +935,40 @@ const STORE = 'verbmaster.v1';
 const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
-function loadState() {
+function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  const d = { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {} };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {} };
+}
+function loadState() {
+  const d = defaults();
   try { const r = localStorage.getItem(STORE); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
   return d;
 }
 let S = loadState();
 function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* ohne Speicher weiter */ } }
+
+/* ---------- Sicherung (Export / Import) ---------- */
+function backupText() { return JSON.stringify({ app: 'verbmaster', v: 1, date: new Date().toISOString(), data: S }); }
+/** Prüft und bereinigt eine Sicherung -> {state, date} oder null */
+function readBackup(txt) {
+  let o; try { o = JSON.parse(txt.trim()); } catch (e) { return null; }
+  const isObj = x => !!x && typeof x === 'object' && !Array.isArray(x);
+  if (!isObj(o) || o.app !== 'verbmaster' || !isObj(o.data)) return null;
+  const d = o.data, out = defaults(), str = x => typeof x === 'string' && x.length < 300;
+  const nums = (src, max) => { const r = {}; if (isObj(src)) for (const k in src) if (str(k) && Number.isFinite(src[k])) r[k] = Math.max(0, Math.min(max, Math.round(src[k]))); return r; };
+  if (I18N[d.lang]) out.lang = d.lang;
+  if (isObj(d.box)) for (const T of TENSES) if (isObj(d.box[T.k])) out.box[T.k] = nums(d.box[T.k], 3);
+  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3);
+  out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
+  out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
+  out.day = str(d.day) ? d.day : '';
+  if (isObj(d.ov)) for (const k in d.ov) if (str(k) && str(d.ov[k])) out.ov[k] = d.ov[k];
+  if (isObj(d.gram)) for (const m of GRAMMAR) if (isObj(d.gram[m.id])) { out.gram[m.id] = {}; for (const i in d.gram[m.id]) if (m.items[i]) out.gram[m.id][i] = 1; }
+  if (Array.isArray(d.vocab)) out.vocab = d.vocab.filter(w => isObj(w) && str(w.fr) && str(w.m)).map(w => ({ fr: w.fr, m: w.m }));
+  if (Array.isArray(d.custom)) out.custom = d.custom.filter(c => isObj(c) && str(c.fr) && str(c.m) && str(c.tag) && canConjugate(makeVerb(c.fr, '', c.tag).base, c.tag)).map(c => ({ fr: makeVerb(c.fr).fr, m: c.m, tag: c.tag }));
+  return { state: out, date: str(o.date) ? o.date.slice(0, 10) : '?' };
+}
+let pendingBackup = null;
 
 /* ---------- Helfer ---------- */
 const $ = s => document.querySelector(s);
@@ -1237,7 +1275,22 @@ function vProgress() {
       <div><p class="strong">${t('overallSure', { a: total, b: max })}</p><p class="accent">${t('days', { a: S.days || 0 })}</p><p class="muted">${t('record')} ${t('challenge')}: ${S.hi}</p></div></section>
     <section class="block"><h2>${t('vocab')}</h2><div class="trow"><div><span>${t('wCount', { a: vAll })}</span><span>${vOk} / ${vAll}</span></div><div class="bar"><i style="width:${100 * vOk / vAll}%"></i></div></div></section>
     <section class="block"><h2>${t('byTense')}</h2>${TENSES.map((T, i) => `<div class="trow${i > lv ? ' off' : ''}"><div><span>${T.n}</span><span>${i > lv ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`).join('')}</section>
-    <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>`;
+    <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>
+    <section class="card form"><h2>${t('backup')}</h2><p class="muted">${t('backupDesc')}</p>
+      <button type="button" class="btn" data-a="bexport">${t('exportFile')}</button><button type="button" class="btn ghost" data-a="bcopy">${t('exportCopy')}</button>
+      <label for="bfile">${t('importTitle')}</label><input id="bfile" type="file" accept=".json,application/json,text/plain" data-c="bfile">
+      <label for="btext" class="sr">${t('importPh')}</label><textarea id="btext" rows="3" spellcheck="false" placeholder="${t('importPh')}"></textarea>
+      <button type="button" class="btn ghost" data-a="bcheck">${t('importBtn')}</button><div id="bmsg" aria-live="polite">${bmsg()}</div></section>`;
+}
+
+let _bmsg = '';
+function bmsg() { const m = _bmsg; _bmsg = ''; return m; }
+function backupCheck() {
+  const r = readBackup($('#btext').value);
+  pendingBackup = r;
+  $('#bmsg').innerHTML = r
+    ? `<p class="note">${t('importWarn', { a: esc(r.date) })}</p><button type="button" class="btn" data-a="bapply">${t('importDo')}</button>`
+    : `<p class="note warn">${t('importBad')}</p>`;
 }
 
 /* --- Verben hinzufügen --- */
@@ -1409,6 +1462,25 @@ const ACT = {
     try { navigator.clipboard.writeText($('#aitext').textContent).then(done, () => {}); } catch (e) { /* Text bleibt zum Markieren sichtbar */ }
   },
   del: el => { S.custom.splice(+el.dataset.i, 1); _verbs = null; save(); render(); },
+  bexport: () => {
+    try {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([backupText()], { type: 'application/json' }));
+      a.download = 'verbmaster-sicherung-' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    } catch (e) { ACT.bcopy($('[data-a=bcopy]')); }
+  },
+  bcopy: el => {
+    const txt = backupText(), box = $('#btext');
+    const fallback = () => { box.value = txt; box.focus(); box.select(); };
+    try { navigator.clipboard.writeText(txt).then(() => { el.textContent = t('copied'); }, fallback); } catch (e) { fallback(); }
+  },
+  bcheck: backupCheck,
+  bapply: () => {
+    if (!pendingBackup) return;
+    S = pendingBackup.state; pendingBackup = null; _verbs = null; save();
+    _bmsg = `<p class="note">${t('importOk')}</p>`; render();
+  },
   gstart: el => gStart(el.dataset.id),
   gopt: el => gAnswer(el.dataset.v, el),
   gnext: gNext,
@@ -1434,6 +1506,11 @@ document.addEventListener('input', e => { if (e.target.dataset.i === 'prev') pre
 document.addEventListener('change', e => {
   if (e.target.dataset.c === 'lang') { S.lang = e.target.value; save(); render(); }
   else if (e.target.dataset.c === 'prev') preview();
+  else if (e.target.dataset.c === 'bfile' && e.target.files[0]) {
+    const fr = new FileReader();
+    fr.onload = () => { $('#btext').value = String(fr.result); backupCheck(); };
+    fr.readAsText(e.target.files[0]);
+  }
 });
 
 render();

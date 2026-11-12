@@ -93,6 +93,9 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
 .stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
 .stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.playbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.lvl small{display:block}button.lvl:disabled{opacity:.5;cursor:default}
+.field input::placeholder{color:#8A968F;font-weight:400;font-size:16px}
 .grp{display:flex;align-items:baseline;justify-content:space-between;font-size:15px;font-weight:600;margin:14px 2px 0}.grp small{font-size:13px;font-weight:400;color:var(--mute)}
 .gcard{display:flex;flex-direction:column;gap:10px}.gcard h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}.gcard .bar{background:var(--soft)}
 .btn.line{background:#fff;color:var(--g);border:1.5px solid var(--g);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;box-sizing:border-box}
@@ -136,7 +139,7 @@ mark{background:#DCEDE3;color:var(--gd);padding:2px 6px;border-radius:6px}
 .opts button.no{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
 #nav{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);padding:8px 8px calc(10px + env(safe-area-inset-bottom));background:#fff}
 #nav[hidden]{display:none}
-#nav button{flex:1;min-height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:500;color:var(--mute)}
+#nav button{flex:1;min-width:0;padding:0;min-height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;color:var(--mute)}
 #nav button.on{color:var(--g);font-weight:600}
 button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
@@ -1289,6 +1292,10 @@ const I18N = {
     wSure: '{a} / {b} Wörter sicher', vocabEmpty: 'Noch keine Vokabeln. Füge unter «Hinzufügen» eigene Wörter hinzu – einzeln oder als ganze Liste.',
     addNow: 'Wörter hinzufügen', myWords: 'Meine Vokabeln', noWords: 'Noch keine Vokabeln.', translate: 'Wie heisst das auf Französisch?',
     dupW: 'Dieses Wort gibt es schon.', needWord: 'Bitte Wort und Bedeutung eingeben.', wCount: '{a} Vokabeln', ownEmpty: 'Noch leer – füge eigene Wörter hinzu.',
+    listen: 'Hören', listenDesc: 'Du hörst Französisch und schreibst auf, was du verstanden hast.', lVerbs: 'Verbformen', lVerbsD: 'Du hörst eine Verbform mit Pronomen und tippst sie.',
+    lVoc: 'Vokabeln', lVocD: 'Du hörst ein Wort aus deinen Vokabel-Listen und tippst es.', lSent: 'Sätze', lSentD: 'Du hörst einen ganzen Satz und schreibst ihn auf.',
+    lNum: 'Zahlen', lNumD: 'Du hörst eine Zahl und tippst sie in Ziffern.', play: 'Abspielen', slow: 'Langsam', typeHeard: 'Was hast du gehört?',
+    noSpeech: 'Auf diesem Gerät oder in dieser Ansicht ist keine Sprachausgabe verfügbar.', noFrVoice: 'Keine französische Stimme gefunden. Die Aussprache kann falsch klingen.', heardN: '{a} richtig gehört',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1322,6 +1329,10 @@ const I18N = {
     wSure: '{a} / {b} words mastered', vocabEmpty: 'No vocabulary yet. Add your own words under «Add» – one by one or as a whole list.',
     addNow: 'Add words', myWords: 'My vocabulary', noWords: 'No vocabulary yet.', translate: 'What is this in French?',
     dupW: 'This word already exists.', needWord: 'Please enter a word and its meaning.', wCount: '{a} words', ownEmpty: 'Still empty – add your own words.',
+    listen: 'Listen', listenDesc: 'You hear French and write down what you understood.', lVerbs: 'Verb forms', lVerbsD: 'You hear a verb form with its pronoun and type it.',
+    lVoc: 'Vocabulary', lVocD: 'You hear a word from your vocabulary lists and type it.', lSent: 'Sentences', lSentD: 'You hear a whole sentence and write it down.',
+    lNum: 'Numbers', lNumD: 'You hear a number and type it in digits.', play: 'Play', slow: 'Slow', typeHeard: 'What did you hear?',
+    noSpeech: 'Speech output is not available on this device or in this view.', noFrVoice: 'No French voice found. The pronunciation may sound wrong.', heardN: '{a} heard correctly',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1355,6 +1366,10 @@ const I18N = {
     wSure: '{a} / {b} parole sicure', vocabEmpty: 'Ancora nessun vocabolo. Aggiungi le tue parole in «Aggiungi» – una alla volta o come lista.',
     addNow: 'Aggiungi parole', myWords: 'I miei vocaboli', noWords: 'Ancora nessun vocabolo.', translate: 'Come si dice in francese?',
     dupW: 'Questa parola esiste già.', needWord: 'Inserisci parola e significato.', wCount: '{a} vocaboli', ownEmpty: 'Ancora vuoto – aggiungi le tue parole.',
+    listen: 'Ascolto', listenDesc: 'Ascolti il francese e scrivi ciò che hai capito.', lVerbs: 'Forme verbali', lVerbsD: 'Ascolti una forma verbale con il pronome e la scrivi.',
+    lVoc: 'Vocaboli', lVocD: 'Ascolti una parola delle tue liste e la scrivi.', lSent: 'Frasi', lSentD: 'Ascolti una frase intera e la scrivi.',
+    lNum: 'Numeri', lNumD: 'Ascolti un numero e lo scrivi in cifre.', play: 'Ascolta', slow: 'Lento', typeHeard: 'Che cosa hai sentito?',
+    noSpeech: 'La sintesi vocale non è disponibile su questo dispositivo o in questa vista.', noFrVoice: 'Nessuna voce francese trovata. La pronuncia può essere sbagliata.', heardN: '{a} capite correttamente',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1388,6 +1403,10 @@ const I18N = {
     wSure: '{a} / {b} mots maîtrisés', vocabEmpty: 'Pas encore de vocabulaire. Ajoute tes mots sous «Ajouter» – un par un ou en liste.',
     addNow: 'Ajouter des mots', myWords: 'Mon vocabulaire', noWords: 'Pas encore de vocabulaire.', translate: 'Comment dit-on en français ?',
     dupW: 'Ce mot existe déjà.', needWord: 'Saisis un mot et sa signification.', wCount: '{a} mots', ownEmpty: 'Encore vide – ajoute tes mots.',
+    listen: 'Écoute', listenDesc: 'Tu écoutes du français et tu écris ce que tu as compris.', lVerbs: 'Formes verbales', lVerbsD: 'Tu entends une forme verbale avec son pronom et tu l’écris.',
+    lVoc: 'Vocabulaire', lVocD: 'Tu entends un mot de tes listes et tu l’écris.', lSent: 'Phrases', lSentD: 'Tu entends une phrase entière et tu l’écris.',
+    lNum: 'Nombres', lNumD: 'Tu entends un nombre et tu l’écris en chiffres.', play: 'Écouter', slow: 'Lentement', typeHeard: 'Qu’as-tu entendu ?',
+    noSpeech: 'La synthèse vocale n’est pas disponible sur cet appareil ou dans cette vue.', noFrVoice: 'Aucune voix française trouvée. La prononciation peut être incorrecte.', heardN: '{a} bien entendus',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1503,7 +1522,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '1.8';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '1.9';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1513,7 +1532,7 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0 };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {} };
 }
 function loadState() {
   const d = defaults();
@@ -1536,7 +1555,7 @@ function readBackup(txt) {
   const nums = (src, max) => { const r = {}; if (isObj(src)) for (const k in src) if (str(k) && Number.isFinite(src[k])) r[k] = Math.max(0, Math.min(max, Math.round(src[k]))); return r; };
   if (I18N[d.lang]) out.lang = d.lang;
   if (isObj(d.box)) for (const T of TENSES) if (isObj(d.box[T.k])) out.box[T.k] = nums(d.box[T.k], 3);
-  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3);
+  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999);
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
@@ -1594,6 +1613,7 @@ const IC = {
   lock: svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 16),
   check: svg('<path d="M5 12l5 5 9-10"/>', 18),
   x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
+  ear: svg('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v6H5a1 1 0 0 1-1-1zM20 14h-3v6h2a1 1 0 0 0 1-1z"/>'),
   play: svg('<path d="M7 5l12 7-12 7z"/>', 16),
   trash: svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 18)
 };
@@ -1611,11 +1631,11 @@ function go(name, extra) { V = Object.assign({ name, tab: V.tab }, extra || {});
 
 function render() {
   document.documentElement.lang = S.lang; document.title = 'Verb' + t('master');
-  const full = ['ex', 'chrun', 'gram', 'voc'].includes(V.name);
+  const full = ['ex', 'chrun', 'gram', 'voc', 'lrun'].includes(V.name);
   $('#nav').hidden = full;
-  $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
+  $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['listen', IC.ear], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
     `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${t(n === 'verbs' ? 'add' : n)}</span></button>`).join('');
-  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum };
+  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum };
   // Tastatur offen halten, während die nächste Aufgabe aufgebaut wird (sonst springt der Bildschirm auf dem Handy)
   const keep = $('#kbkeep'), hadFocus = document.activeElement && document.activeElement.id === 'ans';
   if (hadFocus && keep) keep.focus({ preventScroll: true });
@@ -1638,7 +1658,7 @@ function fitViewport() {
 if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
 window.addEventListener('resize', fitViewport);
 function navActive(n) {
-  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend');
+  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && V.name === 'lsum');
 }
 
 /* --- Lernen --- */
@@ -1880,6 +1900,106 @@ function vChEnd() {
     <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button>`;
 }
 
+/* --- Hören (Sprachausgabe des Geräts) --- */
+const speechOK = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+let frVoice = null, voicesSeen = false;
+function loadVoices() {
+  if (!speechOK) return;
+  let vs = []; try { vs = speechSynthesis.getVoices() || []; } catch (e) { vs = []; }
+  if (!vs.length) return;
+  voicesSeen = true;
+  frVoice = vs.find(v => /^fr[-_]FR/i.test(v.lang)) || vs.find(v => /^fr/i.test(v.lang)) || null;
+}
+if (speechOK) { loadVoices(); try { speechSynthesis.addEventListener('voiceschanged', loadVoices); } catch (e) { /* ältere Browser */ } }
+function say(text, slow) {
+  if (!speechOK) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'fr-FR'; if (frVoice) u.voice = frVoice; u.rate = slow ? 0.6 : 0.9;
+    speechSynthesis.speak(u);
+  } catch (e) { /* ohne Ton weiter */ }
+}
+const plain = s => norm(s).replace(/[.,!?;:«»"…]/g, ' ').replace(/\s+/g, ' ').trim();
+const sameOrAccent = (a, list) => list.includes(a) ? 'ok' : (list.some(x => flat(x) === flat(a)) ? 'accent' : 'no');
+/* Hör-Arten: neue Art = neuer Eintrag. make() liefert { say, show, sub, check(eingabe) } */
+const LISTEN = [
+  { id: 'verbs', title: 'lVerbs', desc: 'lVerbsD', keys: true, make() {
+      // nur je, tu, nous, vous – «il» und «ils» klingen meist gleich. Kein Impératif (klingt wie Présent).
+      const ks = TENSES.slice(0, level() + 1).map(T => T.k).filter(k => k !== 'imp' && k !== 'ipa');
+      for (let n = 0; n < 80; n++) {
+        const v = pick(BUILTIN.slice(0, 120).concat(verbs().filter(x => x.custom))), k = pick(ks), f = forms(v, k);
+        const is = [0, 1, 3, 4].filter(i => f && f[i]); if (!is.length) continue;
+        const i = pick(is), text = phrase(i, k, f[i][0]);
+        return { say: text, show: text, sub: v.fr + ' · ' + TMAP[k].n, check: val => grade(val, f[i]) };
+      }
+      return { say: 'je suis', show: 'je suis', sub: 'être', check: val => grade(val, ['suis']) };
+    } },
+  { id: 'vocab', title: 'lVoc', desc: 'lVocD', keys: true, make() {
+      const all = vocSets().reduce((a, x) => a.concat(x.items), []), w = pick(all);
+      let text = w.fr.replace(/\s*\([^)]*\)/g, '').split(' / ')[0];
+      const m = text.match(/^(.+?),\s*(\S{1,5})$/); if (m) text = m[1];
+      const acc = [...vocVariants(w.fr)];
+      return { say: text, show: w.fr, sub: w.m, check: val => sameOrAccent(noArt(plain(val)), acc.map(x => noArt(plain(x)))) };
+    } },
+  { id: 'sent', title: 'lSent', desc: 'lSentD', keys: true, make() {
+      const m = pick(GRAMMAR), it = pick(m.items);
+      return { say: it.r, show: it.r, sub: L(m.title), check: val => sameOrAccent(plain(val), [plain(it.r)]) };
+    } },
+  { id: 'num', title: 'lNum', desc: 'lNumD', keys: false, numeric: true, make() {
+      const n = Math.random() < 0.7 ? Math.floor(Math.random() * 101) : Math.floor(Math.random() * 900) + 100;
+      return { say: String(n), show: String(n), sub: '', check: val => val.replace(/[\s'’.]/g, '') === String(n) ? 'ok' : 'no' };
+    } }
+];
+let H = null;   // laufende Hör-Runde
+function vListen() {
+  const warn = !speechOK ? `<p class="note warn">${t('noSpeech')}</p>` : (voicesSeen && !frVoice ? `<p class="note warn">${t('noFrVoice')}</p>` : '');
+  return `<header class="head"><h1>${t('listen')}</h1></header><p class="muted">${t('listenDesc')}</p>${warn}
+    <div class="list">${LISTEN.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${speechOK ? '' : ' disabled'}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>`;
+}
+function lStart(id) {
+  const mode = LISTEN.find(m => m.id === id) || LISTEN[0];
+  loadVoices();
+  H = { mode, list: Array.from({ length: ROUND }, () => mode.make()), n: 0, right: 0, done: false };
+  go('lrun'); say(H.list[0].say);
+}
+function vLRun() {
+  const m = H.mode;
+  return `<header class="top"><button type="button" class="icon" data-a="lquit" aria-label="${t('quit')}">${IC.x}</button>
+    <div class="bar grow"><i style="width:${Math.round(100 * H.n / H.list.length)}%"></i></div><span class="muted">${H.n + 1} / ${H.list.length}</span></header>
+    <div class="q"><span class="chip">${t('listen')} · ${t(m.title)}</span></div>
+    <div class="row"><button type="button" class="btn grow playbtn" data-a="lplay">${IC.play}${t('play')}</button><button type="button" class="btn line" data-a="lslow">${t('slow')}</button></div>
+    <label class="sr" for="ans">${t('typeHeard')}</label>
+    <div class="field"><input id="ans" type="text"${m.numeric ? ' inputmode="numeric"' : ''} placeholder="${t('typeHeard')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+    ${m.keys ? `<div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>` : ''}
+    <div id="fb" aria-live="polite"></div>
+    <button type="button" class="btn big" id="go" data-a="lcheck">${t('check')}</button>`;
+}
+function lCheck() {
+  if (H.done) {
+    H.n++; H.done = false;
+    if (H.n >= H.list.length) { try { if (speechOK) speechSynthesis.cancel(); } catch (e) { /* egal */ } return go('lsum'); }
+    render(); return say(H.list[H.n].say);
+  }
+  const inp = $('#ans'), q = H.list[H.n];
+  if (!inp.value.trim()) return inp.focus();
+  const g = q.check(inp.value), ok = g === 'ok';
+  H.done = true; inp.readOnly = true; $('#view').classList.add('answered');
+  if (ok) { H.right++; S.heard[H.mode.id] = (S.heard[H.mode.id] || 0) + 1; }
+  markDay(); save();
+  const sub = q.sub ? `<p class="muted">${esc(q.sub)}</p>` : '';
+  $('#fb').innerHTML = ok
+    ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${esc(q.show)}</p>${sub}</div></div>`
+    : `<div class="fb bad"><div><b>${g === 'accent' ? t('accent') : t('wrong')}</b><p>${t('solution')}: <strong>${esc(q.show)}</strong></p>${sub}</div></div>`;
+  $('#go').textContent = t('next');
+}
+function vLSum() {
+  return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${t('roundDone')}</h1>
+    <p class="bignum">${t('score', { a: H.right, b: H.list.length })}</p><p class="muted">${t('listen')} · ${t(H.mode.title)}</p>
+    <button type="button" class="btn big" data-a="lstart" data-id="${H.mode.id}">${t('again')}</button>
+    <button type="button" class="btn ghost" data-a="nav" data-n="listen">${t('overview')}</button></div>`;
+}
+
 /* --- Fortschritt --- */
 function vProgress() {
   const N = verbs().length, lv = level();
@@ -2108,6 +2228,11 @@ const ACT = {
   gopt: el => gAnswer(el.dataset.v, el),
   gnext: gNext,
   gquit: () => go('learn', { tab: 'gram' }),
+  lstart: el => lStart(el.dataset.id),
+  lplay: () => { say(H.list[H.n].say); const i = $('#ans'); if (i && !i.readOnly) i.focus({ preventScroll: true }); },
+  lslow: () => { say(H.list[H.n].say, true); const i = $('#ans'); if (i && !i.readOnly) i.focus({ preventScroll: true }); },
+  lcheck: lCheck,
+  lquit: () => { try { if (speechOK) speechSynthesis.cancel(); } catch (e) { /* egal */ } go('listen'); },
   vstart: el => vocStart(el.dataset.id),
   vcheck: vocCheck,
   vquit: () => go('learn', { tab: 'vocab' }),
@@ -2121,7 +2246,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
-  if (e.target.id === 'ans') { e.preventDefault(); V.name === 'chrun' ? chCheck() : V.name === 'gram' ? gNext() : V.name === 'voc' ? vocCheck() : checkAnswer(); }
+  if (e.target.id === 'ans') { e.preventDefault(); V.name === 'chrun' ? chCheck() : V.name === 'gram' ? gNext() : V.name === 'voc' ? vocCheck() : V.name === 'lrun' ? lCheck() : checkAnswer(); }
   else if (e.target.id === 'fixin') { e.preventDefault(); ACT.fixsave(); }
 });
 document.addEventListener('submit', e => { e.preventDefault(); if (e.target.id === 'addform') submitVerb(); else if (e.target.id === 'wordform') submitWord(); });

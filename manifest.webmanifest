@@ -1,7 +1,7 @@
 {
-  "name": "VerbMaster",
-  "short_name": "VerbMaster",
-  "description": "Französische Verben, Vokabeln und Grammatik Level für Level lernen.",
+  "name": "FranzMeister",
+  "short_name": "FranzMeister",
+  "description": "Französisch lernen: Verben, Vokabeln, Grammatik und Hören.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

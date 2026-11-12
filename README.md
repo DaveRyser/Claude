@@ -1,3 +1,3 @@
-# VerbMaster
+# FranzMeister
 
-Lern-App für französische Verben, Vokabeln und Grammatik. Läuft als Web-App (PWA) über GitHub Pages.
+Lern-App für Französisch: Verben, Vokabeln, Grammatik und Hören. Läuft als Web-App (PWA) über GitHub Pages.

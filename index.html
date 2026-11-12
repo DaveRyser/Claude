@@ -776,6 +776,112 @@ const LISTEN_TEXTS = [
       ["Quel est le projet du village pour l'année prochaine ?", ['Installer des panneaux solaires', 'Ouvrir un supermarché', "Agrandir l'école"]]
     ]
   }
+  ,
+  /* ---------- A2: kurze, einfache Texte ---------- */
+  {
+    id: 'a2fete', lvl: 'A2', title: "Message : l'invitation",
+    text: "Salut Nina, c'est Paul. Samedi, c'est mon anniversaire. Je fais une petite fête chez moi à partir de dix-neuf heures. Il y aura de la pizza et de la musique. Tu peux venir avec ton frère si tu veux. J'habite au numéro douze, rue du Lac, à côté de la boulangerie. Apporte seulement une boisson, s'il te plaît. Réponds-moi avant jeudi. Bisous !",
+    qs: [
+      ['Pourquoi Paul appelle-t-il Nina ?', ["Pour l'inviter à son anniversaire", 'Pour commander une pizza', 'Pour lui demander son adresse']],
+      ['À quelle heure la fête commence-t-elle ?', ['À 19 heures', 'À 12 heures', 'À 21 heures']],
+      ['Que doit apporter Nina ?', ['Une boisson', 'Un gâteau', 'De la musique']]
+    ]
+  },
+  {
+    id: 'a2meteo', lvl: 'A2', title: 'La météo de demain',
+    text: "Bonjour, voici la météo pour demain. Le matin, il fera froid dans toute la Suisse romande, avec seulement deux degrés à Genève. Il y aura du brouillard près des lacs. L'après-midi, le soleil reviendra et les températures monteront jusqu'à douze degrés. En montagne, il neigera à partir de mille cinq cents mètres. Dimanche, il pleuvra toute la journée. N'oubliez pas votre parapluie !",
+    qs: [
+      ['Quel temps fera-t-il demain matin ?', ['Il fera froid, avec du brouillard', 'Il fera chaud et beau', 'Il neigera partout']],
+      ["Quelle température fera-t-il l'après-midi ?", ["Jusqu'à 12 degrés", '2 degrés', '20 degrés']],
+      ['Quel temps fera-t-il dimanche ?', ['Il pleuvra', 'Il y aura du soleil', 'Il y aura du brouillard']]
+    ]
+  },
+  {
+    id: 'a2journee', lvl: 'A2', title: 'La journée de Karim',
+    text: "Je m'appelle Karim et je travaille dans un hôtel à Montreux. Je me lève à six heures et je prends le train à sept heures. Au travail, j'accueille les clients et je réponds au téléphone. À midi, je mange avec mes collègues au restaurant de l'hôtel. Je finis à seize heures. Le soir, je fais du sport ou je regarde un film. Le week-end, je ne travaille pas.",
+    qs: [
+      ['Où Karim travaille-t-il ?', ['Dans un hôtel', 'Dans un restaurant', 'Dans une gare']],
+      ['Comment va-t-il au travail ?', ['En train', 'En voiture', 'À vélo']],
+      ['Que fait-il le soir ?', ['Il fait du sport ou regarde un film', 'Il travaille', 'Il mange avec ses collègues']]
+    ]
+  },
+  {
+    id: 'a2magasin', lvl: 'A2', title: 'Annonce au supermarché',
+    text: "Chers clients, bienvenue dans votre supermarché. Aujourd'hui, profitez de nos offres spéciales : les pommes sont à deux francs le kilo et le fromage est à moitié prix. Au rayon boulangerie, pour deux croissants achetés, le troisième est gratuit. Attention, le magasin fermera exceptionnellement à dix-huit heures ce soir. Demain, nous serons ouverts de huit heures à vingt heures. Merci de votre visite et bonne journée !",
+    qs: [
+      ['Combien coûtent les pommes ?', ['2 francs le kilo', '3 francs le kilo', 'Elles sont gratuites']],
+      ["Quelle est l'offre à la boulangerie ?", ['Le troisième croissant est gratuit', 'Le pain est à moitié prix', 'Deux croissants pour un franc']],
+      ['À quelle heure le magasin ferme-t-il ce soir ?', ['À 18 heures', 'À 20 heures', 'À 8 heures']]
+    ]
+  },
+  /* ---------- B1: längere Texte ---------- */
+  {
+    id: 'b1montreal', lvl: 'B1', title: "Portrait : une année à l'étranger",
+    text: "Sarah a vingt-trois ans et elle vient de passer une année à Montréal pour ses études de commerce. Elle a choisi le Canada parce qu'elle voulait améliorer son français tout en découvrant une culture différente. Les premières semaines ont été difficiles : elle ne connaissait personne et l'hiver était beaucoup plus froid qu'elle ne l'imaginait. Heureusement, elle a rapidement trouvé une colocation avec deux étudiantes québécoises, qui sont devenues ses amies. Grâce à elles, elle a découvert la ville, la cuisine locale et même le hockey sur glace. Pour payer son loyer, Sarah travaillait le week-end dans un café. Aujourd'hui, elle dit que cette expérience l'a rendue plus indépendante et plus sûre d'elle. Elle conseille à tous les étudiants de partir, mais de bien préparer leur budget avant le départ. L'année prochaine, elle aimerait faire un stage en Belgique.",
+    qs: [
+      ['Pourquoi Sarah a-t-elle choisi le Canada ?', ['Pour améliorer son français et découvrir une autre culture', 'Parce que sa famille y habite', "Pour apprendre l'anglais"]],
+      ["Qu'est-ce qui était difficile au début ?", ['Elle ne connaissait personne et il faisait très froid', 'Les cours étaient trop difficiles', 'Elle ne trouvait pas de travail']],
+      ['Grâce à qui a-t-elle découvert la ville ?', ['Grâce à ses colocataires', 'Grâce à un guide touristique', 'Grâce à ses professeurs']],
+      ['Comment payait-elle son loyer ?', ['En travaillant dans un café le week-end', 'Avec une bourse', "Avec l'argent de ses parents"]],
+      ['Que conseille-t-elle aux étudiants ?', ['De bien préparer leur budget avant de partir', 'De ne pas partir en hiver', 'De partir seulement quelques semaines']]
+    ]
+  },
+  {
+    id: 'b1teletravail', lvl: 'B1', title: 'Reportage : le télétravail',
+    text: "De plus en plus d'entreprises proposent à leurs employés de travailler à la maison un ou deux jours par semaine. Pour Julien, informaticien à Lausanne, c'est une vraie amélioration. Il ne perd plus une heure et demie par jour dans les transports et il peut aller chercher ses enfants à l'école. Il se sent aussi moins stressé. Mais le télétravail n'a pas que des avantages. Sa collègue Nadia trouve qu'il est difficile de séparer la vie professionnelle et la vie privée : elle répond souvent à des messages tard le soir. De plus, les contacts avec l'équipe lui manquent. Selon une étude récente, la plupart des employés préfèrent une solution mixte : trois jours au bureau et deux jours à la maison. Les spécialistes recommandent d'avoir un espace réservé au travail et de garder des horaires fixes.",
+    qs: [
+      ["Que proposent de plus en plus d'entreprises ?", ['De travailler à la maison un ou deux jours par semaine', 'De travailler seulement quatre jours par semaine', 'De travailler le week-end']],
+      ['Quel avantage Julien cite-t-il ?', ['Il ne perd plus de temps dans les transports', "Il gagne plus d'argent", 'Il a plus de vacances']],
+      ['Quel problème Nadia rencontre-t-elle ?', ['Elle a du mal à séparer travail et vie privée', 'Son ordinateur fonctionne mal', "Elle n'a pas assez de place chez elle"]],
+      ['Que préfèrent la plupart des employés ?', ['Une solution mixte', 'Travailler toujours à la maison', 'Travailler toujours au bureau']],
+      ['Que recommandent les spécialistes ?', ['Un espace réservé au travail et des horaires fixes', 'De travailler dans la cuisine', 'De ne jamais répondre au téléphone']]
+    ]
+  },
+  /* ---------- B2: lange Texte mit Meinungen und Nuancen ---------- */
+  {
+    id: 'b2musees', lvl: 'B2', title: 'Débat : faut-il rendre les musées gratuits ?',
+    text: "La question de la gratuité des musées revient régulièrement dans le débat public. Ses défenseurs estiment que la culture devrait être accessible à tous, quels que soient les revenus. Ils rappellent que, dans les villes où l'entrée est devenue gratuite, le nombre de visiteurs a fortement augmenté, en particulier chez les jeunes. Cependant, les opposants soulignent que cette mesure coûte cher aux collectivités, qui doivent compenser la perte des recettes. Ils font également remarquer que la gratuité ne suffit pas à attirer les personnes qui ne fréquentent jamais les musées : selon plusieurs études, ce sont surtout les visiteurs habituels qui en profitent, en venant plus souvent. Pour la sociologue Claire Morel, le véritable obstacle n'est pas financier mais culturel : beaucoup de gens pensent que le musée n'est pas fait pour eux. Elle propose donc d'investir plutôt dans des activités destinées aux écoles et aux quartiers défavorisés. Certaines villes ont choisi un compromis : l'entrée est gratuite un dimanche par mois ou pour les moins de vingt-six ans. Reste à savoir si ces solutions partielles permettront réellement d'élargir le public.",
+    qs: [
+      ["Quel est l'argument principal des défenseurs de la gratuité ?", ['La culture doit être accessible à tous', "Les musées gagnent trop d'argent", 'Les touristes viendront plus nombreux']],
+      ["Que s'est-il passé dans les villes où l'entrée est devenue gratuite ?", ['Le nombre de visiteurs a augmenté', 'Plusieurs musées ont fermé', 'Les jeunes viennent moins souvent']],
+      ['Selon plusieurs études, qui profite surtout de la gratuité ?', ['Les visiteurs habituels', 'Les personnes qui ne vont jamais au musée', 'Les touristes étrangers']],
+      ['Selon Claire Morel, de quelle nature est le véritable obstacle ?', ['Il est culturel', 'Il est financier', 'Il est géographique']],
+      ['Que propose-t-elle ?', ["D'investir dans des activités pour les écoles et les quartiers défavorisés", 'De rendre tous les musées gratuits', "D'augmenter le prix des billets"]]
+    ]
+  },
+  {
+    id: 'b2ia', lvl: 'B2', title: "Chronique : l'intelligence artificielle au travail",
+    text: "Depuis quelques années, l'intelligence artificielle transforme profondément le monde du travail. Dans de nombreux bureaux, des logiciels rédigent déjà des courriels, résument des réunions ou analysent des milliers de documents en quelques secondes. Pour les entreprises, le gain de temps est considérable. Mais cette évolution suscite aussi des inquiétudes. Certains salariés craignent que leur poste disparaisse, notamment dans les métiers administratifs. Les économistes sont plus nuancés : selon eux, peu de professions seront entièrement remplacées, mais la plupart seront modifiées. Autrement dit, ce ne sont pas les emplois qui disparaîtront, mais certaines tâches. La véritable question serait donc celle de la formation. Or, aujourd'hui, ce sont surtout les employés déjà qualifiés qui bénéficient de cours pour apprendre à utiliser ces outils, ce qui risque d'aggraver les inégalités. Par ailleurs, plusieurs spécialistes mettent en garde contre une confiance excessive : ces systèmes commettent des erreurs et il reste indispensable de vérifier leurs résultats. En somme, l'intelligence artificielle ne remplacera probablement pas les humains, mais ceux qui sauront s'en servir auront un net avantage sur les autres.",
+    qs: [
+      ['Quel avantage les entreprises voient-elles ?', ['Un gain de temps considérable', 'Une baisse des salaires', 'Moins de réunions']],
+      ['Que craignent certains salariés ?', ['De perdre leur poste', 'De devoir travailler plus longtemps', "De ne plus avoir d'ordinateur"]],
+      ['Que pensent les économistes ?', ['La plupart des métiers seront modifiés, mais peu seront remplacés', 'Presque tous les métiers disparaîtront', 'Rien ne changera vraiment']],
+      ["Pourquoi la formation risque-t-elle d'aggraver les inégalités ?", ['Elle profite surtout aux employés déjà qualifiés', 'Elle est trop courte', 'Elle est réservée aux jeunes']],
+      ['Contre quoi plusieurs spécialistes mettent-ils en garde ?', ['Contre une confiance excessive dans ces systèmes', 'Contre le prix des logiciels', 'Contre la lenteur des machines']]
+    ]
+  },
+  {
+    id: 'b2fatigue', lvl: 'B2', title: 'Société : la fatigue, un mal moderne ?',
+    text: "Jamais on n'a autant parlé de fatigue. D'après un sondage récent, près d'un adulte sur deux déclare se sentir épuisé plusieurs fois par semaine. Comment expliquer ce phénomène, alors que nous travaillons en moyenne moins d'heures que nos grands-parents ? Pour le médecin Antoine Roussel, la cause n'est pas la quantité de travail, mais son intensité. Nous sommes sans cesse interrompus par des messages et des notifications, si bien que notre cerveau ne se repose presque jamais. À cela s'ajoute le manque de sommeil : en cinquante ans, nous avons perdu en moyenne une heure et demie de sommeil par nuit. Les écrans, utilisés tard le soir, en sont en grande partie responsables. Pourtant, le docteur Roussel refuse de culpabiliser les individus. Selon lui, il ne suffit pas de conseiller aux gens de mieux dormir : c'est l'organisation du travail qu'il faudrait repenser, par exemple en garantissant un véritable droit à la déconnexion. Quelques entreprises ont déjà interdit l'envoi de courriels après dix-neuf heures. Les premiers résultats sont encourageants : les employés se disent moins stressés, et leur productivité n'a pas diminué.",
+    qs: [
+      ['Que montre le sondage ?', ["Près d'un adulte sur deux se sent souvent épuisé", 'Les jeunes dorment plus qu’avant', 'Un adulte sur dix se sent fatigué']],
+      ['Selon le docteur Roussel, quelle est la cause de cette fatigue ?', ["L'intensité du travail", "Le nombre d'heures de travail", 'Une mauvaise alimentation']],
+      ['Qu’avons-nous perdu en cinquante ans ?', ['Une heure et demie de sommeil par nuit', 'Une heure de pause à midi', 'Deux semaines de vacances']],
+      ['Que faudrait-il repenser, selon lui ?', ["L'organisation du travail", 'Les programmes scolaires', 'Les horaires des transports']],
+      ["Quel est le résultat dans les entreprises qui interdisent les courriels le soir ?", ['Moins de stress, sans baisse de la productivité', 'La productivité a diminué', 'Les employés travaillent davantage le week-end']]
+    ]
+  },
+  {
+    id: 'b2voiture', lvl: 'B2', title: 'Urbanisme : faut-il interdire la voiture en ville ?',
+    text: "De nombreuses villes européennes limitent désormais la circulation automobile dans leur centre. À Pontevedra, en Espagne, les voitures ont presque disparu depuis plus de vingt ans. Les résultats sont spectaculaires : la pollution a fortement diminué, il n'y a plus eu d'accident mortel et les commerces du centre, loin de souffrir, ont vu leur chiffre d'affaires augmenter. Faut-il pour autant généraliser ce modèle ? Les avis sont partagés. Les associations écologistes y voient la seule manière de respecter les objectifs climatiques. En revanche, les habitants des banlieues et des campagnes, qui dépendent de leur véhicule pour aller travailler, se sentent exclus de ces décisions. Ils reprochent aux responsables politiques d'oublier que les transports publics sont insuffisants en dehors des grandes villes. L'urbaniste Marc Favre propose une approche progressive : avant de fermer les rues aux voitures, il faudrait d'abord développer les bus, les trains régionaux et les parkings situés à l'entrée des villes. Sans cela, prévient-il, la mesure sera perçue comme une punition plutôt que comme un progrès. Autrement dit, la réussite d'un tel projet dépend moins de l'interdiction elle-même que des solutions proposées en échange.",
+    qs: [
+      ["Que s'est-il passé à Pontevedra ?", ['La pollution a diminué et les commerces se portent mieux', 'Les commerces du centre ont fermé', 'La circulation a augmenté']],
+      ['Que pensent les associations écologistes ?', ['Que c’est nécessaire pour respecter les objectifs climatiques', 'Que cette mesure est inutile', 'Que cette mesure coûte trop cher']],
+      ['Pourquoi les habitants des banlieues et des campagnes se sentent-ils exclus ?', ['Ils ont besoin de leur voiture pour aller travailler', "Ils n'aiment pas la ville", "Ils n'ont pas été invités à voter"]],
+      ['Que propose Marc Favre ?', ["De développer d'abord les transports publics et les parkings", "D'interdire les voitures immédiatement", 'De construire de nouvelles routes']],
+      ['De quoi la réussite du projet dépend-elle surtout ?', ['Des solutions proposées en échange', "Du prix de l'essence", 'Du nombre de contrôles']]
+    ]
+  }
 ];
 
 /* ============================================================
@@ -1394,7 +1500,7 @@ const I18N = {
     noSpeech: 'Auf diesem Gerät oder in dieser Ansicht ist keine Sprachausgabe verfügbar.', noFrVoice: 'Keine französische Stimme gefunden. Die Aussprache kann falsch klingen.', heardN: '{a} richtig gehört',
     lText: 'Hörverstehen', lTextD: 'Du hörst einen Text wie im DELF B1 und beantwortest Fragen dazu.', lTextHint: 'Lies zuerst die Fragen. Hör den Text dann zweimal an und wähle die Antworten.',
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
-    answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text',
+    answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1434,7 +1540,7 @@ const I18N = {
     noSpeech: 'Speech output is not available on this device or in this view.', noFrVoice: 'No French voice found. The pronunciation may sound wrong.', heardN: '{a} heard correctly',
     lText: 'Listening comprehension', lTextD: 'You hear a text as in the DELF B1 and answer questions about it.', lTextHint: 'Read the questions first. Then listen to the text twice and choose the answers.',
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
-    answerAll: 'Answer all questions first.', nextText: 'Next text',
+    answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1474,7 +1580,7 @@ const I18N = {
     noSpeech: 'La sintesi vocale non è disponibile su questo dispositivo o in questa vista.', noFrVoice: 'Nessuna voce francese trovata. La pronuncia può essere sbagliata.', heardN: '{a} capite correttamente',
     lText: 'Comprensione orale', lTextD: 'Ascolti un testo come nel DELF B1 e rispondi alle domande.', lTextHint: 'Leggi prima le domande. Poi ascolta il testo due volte e scegli le risposte.',
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
-    answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo',
+    answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1514,7 +1620,7 @@ const I18N = {
     noSpeech: 'La synthèse vocale n’est pas disponible sur cet appareil ou dans cette vue.', noFrVoice: 'Aucune voix française trouvée. La prononciation peut être incorrecte.', heardN: '{a} bien entendus',
     lText: 'Compréhension de l’oral', lTextD: 'Tu écoutes un document comme au DELF B1 et tu réponds aux questions.', lTextHint: 'Lis d’abord les questions. Écoute ensuite le document deux fois et choisis les réponses.',
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
-    answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant',
+    answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1630,7 +1736,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.0';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.1';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1640,7 +1746,7 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {} };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {}, llevel: 'B1' };
 }
 function loadState() {
   const d = defaults();
@@ -1663,7 +1769,7 @@ function readBackup(txt) {
   const nums = (src, max) => { const r = {}; if (isObj(src)) for (const k in src) if (str(k) && Number.isFinite(src[k])) r[k] = Math.max(0, Math.min(max, Math.round(src[k]))); return r; };
   if (I18N[d.lang]) out.lang = d.lang;
   if (isObj(d.box)) for (const T of TENSES) if (isObj(d.box[T.k])) out.box[T.k] = nums(d.box[T.k], 3);
-  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999); out.ltext = nums(d.ltext, 20);
+  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999); out.ltext = nums(d.ltext, 20); if (['A2', 'B1', 'B2'].includes(d.llevel)) out.llevel = d.llevel;
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
@@ -2074,13 +2180,17 @@ const LISTEN = [
 ];
 let H = null;   // laufende Hör-Runde
 const TEXTS = typeof LISTEN_TEXTS !== 'undefined' ? LISTEN_TEXTS : [];
+const LEVELS = ['A2', 'B1', 'B2'];
+const textsOf = lvl => TEXTS.filter(x => (x.lvl || 'B1') === lvl);
+const minutes = x => Math.max(1, Math.round(x.text.split(/\s+/).length / 110));
 let TX = null;   // laufendes Hörverstehen
 function vListen() {
   const warn = !speechOK ? `<p class="note warn">${t('noSpeech')}</p>` : (voicesSeen && !frVoice ? `<p class="note warn">${t('noFrVoice')}</p>` : '');
-  const dis = speechOK ? '' : ' disabled';
+  const dis = speechOK ? '' : ' disabled', lvl = LEVELS.includes(S.llevel) ? S.llevel : 'B1';
   return `<header class="head"><h1>${t('listen')}</h1></header>${warn}
-    <h2 class="grp">${t('lText')}<small>DELF B1</small></h2><p class="muted">${t('lTextD')}</p>
-    <div class="list">${TEXTS.map((x, i) => `<button type="button" class="card lvl" data-a="ltopen" data-id="${x.id}"${dis}><span class="dot num">${i + 1}</span><span class="grow"><b>${esc(x.title)}</b><small${x.id in S.ltext ? ' class="sneak"' : ''}>${x.id in S.ltext ? t('bestScore', { a: S.ltext[x.id], b: x.qs.length }) : t('notDone')}</small></span></button>`).join('')}</div>
+    <div class="seg" role="tablist" aria-label="${t('levelPick')}">${LEVELS.map(l => `<button type="button" role="tab" aria-selected="${lvl === l}" data-a="llvl" data-n="${l}">${l}</button>`).join('')}</div>
+    <h2 class="grp">${t('lText')}<small>${lvl}</small></h2><p class="muted">${t('lTextD').replace('B1', lvl)}</p>
+    <div class="list">${textsOf(lvl).map((x, i) => `<button type="button" class="card lvl" data-a="ltopen" data-id="${x.id}"${dis}><span class="dot num">${i + 1}</span><span class="grow"><b>${esc(x.title)}</b><small>${t('qInfo', { a: x.qs.length, b: minutes(x) })}</small><small${x.id in S.ltext ? ' class="sneak"' : ''}>${x.id in S.ltext ? t('bestScore', { a: S.ltext[x.id], b: x.qs.length }) : t('notDone')}</small></span></button>`).join('')}</div>
     <h2 class="grp">${t('dictation')}</h2><p class="muted">${t('listenDesc')}</p>
     <div class="list">${LISTEN.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${dis}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>`;
 }
@@ -2092,7 +2202,7 @@ function ltOpen(id) {
 }
 function vLText() {
   const x = TX.tx;
-  return `<header class="top"><button type="button" class="icon" data-a="ltquit" aria-label="${t('quit')}">${IC.x}</button><b class="grow">${t('lText')}</b><span class="muted">${TEXTS.indexOf(x) + 1} / ${TEXTS.length}</span></header>
+  return `<header class="top"><button type="button" class="icon" data-a="ltquit" aria-label="${t('quit')}">${IC.x}</button><b class="grow">${t('lText')}</b><span class="muted">${x.lvl || 'B1'} · ${textsOf(x.lvl || 'B1').indexOf(x) + 1} / ${textsOf(x.lvl || 'B1').length}</span></header>
     <h1 class="ltitle">${esc(x.title)}</h1><p class="muted">${t('lTextHint')}</p>
     <div class="row sticky"><button type="button" class="btn grow playbtn" data-a="ltplay">${IC.play}${t('play')}</button><button type="button" class="btn line" data-a="ltslow">${t('slow')}</button><button type="button" class="btn line" data-a="ltstop">${t('stop')}</button></div>
     ${x.qs.map((q, qi) => `<fieldset class="lq" data-q="${qi}"><legend>${qi + 1}. ${esc(q[0])}</legend>${TX.order[qi].map(oi => `<button type="button" data-a="ltpick" data-q="${qi}" data-o="${oi}">${esc(q[1][oi])}</button>`).join('')}</fieldset>`).join('')}
@@ -2102,7 +2212,7 @@ function vLText() {
 }
 function ltEval() {
   const x = TX.tx;
-  if (TX.done) { hush(); const nx = TEXTS[(TEXTS.indexOf(x) + 1) % TEXTS.length]; return ltOpen(nx.id); }
+  if (TX.done) { hush(); const same = textsOf(x.lvl || 'B1'), nx = same[(same.indexOf(x) + 1) % same.length]; return ltOpen(nx.id); }
   if (Object.keys(TX.pick).length < x.qs.length) { $('#lres').innerHTML = `<p class="note warn">${t('answerAll')}</p>`; return; }
   TX.done = true; hush();
   let right = 0;
@@ -2387,6 +2497,7 @@ const ACT = {
   gopt: el => gAnswer(el.dataset.v, el),
   gnext: gNext,
   gquit: () => go('learn', { tab: 'gram' }),
+  llvl: el => { S.llevel = el.dataset.n; save(); render(); },
   ltopen: el => ltOpen(el.dataset.id),
   ltplay: () => sayLong(TX.tx.text),
   ltslow: () => sayLong(TX.tx.text, true),

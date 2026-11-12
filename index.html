@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="description" content="FranzMeister – Französisch lernen: Verben, Vokabeln, Grammatik und Hören.">
-<title>FranzMeister</title>
+<meta name="description" content="VerbMaster – Französisch lernen: Verben, Vokabeln, Grammatik und Hören.">
+<title>VerbMaster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
 <style>
@@ -199,7 +199,7 @@ button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="FranzMeister">
+<meta name="apple-mobile-web-app-title" content="VerbMaster">
 <script>if ('serviceWorker' in navigator) window.addEventListener('load', function () {
   var had = !!navigator.serviceWorker.controller, done = false;
   navigator.serviceWorker.addEventListener('controllerchange', function () { if (had && !done) { done = true; location.reload(); } });
@@ -928,7 +928,7 @@ const LISTEN_TEXTS = [
 ];
 
 /* ============================================================
-   FranzMeister – Engine (Daten + Konjugation). Keine DOM-Zugriffe.
+   VerbMaster – Engine (Daten + Konjugation). Keine DOM-Zugriffe.
    ============================================================ */
 
 /* ---------- Zeiten = Level (Reihenfolge = Level-Reihenfolge) ---------- */
@@ -1508,7 +1508,7 @@ if (typeof module !== 'undefined' && module.exports) module.exports = { TENSES, 
 </script>
 <script>
 /* ============================================================
-   FranzMeister – Oberfläche
+   VerbMaster – Oberfläche
    ============================================================ */
 
 /* ---------- Oberflächen-Sprachen: neue Sprache = neuer Block mit denselben Schlüsseln ---------- */
@@ -1551,7 +1551,7 @@ const I18N = {
     sneakInfo: 'Für jeden neuen Challenge-Rekord gibt es 1 Sneak. Damit spielst du einmalig eine Runde in einem gesperrten Level.', sneakRound: 'Sneak',
     backup: 'Sicherung', backupDesc: 'Nimm deinen Fortschritt und deine eigenen Einträge auf ein anderes Gerät mit.', exportFile: 'Als Datei speichern', exportCopy: 'Code kopieren',
     importTitle: 'Sicherung laden', importPh: 'Datei wählen oder Code hier einfügen', importBtn: 'Sicherung prüfen', importWarn: 'Sicherung vom {a} gefunden. Laden ersetzt den Fortschritt auf diesem Gerät.',
-    importDo: 'Jetzt ersetzen', importOk: 'Sicherung geladen.', importBad: 'Das ist keine gültige FranzMeister-Sicherung.',
+    importDo: 'Jetzt ersetzen', importOk: 'Sicherung geladen.', importBad: 'Das ist keine gültige VerbMaster-Sicherung.',
     aiTextW: 'Gib mir 20 französische Wörter (Nomen mit Artikel) zum Thema … mit deutscher Übersetzung. Antworte nur in diesem Format, ohne weiteren Text: französischeswort;deutscheswort,französischeswort;deutscheswort'
   },
   en: {
@@ -1592,7 +1592,7 @@ const I18N = {
     sneakInfo: 'Every new challenge record earns 1 sneak. It lets you play one round in a locked level, once.', sneakRound: 'Sneak',
     backup: 'Backup', backupDesc: 'Take your progress and your own entries to another device.', exportFile: 'Save as file', exportCopy: 'Copy code',
     importTitle: 'Load a backup', importPh: 'Choose a file or paste the code here', importBtn: 'Check backup', importWarn: 'Backup from {a} found. Loading it replaces the progress on this device.',
-    importDo: 'Replace now', importOk: 'Backup loaded.', importBad: 'This is not a valid FranzMeister backup.',
+    importDo: 'Replace now', importOk: 'Backup loaded.', importBad: 'This is not a valid VerbMaster backup.',
     aiTextW: 'Give me 20 French words (nouns with article) on the topic … with their English translation. Answer only in this format, with no other text: frenchword;englishword,frenchword;englishword'
   },
   it: {
@@ -1633,7 +1633,7 @@ const I18N = {
     sneakInfo: 'Ogni nuovo record nella sfida vale 1 sneak. Ti permette di giocare una volta un round in un livello bloccato.', sneakRound: 'Sneak',
     backup: 'Backup', backupDesc: 'Porta i tuoi progressi e le tue voci su un altro dispositivo.', exportFile: 'Salva come file', exportCopy: 'Copia codice',
     importTitle: 'Carica un backup', importPh: 'Scegli un file o incolla qui il codice', importBtn: 'Controlla backup', importWarn: 'Trovato un backup del {a}. Caricandolo sostituisci i progressi su questo dispositivo.',
-    importDo: 'Sostituisci ora', importOk: 'Backup caricato.', importBad: 'Questo non è un backup valido di FranzMeister.',
+    importDo: 'Sostituisci ora', importOk: 'Backup caricato.', importBad: 'Questo non è un backup valido di VerbMaster.',
     aiTextW: 'Dammi 20 parole francesi (nomi con articolo) sul tema … con la traduzione italiana. Rispondi solo in questo formato, senza altro testo: parolafrancese;parolaitaliana,parolafrancese;parolaitaliana'
   },
   fr: {
@@ -1674,7 +1674,7 @@ const I18N = {
     sneakInfo: 'Chaque nouveau record au défi rapporte 1 sneak. Il permet de jouer une seule série dans un niveau verrouillé.', sneakRound: 'Sneak',
     backup: 'Sauvegarde', backupDesc: 'Emporte tes progrès et tes propres entrées sur un autre appareil.', exportFile: 'Enregistrer en fichier', exportCopy: 'Copier le code',
     importTitle: 'Charger une sauvegarde', importPh: 'Choisis un fichier ou colle le code ici', importBtn: 'Vérifier la sauvegarde', importWarn: 'Sauvegarde du {a} trouvée. La charger remplace les progrès sur cet appareil.',
-    importDo: 'Remplacer maintenant', importOk: 'Sauvegarde chargée.', importBad: 'Ce n’est pas une sauvegarde FranzMeister valide.',
+    importDo: 'Remplacer maintenant', importOk: 'Sauvegarde chargée.', importBad: 'Ce n’est pas une sauvegarde VerbMaster valide.',
     aiTextW: 'Donne-moi 20 mots français (noms avec article) sur le thème … avec une courte signification. Réponds uniquement dans ce format, sans autre texte : mot;signification,mot;signification'
   }
 };
@@ -1783,7 +1783,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.4';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -1924,7 +1924,7 @@ let msg = '';   // Meldung im Verben-Bereich
 function go(name, extra) { V = Object.assign({ name, tab: V.tab }, extra || {}); render(); }
 
 function render() {
-  document.documentElement.lang = S.lang; document.title = 'Franz' + t('master');
+  document.documentElement.lang = S.lang; document.title = 'Verb' + t('master');
   const full = ['ex', 'chrun', 'gram', 'voc', 'lrun'].includes(V.name);
   $('#nav').hidden = full;
   $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['listen', IC.ear], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
@@ -1957,7 +1957,7 @@ function navActive(n) {
 
 /* --- Lernen --- */
 function vLearn() {
-  const head = `<header class="head"><h1 class="brand">Franz<span>${t('master')}</span></h1>
+  const head = `<header class="head"><h1 class="brand">Verb<span>${t('master')}</span></h1>
     <label class="lang"><span class="sr">${t('lang')}</span><select id="lang" data-c="lang">${Object.keys(I18N).map(l => `<option value="${l}"${l === S.lang ? ' selected' : ''}>${l.toUpperCase()}</option>`).join('')}</select></label></header>
     <div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${V.tab === 'verbs'}" data-a="tab" data-n="verbs">${t('verbs')}</button><button type="button" role="tab" aria-selected="${V.tab === 'vocab'}" data-a="tab" data-n="vocab">${t('vocab')}</button><button type="button" role="tab" aria-selected="${V.tab === 'gram'}" data-a="tab" data-n="gram">${t('grammar')}</button></div>`;
   if (V.tab === 'vocab') {
@@ -2583,7 +2583,7 @@ const ACT = {
     try {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([backupText()], { type: 'application/json' }));
-      a.download = 'franzmeister-sicherung-' + new Date().toISOString().slice(0, 10) + '.json';
+      a.download = 'verbmaster-sicherung-' + new Date().toISOString().slice(0, 10) + '.json';
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
     } catch (e) { ACT.bcopy($('[data-a=bcopy]')); }
   },

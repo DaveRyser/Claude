@@ -93,6 +93,11 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
 .stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
 .stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.grp{display:flex;align-items:baseline;justify-content:space-between;font-size:15px;font-weight:600;margin:14px 2px 0}.grp small{font-size:13px;font-weight:400;color:var(--mute)}
+.gcard{display:flex;flex-direction:column;gap:10px}.gcard h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}.gcard .bar{background:var(--soft)}
+.btn.line{background:#fff;color:var(--g);border:1.5px solid var(--g);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;box-sizing:border-box}
+.opts button{height:auto;min-height:52px;padding:8px 6px;overflow-wrap:anywhere}
+.opts.wide{grid-template-columns:1fr}.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .sneak,.lvl small.sneak{color:var(--g);font-weight:600;font-size:13px}
 .ask{background:var(--soft);border:1.5px solid var(--g);display:flex;flex-direction:column;gap:12px}
 button.lvl.off{background:#fff}
@@ -168,6 +173,511 @@ const VOCAB_SETS = [{"id":"l17","title":"Leçon 17","items":[["la localisation",
 {"id":"l29","title":"Leçon 29","items":[["Une canicule","Eine Hitzewelle"],["le gaz à effet de serre","die Treibhausgas"],["la déforestation","die Entwaldung"],["une inondation","eine Überschwemmung"],["l'environnement (m.)","die Umwelt"],["une désertification","Eine Wüstenbildung"],["L'écologie","die Ökologie"],["les changements climatiques","der Klimawandel"],["la dégradation de la qualité de l'air","die Verschlechterung der Luftqualität"],["Les énergies renouvelables","die Erneuerbaren Energien"],["Les panneaux solaires","Solarmodule"],["Les déchets","die Abfälle"],["la biodiversité","die Biodiversität"],["Un écosystème","ein Ökosystem"],["l'insuffisance","Die unzureichende"],["de l'approvisionnement alimentaire","Lebensmittelversorgung"],["Un incendie de fôret","Waldbrand"],["Un Problème écologique","Ein Umweltproblem"],["Les l'appauvrissement de la couche d'ozone","Vernichtung der Ozonschicht"],["Les effets","Die Auswirkungen"],["Un manque d'eau","ein Wassermangel"],["Les catastrophes naturelles","die Naturkatastrophen"],["le réchauffement climatique","die Klimaerwärmung"],["la perte de","der Verlust"],["une tornade","ein Tornado"],["une couche d'ozone","eine Ozonschicht"],["une chaleur","eine Hitze"],["une dégradation","eine Verschlechterung"],["une rivière","ein Wassergraben"],["un fleuve","ein fluss"],["fréquent, fréquente","häufig"],["faire face à","Sich damit auseinandersetzen"],["préserver","schützen, bewahren"],["se situer","sich befinden"],["sec, sèche","trocken"],["la sécheresse","die Trockenheit, Dürre"],["une première vague","eine este Welle"],["la santé publique","die Volksgesundheit"],["Un traité","Ein Vertrag, eine Konvention"],["réduire","reduzieren"],["Un soutien","eine Unterstützung"],["riche","reich"],["en effet","In der Tat"],["vouloir","wollen"],["interpeller","herausfordern"],["souligner","betonen"],["mesurer","messen"],["La disparition","das Verschwinden"],["révéler","Enthüllen, erkennen lassen, zeigen"],["en dessous","unterhalb einer"],["prévoir","etwas voraussehen"],["C'est de pire en pire","Das wird schlimm"],["rendre compte","bemerken, einsehen, realisieren"],["de plus en plus","immer mehr, zunehmend"],["Les restrictions","Die Einschränkung"],["connaitre","Kennen"],["chercheur scientifique","Der Forscher, Wissenschaftler"],["limiter","beschränken"],["regretter","bedauern"],["sincèrement","ehrlich"],["Le constat","Eine Feststellung"],["Une augmentation","Eine Erhöhung, Zunahme, Steigerung"],["modifier","(ab-, ver)ändern"],["Un équilibre","Ein Gleichgewicht"],["La terre","Die Erde"],["alerter","Alarmieren, warnen"],["aggraver","verschlimmern"],["avoir un impact","beeinflussen, auswirken"],["percevoir","Auffassen, wahrnehmen"],["devoir","müssen"],["menacer","bedrohen"],["épargner","sparen,"],["La plante","Die Pflanze"],["La feuille","Das Blatt"],["Insuffisance","mangel, schwäche"],["Un bouleversement","Ein Umbruch, eine Umwälzung"],["respirer","Atmen, einatmen"],["ravager","verwüsten,vernichten"],["effacer","Löschen, entfernen, ausradieren"],["habitable","Bewohnbar"],["ralentir","verlangsamen, verzögern bremsen"],["détruire","zerstören, vernichten, ruinieren"],["disparaitre","verschwinden"],["Une manifestation","Eine Veranstaltung, Kundgebung, ein Protest"],["Un pays","Ein Land"],["venir","kommen, herkommen, mitkommen"],["éviter","Vermeiden, verhindern (v)"],["Un dirigeant","Ein Leiter, Führer"],["pouvoir","können"],["Les dégâts","Die Schäden, Beschädigung, der Chaos"],["prendre soin de","Kümmern sich um, Sorge für"],["disparaître","verschwinden, entfernen, aussterben"]]},
 {"id":"l30","title":"Leçon 30 et 31","items":[["Une déclaration universelle des droits de l'animal","Eine Universelle Erklärung der Rechte der Tiere"],["concerner","betreffen"],["Un animal","Ein Tier"],["Les animaux sauvages","Die wilde Tiere"],["Les animaux élevages","die viehzuchten Tiere"],["cruel","grausam"],["adopter une loi","Ein Gesetz genehmigen"],["choisir","Entscheiden, wählen"],["émerger","entstehen"],["Un abattoir","Ein Schlachthof"],["nuisible","schädlich"],["débarasser","Loswerden,"],["tout","ganz, alles"],["Aucun-e","Kein /keine"],["quelques-uns, certains","einige"],["douter que","bezweifeln dass"],["penser que","denken dass"],["prétendre que","behaupten dass"],["savoir que","wissen dass"],["se rendre rendre que","sich begeben dass"],["inutile","unnötig"],["miel","hönig"],["contempler","betrachten"],["espèce animal","Tierart"],["Une démarche","Der Schritt"],["vivre","leben"],["La communauté","Die Gemeinschaft"],["Un comportement","Das verhalten"],["soutenir","unterstützen"],["veiller","Gewährleisten, achten, aufpassen"],["véritable","echt, wirklich"],["lier","binden, verbinden"],["serviabilité","Die Hilfsbereitschaft"],["intimement","Heimelig, vertraulich"],["Une amitié","Eine Freundschaft"],["mourir","sterben"],["regrouper","umstellen, umfassen,"],["explorer","erforschen, erkunden, untersuchen"],["inciter","bewegen, anregen, anreizen,"],["préserver","bewahren"],["substituer","substituer"],["développer","Entwickeln"],["maintenir","bewahren"],["déployer","Einsetzen, aufwenden"],["Les espèces vivantes","Lebewesen"],["Une observation","Eine Bemerkung , Beobachtung"],["reconnaître","erkennen, anerkennen, zugeben"],["protéger","schützen, sichern, bewahren"],["Une association","Ein Verein, Verband"],["Le droit","Das Recht"],["La loi","Das Gesetzt"],["Un nuisible","Ein Schädling"],["Un élevage","Eine Zucht"],["encadrer","betreuen, begleiten"],["conscient","bewusst, klar, aufmerksam"],["interdire","verbieten"],["plusieurs","mehrere"],["améliorer","verbessern"],["douter","zweifeln"],["défendre","verteildigen"],["grace à","dank"],["permettre","erlauben, ermöglichen"],["sumonter","überwinden, bewältigen"],["se comporter","sich benehmen"],["huile","Öl"],["Le vapeur d'eau","Wasserdampf"],["une humidité","Eine Luftfeuchtigkeit"],["ressentir","empfinden, verspüren"],["La compétition","Der Wettbewerb"],["Le fruit","Die Frucht"],["Les légumes","Die Gemüse"],["La pâte","Der Teig"],["La viande","Das Fleisch"],["Le goûter","Nachmittagstee. Zwieri"],["recommander","empfehlen"],["emmener","mitnehmen,"]]},
 {"id":"l32","title":"Leçon 32","items":[["particper à débat","an einer Debatte teilnehmen"],["une friperie","ein Secondhandladen / Gebrauchtkleiderladen"],["prendre la parole","sich zu Wort melden / sprechen"],["réfléchir","Überlegen, nachdenken"],["permettre","Erlauben, zulassen"],["convaincre","überzeugen"],["plus tôt","eher"],["une solution","eine Lösung"],["accueillir","aufzunehmen."],["En réalité","In Wirklichkeit"],["acheter","kaufen"],["enfin","endlich, schliesslich"],["tenir","halten"],["partager","teilen"],["participer","teilnehmen"],["Des vêtements","Kleider"],["comprendre","verstehen"],["autant que","ebenso viel wie, genauso"],["proposer","vorschlagen"],["Le désaccord","Die Uneinigkeit"],["gérer","führen, verwalten"],["commencer","begegnen, anfangen"],["interdire","verbieten, untersagen"],["tout à fait","genau, stimmt"],["quand même","trotzdem, doch"],["avoir en envie","lust haben"],["Un accord","Eine Einigung"],["contester","betreiten"]]}];
+
+/* ============================================================
+   Weitere Grammatik-Module (Stoff B1, nach den Arbeitsplänen Semester 1–3).
+   Neues Modul = neues Objekt in GRAMMAR_MORE:
+     o = Reihenfolge, g = Semester, yt = Suchbegriff für das Video, title, intro, task, items
+   Q(Satz mit [Lücke], Auswahl, richtige Antwort, Lösungssatz, Etikett)
+   ============================================================ */
+const Q = (s, options, a, r, tag) => ({ type: 'choice', s, options, a, r, tag });
+const TASK_FILL = {
+  de: 'Wähle die passende Lösung für die Lücke.', en: 'Choose the right answer for the gap.',
+  it: 'Scegli la soluzione giusta per lo spazio.', fr: 'Choisis la bonne réponse.'
+};
+const TASK_SWAP = {
+  de: 'Ersetze den markierten Teil durch ein Pronomen.', en: 'Replace the highlighted part with a pronoun.',
+  it: 'Sostituisci la parte evidenziata con un pronome.', fr: 'Remplace la partie surlignée par un pronom.'
+};
+const REL = ['qui', 'que', 'dont', 'où'];
+
+const GRAMMAR_MORE = [
+  {
+    id: 'proche', o: 1, g: 1, yt: 'passé récent futur proche présent continu', title: 'Passé récent, présent continu, futur proche',
+    intro: {
+      de: 'venir de + Infinitiv = gerade etwas getan haben. être en train de + Infinitiv = gerade dabei sein. aller + Infinitiv = gleich oder bald etwas tun.',
+      en: 'venir de + infinitive = to have just done. être en train de + infinitive = to be doing right now. aller + infinitive = to be going to do.',
+      it: 'venir de + infinito = avere appena fatto. être en train de + infinito = stare facendo. aller + infinito = stare per fare.',
+      fr: 'venir de + infinitif = action qui vient de se terminer. être en train de + infinitif = action en cours. aller + infinitif = action proche dans le futur.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("Je n'ai plus faim, je [___] manger.", ['viens de', 'suis en train de', 'vais'], 'viens de', "Je n'ai plus faim, je viens de manger.", 'passé récent'),
+      Q('Ne me dérange pas, je [___] travailler.', ['viens de', 'suis en train de', 'vais'], 'suis en train de', 'Ne me dérange pas, je suis en train de travailler.', 'présent continu'),
+      Q('Demain, nous [___] visiter Lyon.', ['venons de', 'sommes en train de', 'allons'], 'allons', 'Demain, nous allons visiter Lyon.', 'futur proche'),
+      Q('Trop tard ! Le train [___] partir.', ['vient de', 'est en train de', 'va'], 'vient de', 'Trop tard ! Le train vient de partir.', 'passé récent'),
+      Q('Attention, tu [___] tomber !', ['viens de', 'es en train de', 'vas'], 'vas', 'Attention, tu vas tomber !', 'futur proche'),
+      Q('Chut ! Les enfants [___] dormir.', ['viennent de', 'sont en train de', 'vont'], 'sont en train de', 'Chut ! Les enfants sont en train de dormir.', 'présent continu'),
+      Q('Elle est fatiguée : elle [___] courir dix kilomètres.', ['vient de', 'est en train de', 'va'], 'vient de', 'Elle est fatiguée : elle vient de courir dix kilomètres.', 'passé récent'),
+      Q('Ce soir, je [___] téléphoner à ma mère.', ['viens de', 'suis en train de', 'vais'], 'vais', 'Ce soir, je vais téléphoner à ma mère.', 'futur proche'),
+      Q('Regarde, il [___] pleuvoir : le ciel est tout noir.', ['vient de', 'est en train de', 'va'], 'va', 'Regarde, il va pleuvoir : le ciel est tout noir.', 'futur proche'),
+      Q("Elle ne peut pas répondre, elle [___] conduire.", ['vient de', 'est en train de', 'va'], 'est en train de', 'Elle ne peut pas répondre, elle est en train de conduire.', 'présent continu')
+    ]
+  },
+  {
+    id: 'comparatif', o: 2, g: 1, yt: 'comparatif superlatif', title: 'Comparatif et superlatif',
+    intro: {
+      de: 'Vergleich: plus / aussi / moins + Adjektiv + que. Superlativ: le, la, les plus … Unregelmässig: bon → meilleur (Adjektiv), bien → mieux (Adverb). Bei Mengen: plus de, autant de, moins de.',
+      en: 'Comparison: plus / aussi / moins + adjective + que. Superlative: le, la, les plus … Irregular: bon → meilleur (adjective), bien → mieux (adverb). With quantities: plus de, autant de, moins de.',
+      it: 'Comparativo: plus / aussi / moins + aggettivo + que. Superlativo: le, la, les plus … Irregolari: bon → meilleur (aggettivo), bien → mieux (avverbio). Con quantità: plus de, autant de, moins de.',
+      fr: 'Comparatif : plus / aussi / moins + adjectif + que. Superlatif : le, la, les plus … Irréguliers : bon → meilleur (adjectif), bien → mieux (adverbe). Quantité : plus de, autant de, moins de.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Paul (1,90 m) est [___] grand que Marc (1,75 m).', ['plus', 'aussi', 'moins'], 'plus', 'Paul est plus grand que Marc.'),
+      Q("Le train est [___] rapide que l'avion.", ['plus', 'aussi', 'moins'], 'moins', "Le train est moins rapide que l'avion."),
+      Q('Léa a 16 ans, Tom aussi : Léa est [___] âgée que Tom.', ['plus', 'aussi', 'moins'], 'aussi', 'Léa est aussi âgée que Tom.'),
+      Q('Ce gâteau est bon, mais celui-là est encore [___].', ['plus bon', 'meilleur', 'mieux'], 'meilleur', 'Celui-là est encore meilleur.', 'bon → meilleur'),
+      Q('Elle chante bien, mais sa sœur chante [___].', ['plus bien', 'meilleur', 'mieux'], 'mieux', 'Sa sœur chante mieux.', 'bien → mieux'),
+      Q("C'est [___] belle ville du pays.", ['plus', 'la plus', 'le plus'], 'la plus', "C'est la plus belle ville du pays.", 'superlatif'),
+      Q("C'est le film [___] intéressant de l'année.", ['plus', 'le plus', 'la plus'], 'le plus', "C'est le film le plus intéressant de l'année.", 'superlatif'),
+      Q("J'ai [___] livres que toi.", ['plus de', 'plus', 'plus que'], 'plus de', "J'ai plus de livres que toi.", 'quantité'),
+      Q('Il travaille [___] que son frère.', ['autant', 'aussi', 'autant de'], 'autant', 'Il travaille autant que son frère.', 'verbe + autant'),
+      Q("C'est [___] élève de la classe.", ['le meilleur', 'le mieux', 'le plus bon'], 'le meilleur', "C'est le meilleur élève de la classe.", 'superlatif de bon')
+    ]
+  },
+  {
+    id: 'cause', o: 3, g: 1, yt: 'cause conséquence parce que grâce à à cause de', title: 'La cause et la conséquence',
+    intro: {
+      de: 'Grund: parce que, car, comme (am Satzanfang), puisque, grâce à (positiv) und à cause de (negativ) + Nomen. Folge: donc, alors, c’est pourquoi, tellement … que.',
+      en: 'Cause: parce que, car, comme (at the start), puisque, grâce à (positive) and à cause de (negative) + noun. Consequence: donc, alors, c’est pourquoi, tellement … que.',
+      it: 'Causa: parce que, car, comme (a inizio frase), puisque, grâce à (positivo) e à cause de (negativo) + nome. Conseguenza: donc, alors, c’est pourquoi, tellement … que.',
+      fr: 'Cause : parce que, car, comme (en début de phrase), puisque, grâce à (positif) et à cause de (négatif) + nom. Conséquence : donc, alors, c’est pourquoi, tellement … que.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Je reste à la maison [___] je suis malade.', ['parce que', 'donc', 'grâce à'], 'parce que', 'Je reste à la maison parce que je suis malade.', 'cause'),
+      Q('[___] il pleut, nous prenons le bus.', ['Comme', 'Donc', 'Grâce à'], 'Comme', 'Comme il pleut, nous prenons le bus.', 'cause en début de phrase'),
+      Q('Le match est annulé [___] la pluie.', ['à cause de', 'grâce à', 'parce que'], 'à cause de', 'Le match est annulé à cause de la pluie.', 'cause négative + nom'),
+      Q("J'ai réussi l'examen [___] ton aide.", ['à cause de', 'grâce à', 'comme'], 'grâce à', "J'ai réussi l'examen grâce à ton aide.", 'cause positive + nom'),
+      Q('Il a beaucoup travaillé, [___] il est fatigué.', ['donc', 'parce que', 'comme'], 'donc', 'Il a beaucoup travaillé, donc il est fatigué.', 'conséquence'),
+      Q('Le train a du retard. [___] je serai en retard.', ["C'est pourquoi", 'Parce que', 'Grâce à'], "C'est pourquoi", "Le train a du retard. C'est pourquoi je serai en retard.", 'conséquence'),
+      Q("Elle ne vient pas, [___] elle n'a pas le temps.", ['car', 'donc', 'alors'], 'car', "Elle ne vient pas, car elle n'a pas le temps.", 'cause'),
+      Q('Il faisait très froid, [___] nous sommes rentrés.', ['alors', 'car', 'comme'], 'alors', 'Il faisait très froid, alors nous sommes rentrés.', 'conséquence'),
+      Q("[___] tu es là, tu peux m'aider.", ['Puisque', 'Donc', 'À cause de'], 'Puisque', "Puisque tu es là, tu peux m'aider.", 'cause connue'),
+      Q('Il a tellement mangé [___] il a mal au ventre.', ["qu'", 'car', 'donc'], "qu'", "Il a tellement mangé qu'il a mal au ventre.", 'tellement … que')
+    ]
+  },
+  {
+    id: 'opposition', o: 4, g: 1, yt: 'opposition concession bien que malgré pourtant', title: 'Opposition et concession',
+    intro: {
+      de: 'Gegensatz: mais, alors que, par contre. Einräumung: pourtant, cependant, malgré + Nomen, bien que + Subjonctif.',
+      en: 'Contrast: mais, alors que, par contre. Concession: pourtant, cependant, malgré + noun, bien que + subjunctive.',
+      it: 'Opposizione: mais, alors que, par contre. Concessione: pourtant, cependant, malgré + nome, bien que + congiuntivo.',
+      fr: 'Opposition : mais, alors que, par contre. Concession : pourtant, cependant, malgré + nom, bien que + subjonctif.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("Il est riche, [___] il n'est pas heureux.", ['mais', 'donc', 'car'], 'mais', "Il est riche, mais il n'est pas heureux."),
+      Q('[___] il pleuve, nous sortons.', ["Bien qu'", 'Malgré', 'Pourtant'], "Bien qu'", "Bien qu'il pleuve, nous sortons.", 'bien que + subjonctif'),
+      Q('[___] la pluie, nous sortons.', ['Malgré', 'Bien que', 'Alors que'], 'Malgré', 'Malgré la pluie, nous sortons.', 'malgré + nom'),
+      Q('Mon frère aime le sport, [___] moi, je préfère lire.', ['alors que', 'malgré', 'bien que'], 'alors que', 'Mon frère aime le sport, alors que moi, je préfère lire.', 'opposition'),
+      Q("Il a beaucoup révisé. [___], il a raté l'examen.", ['Pourtant', 'Donc', 'Malgré'], 'Pourtant', "Il a beaucoup révisé. Pourtant, il a raté l'examen.", 'concession'),
+      Q("J'aime le thé. [___], je déteste le café.", ['Par contre', 'Bien que', 'Malgré'], 'Par contre', "J'aime le thé. Par contre, je déteste le café.", 'opposition'),
+      Q("Bien qu'elle [___] fatiguée, elle continue.", ['est', 'soit', 'sera'], 'soit', "Bien qu'elle soit fatiguée, elle continue.", 'bien que + subjonctif'),
+      Q('Il est venu [___] sa maladie.', ['malgré', 'bien que', 'pourtant'], 'malgré', 'Il est venu malgré sa maladie.', 'malgré + nom'),
+      Q("[___] il soit jeune, il a beaucoup d'expérience.", ["Bien qu'", 'Malgré', 'Par contre'], "Bien qu'", "Bien qu'il soit jeune, il a beaucoup d'expérience.", 'bien que + subjonctif'),
+      Q('Elle travaille beaucoup ; [___], elle gagne peu.', ['cependant', 'car', 'donc'], 'cependant', 'Elle travaille beaucoup ; cependant, elle gagne peu.', 'concession')
+    ]
+  },
+  {
+    id: 'accord', o: 5, g: 1, yt: 'accord du participe passé', title: 'Accord du participe passé',
+    intro: {
+      de: 'Mit être richtet sich das Partizip nach dem Subjekt. Mit avoir bleibt es unverändert – ausser das direkte Objekt (COD) steht vor dem Verb. Bei reflexiven Verben: Angleichung, ausser ein COD folgt oder das Verb verlangt «à».',
+      en: 'With être the participle agrees with the subject. With avoir it does not change – unless the direct object (COD) comes before the verb. Reflexive verbs agree, unless a COD follows or the verb takes «à».',
+      it: 'Con être il participio concorda con il soggetto. Con avoir resta invariato – a meno che il COD preceda il verbo. I verbi riflessivi concordano, tranne se segue un COD o il verbo vuole «à».',
+      fr: 'Avec être, le participe s’accorde avec le sujet. Avec avoir, il ne change pas – sauf si le COD est placé avant le verbe. Verbes pronominaux : accord, sauf si un COD suit ou si le verbe se construit avec «à».'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Marie est [___] hier.', ['arrivé', 'arrivée', 'arrivés'], 'arrivée', 'Marie est arrivée hier.', 'être → accord avec le sujet'),
+      Q('Ils sont [___] au cinéma.', ['allé', 'allée', 'allés'], 'allés', 'Ils sont allés au cinéma.', 'être → accord avec le sujet'),
+      Q('Elle a [___] une pomme.', ['mangé', 'mangée', 'mangés'], 'mangé', 'Elle a mangé une pomme.', "avoir, COD après → pas d'accord"),
+      Q("La pomme qu'elle a [___] était bonne.", ['mangé', 'mangée', 'mangés'], 'mangée', "La pomme qu'elle a mangée était bonne.", 'avoir, COD avant → accord'),
+      Q('Les lettres ? Je les ai [___] hier.', ['écrit', 'écrits', 'écrites'], 'écrites', 'Les lettres ? Je les ai écrites hier.', 'avoir, COD avant → accord'),
+      Q('Elles se sont [___] à sept heures.', ['levé', 'levés', 'levées'], 'levées', 'Elles se sont levées à sept heures.', 'verbe pronominal → accord'),
+      Q('Nous avons [___] nos amis.', ['vu', 'vus', 'vues'], 'vu', 'Nous avons vu nos amis.', "avoir, COD après → pas d'accord"),
+      Q('Tes amis, je les ai [___] au marché.', ['vu', 'vus', 'vue'], 'vus', 'Tes amis, je les ai vus au marché.', 'avoir, COD avant → accord'),
+      Q('Sophie et Julie sont [___] à Paris.', ['né', 'nées', 'nés'], 'nées', 'Sophie et Julie sont nées à Paris.', 'être → accord avec le sujet'),
+      Q('Quelle robe as-tu [___] ?', ['choisi', 'choisie', 'choisis'], 'choisie', 'Quelle robe as-tu choisie ?', 'avoir, COD avant → accord'),
+      Q("Elle s'est [___] les mains.", ['lavé', 'lavée', 'lavées'], 'lavé', "Elle s'est lavé les mains.", "COD (les mains) après → pas d'accord"),
+      Q('Ils se sont [___] hier soir.', ['téléphoné', 'téléphonés', 'téléphonées'], 'téléphoné', 'Ils se sont téléphoné hier soir.', "téléphoner à qqn → pas d'accord")
+    ]
+  },
+  {
+    id: 'imppc', o: 6, g: 1, yt: 'imparfait ou passé composé', title: 'Imparfait ou passé composé ?',
+    intro: {
+      de: 'Imparfait: Gewohnheit, Beschreibung, Hintergrund (was gerade war). Passé composé: einmalige, abgeschlossene Handlung, die die Geschichte vorantreibt.',
+      en: 'Imparfait: habits, description, background (what was going on). Passé composé: a single completed action that moves the story on.',
+      it: 'Imparfait: abitudine, descrizione, sfondo (ciò che stava succedendo). Passé composé: azione singola e conclusa che fa avanzare il racconto.',
+      fr: 'Imparfait : habitude, description, arrière-plan. Passé composé : action ponctuelle et terminée qui fait avancer le récit.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("Quand j'étais petit, je [___] au foot tous les jours.", ['jouais', 'ai joué'], 'jouais', "Quand j'étais petit, je jouais au foot tous les jours.", 'habitude'),
+      Q('Hier, je [___] un bon film.', ['regardais', 'ai regardé'], 'ai regardé', "Hier, j'ai regardé un bon film.", 'action terminée'),
+      Q('Il [___] quand je suis sorti.', ['pleuvait', 'a plu'], 'pleuvait', 'Il pleuvait quand je suis sorti.', 'arrière-plan'),
+      Q('Je lisais quand le téléphone [___].', ['sonnait', 'a sonné'], 'a sonné', 'Je lisais quand le téléphone a sonné.', 'action soudaine'),
+      Q('Tout à coup, la porte [___].', ["s'ouvrait", "s'est ouverte"], "s'est ouverte", "Tout à coup, la porte s'est ouverte.", 'action soudaine'),
+      Q('Avant, nous [___] à Lausanne.', ['habitions', 'avons habité'], 'habitions', 'Avant, nous habitions à Lausanne.', 'situation passée'),
+      Q('Ce matin, elle [___] à six heures.', ['se levait', "s'est levée"], "s'est levée", "Ce matin, elle s'est levée à six heures.", 'action terminée'),
+      Q('Il faisait beau et les oiseaux [___].', ['chantaient', 'ont chanté'], 'chantaient', 'Il faisait beau et les oiseaux chantaient.', 'description'),
+      Q("L'année dernière, nous [___] trois fois en France.", ['allions', 'sommes allés'], 'sommes allés', "L'année dernière, nous sommes allés trois fois en France.", 'nombre de fois précis'),
+      Q('Chaque été, mes grands-parents [___] à la mer.', ['partaient', 'sont partis'], 'partaient', 'Chaque été, mes grands-parents partaient à la mer.', 'habitude')
+    ]
+  },
+  {
+    id: 'relatifs', o: 7, g: 1, yt: 'pronoms relatifs qui que dont où', title: 'Pronoms relatifs : qui, que, dont, où',
+    intro: {
+      de: 'qui = Subjekt des Nebensatzes. que = direktes Objekt. dont ersetzt eine Ergänzung mit «de» (parler de, avoir besoin de, Besitz). où = Ort oder Zeit.',
+      en: 'qui = subject of the clause. que = direct object. dont replaces a complement with «de» (parler de, avoir besoin de, possession). où = place or time.',
+      it: 'qui = soggetto della relativa. que = oggetto diretto. dont sostituisce un complemento con «de» (parler de, avoir besoin de, possesso). où = luogo o tempo.',
+      fr: 'qui = sujet. que = COD. dont remplace un complément avec «de» (parler de, avoir besoin de, possession). où = lieu ou temps.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("C'est un film [___] me plaît beaucoup.", REL, 'qui', "C'est un film qui me plaît beaucoup.", 'sujet'),
+      Q('Le livre [___] je lis est passionnant.', REL, 'que', 'Le livre que je lis est passionnant.', 'COD'),
+      Q("C'est la ville [___] je suis né.", REL, 'où', "C'est la ville où je suis né.", 'lieu'),
+      Q("Voilà l'ami [___] je t'ai parlé.", REL, 'dont', "Voilà l'ami dont je t'ai parlé.", 'parler de'),
+      Q('La fille [___] habite ici est ma cousine.', REL, 'qui', 'La fille qui habite ici est ma cousine.', 'sujet'),
+      Q('Le gâteau [___] tu as fait est délicieux.', REL, 'que', 'Le gâteau que tu as fait est délicieux.', 'COD'),
+      Q("C'est le jour [___] nous nous sommes rencontrés.", REL, 'où', "C'est le jour où nous nous sommes rencontrés.", 'temps'),
+      Q("J'ai un collègue [___] la femme est médecin.", REL, 'dont', "J'ai un collègue dont la femme est médecin.", 'possession'),
+      Q("C'est une chose [___] j'ai besoin.", REL, 'dont', "C'est une chose dont j'ai besoin.", 'avoir besoin de'),
+      Q('Les gens [___] travaillent ici sont sympathiques.', REL, 'qui', 'Les gens qui travaillent ici sont sympathiques.', 'sujet'),
+      Q("C'est le restaurant [___] nous préférons.", REL, 'que', "C'est le restaurant que nous préférons.", 'COD'),
+      Q('Le pays [___] elle vit est très petit.', REL, 'où', 'Le pays où elle vit est très petit.', 'lieu')
+    ]
+  },
+  {
+    id: 'adverbes', o: 10, g: 2, yt: 'adverbes en -ment formation place', title: 'Les adverbes : formation et place',
+    intro: {
+      de: 'Bildung: weibliche Form des Adjektivs + -ment (lent → lentement). Adjektive auf -ant / -ent: -amment / -emment. Bei Vokal am Ende: direkt + -ment (vrai → vraiment). Kurze Adverbien stehen im Passé composé zwischen Hilfsverb und Partizip.',
+      en: 'Formation: feminine form of the adjective + -ment (lent → lentement). Adjectives in -ant / -ent: -amment / -emment. Ending in a vowel: add -ment directly (vrai → vraiment). Short adverbs go between auxiliary and participle.',
+      it: 'Formazione: femminile dell’aggettivo + -ment (lent → lentement). Aggettivi in -ant / -ent: -amment / -emment. Se finisce in vocale: + -ment (vrai → vraiment). Gli avverbi brevi stanno tra ausiliare e participio.',
+      fr: 'Formation : féminin de l’adjectif + -ment (lent → lentement). Adjectifs en -ant / -ent : -amment / -emment. Terminé par une voyelle : + -ment (vrai → vraiment). Les adverbes courts se placent entre l’auxiliaire et le participe.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Il marche [___]. (lent)', ['lentement', 'lentment', 'lent'], 'lentement', 'Il marche lentement.'),
+      Q('Elle parle [___]. (doux)', ['doucement', 'douxment', 'doucément'], 'doucement', 'Elle parle doucement.', 'doux → douce → doucement'),
+      Q('[___], il a raison. (évident)', ['Évidemment', 'Évidentement', 'Évidement'], 'Évidemment', 'Évidemment, il a raison.', '-ent → -emment'),
+      Q('Il conduit [___]. (prudent)', ['prudemment', 'prudentement', 'prudement'], 'prudemment', 'Il conduit prudemment.', '-ent → -emment'),
+      Q('Elle répond [___]. (poli)', ['poliment', 'poliement', 'polisment'], 'poliment', 'Elle répond poliment.', 'voyelle + -ment'),
+      Q('Tu parles [___] le français. (courant)', ['couramment', 'courantement', 'courament'], 'couramment', 'Tu parles couramment le français.', '-ant → -amment'),
+      Q('Il travaille [___]. (sérieux)', ['sérieusement', 'sérieuxment', 'sérieument'], 'sérieusement', 'Il travaille sérieusement.', 'sérieux → sérieuse → sérieusement'),
+      Q("C'est [___] difficile. (vrai)", ['vraiment', 'vraiement', 'vraisment'], 'vraiment', "C'est vraiment difficile.", 'voyelle + -ment'),
+      Q('Il chante [___]. (bon)', ['bien', 'bon', 'bonnement'], 'bien', 'Il chante bien.', 'bon → bien'),
+      Q('Il a répondu [___]. (précis)', ['précisément', 'précisement', 'précisemment'], 'précisément', 'Il a répondu précisément.'),
+      Q("Où se place l'adverbe [bien] ?", ['Il a bien dormi.', 'Il a dormi bien.', 'Il bien a dormi.'], 'Il a bien dormi.', 'Il a bien dormi.', 'adverbe court : entre auxiliaire et participe'),
+      Q("Où se place l'adverbe [souvent] ?", ['Elle va souvent au cinéma.', 'Elle souvent va au cinéma.', 'Elle va au souvent cinéma.'], 'Elle va souvent au cinéma.', 'Elle va souvent au cinéma.', 'après le verbe conjugué')
+    ]
+  },
+  {
+    id: 'subjonctif', o: 11, g: 2, yt: 'subjonctif', title: 'Subjonctif ou indicatif ?',
+    intro: {
+      de: 'Subjonctif nach Wille, Notwendigkeit, Gefühl, Zweifel und nach bien que, pour que (il faut que, je veux que, je doute que). Indicatif nach Meinung und Gewissheit (je pense que, j’espère que, je suis sûr que) – aber Subjonctif bei Verneinung: je ne pense pas que.',
+      en: 'Subjunctive after will, necessity, feeling, doubt and after bien que, pour que (il faut que, je veux que, je doute que). Indicative after opinion and certainty (je pense que, j’espère que, je suis sûr que) – but subjunctive when negated: je ne pense pas que.',
+      it: 'Congiuntivo dopo volontà, necessità, sentimento, dubbio e dopo bien que, pour que (il faut que, je veux que, je doute que). Indicativo dopo opinione e certezza (je pense que, j’espère que, je suis sûr que) – ma congiuntivo alla forma negativa: je ne pense pas que.',
+      fr: 'Subjonctif après la volonté, la nécessité, le sentiment, le doute et après bien que, pour que (il faut que, je veux que, je doute que). Indicatif après l’opinion et la certitude (je pense que, j’espère que, je suis sûr que) – mais subjonctif à la forme négative : je ne pense pas que.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("Il faut que tu [___] à l'heure.", ['viens', 'viennes', 'viendras'], 'viennes', "Il faut que tu viennes à l'heure.", 'nécessité → subjonctif'),
+      Q("Je pense qu'il [___] raison.", ['a', 'ait', 'aie'], 'a', "Je pense qu'il a raison.", 'penser que → indicatif'),
+      Q('Je veux que vous [___] vos devoirs.', ['faites', 'fassiez', 'ferez'], 'fassiez', 'Je veux que vous fassiez vos devoirs.', 'volonté → subjonctif'),
+      Q("Je ne pense pas qu'elle [___] venir.", ['peut', 'puisse', 'pourra'], 'puisse', "Je ne pense pas qu'elle puisse venir.", 'ne pas penser que → subjonctif'),
+      Q('Nous sommes contents que tu [___] là.', ['es', 'sois', 'seras'], 'sois', 'Nous sommes contents que tu sois là.', 'sentiment → subjonctif'),
+      Q("J'espère qu'il [___] beau demain.", ['fera', 'fasse', 'faisait'], 'fera', "J'espère qu'il fera beau demain.", 'espérer que → indicatif'),
+      Q('Il est important que nous [___] ensemble.', ['parlons', 'parlions', 'parlerons'], 'parlions', 'Il est important que nous parlions ensemble.', 'nécessité → subjonctif'),
+      Q("Je doute qu'il [___] la vérité.", ['dit', 'dise', 'dira'], 'dise', "Je doute qu'il dise la vérité.", 'doute → subjonctif'),
+      Q("Je suis sûr qu'elle [___] demain.", ['viendra', 'vienne', 'soit venue'], 'viendra', "Je suis sûr qu'elle viendra demain.", 'certitude → indicatif'),
+      Q("Il faut que j'[___] chez le médecin.", ['aille', 'vais', 'irai'], 'aille', "Il faut que j'aille chez le médecin.", 'nécessité → subjonctif'),
+      Q("J'ai peur qu'il n'[___] pas le temps.", ['a', 'ait', 'aura'], 'ait', "J'ai peur qu'il n'ait pas le temps.", 'sentiment → subjonctif'),
+      Q("Il est possible qu'elle [___] en retard.", ['est', 'soit', 'sera'], 'soit', "Il est possible qu'elle soit en retard.", 'possibilité, doute → subjonctif'),
+      Q("Je ne crois pas qu'il [___] raison.", ['a', 'ait', 'aura'], 'ait', "Je ne crois pas qu'il ait raison.", 'doute → subjonctif'),
+      Q('Je travaille pour que mes enfants [___] heureux.', ['sont', 'soient', 'seront'], 'soient', 'Je travaille pour que mes enfants soient heureux.', 'pour que → subjonctif')
+    ]
+  },
+  {
+    id: 'sireel', o: 12, g: 2, yt: 'phrases hypothétiques si présent futur', title: 'Si + présent : l’hypothèse réelle',
+    intro: {
+      de: 'Reale Bedingung: si + Présent, Hauptsatz im Présent, Futur simple oder Impératif. Nach «si» steht nie Futur oder Conditionnel.',
+      en: 'Real condition: si + present, main clause in the present, future or imperative. Never use the future or conditional after «si».',
+      it: 'Ipotesi reale: si + presente, principale al presente, futuro o imperativo. Dopo «si» mai futuro né condizionale.',
+      fr: 'Hypothèse réelle : si + présent, principale au présent, au futur simple ou à l’impératif. Jamais de futur ni de conditionnel après «si».'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Si tu viens, nous [___] au cinéma.', ['irons', 'irions', 'allions'], 'irons', 'Si tu viens, nous irons au cinéma.', 'si + présent → futur'),
+      Q("S'il [___] demain, je resterai à la maison.", ['pleut', 'pleuvra', 'pleuvait'], 'pleut', "S'il pleut demain, je resterai à la maison.", 'si + présent'),
+      Q('Si tu as faim, [___] quelque chose !', ['mange', 'mangeras', 'mangerais'], 'mange', 'Si tu as faim, mange quelque chose !', 'si + présent → impératif'),
+      Q('Si nous [___] le temps, nous visiterons le musée.', ['avons', 'aurons', 'avions'], 'avons', 'Si nous avons le temps, nous visiterons le musée.', 'si + présent'),
+      Q("Si vous travaillez bien, vous [___] l'examen.", ['réussirez', 'réussiriez', 'réussissiez'], 'réussirez', "Si vous travaillez bien, vous réussirez l'examen.", 'si + présent → futur'),
+      Q('Si tu es fatigué, [___] te coucher !', ['va', 'iras', 'irais'], 'va', 'Si tu es fatigué, va te coucher !', 'si + présent → impératif'),
+      Q('Si je [___] le bus, je serai en retard.', ['rate', 'raterai', 'ratais'], 'rate', 'Si je rate le bus, je serai en retard.', 'si + présent'),
+      Q('Si elle veut, elle [___] venir avec nous.', ['peut', 'pourrait', 'pouvait'], 'peut', 'Si elle veut, elle peut venir avec nous.', 'si + présent → présent'),
+      Q("Si on [___] maintenant, on arrivera à l'heure.", ['part', 'partira', 'partait'], 'part', "Si on part maintenant, on arrivera à l'heure.", 'si + présent'),
+      Q('Si tu ne comprends pas, [___]-moi !', ['demande', 'demanderas', 'demandais'], 'demande', 'Si tu ne comprends pas, demande-moi !', 'si + présent → impératif')
+    ]
+  },
+  {
+    id: 'siirreel', o: 14, g: 2, yt: 'phrases hypothétiques irréelles si imparfait conditionnel', title: 'Si + imparfait / plus-que-parfait : l’hypothèse irréelle',
+    intro: {
+      de: 'Irreal in der Gegenwart: si + Imparfait → Conditionnel présent (Si j’avais le temps, je viendrais). Irreal in der Vergangenheit: si + Plus-que-parfait → Conditionnel passé (Si j’avais su, je serais venu).',
+      en: 'Unreal in the present: si + imparfait → conditional (Si j’avais le temps, je viendrais). Unreal in the past: si + plus-que-parfait → past conditional (Si j’avais su, je serais venu).',
+      it: 'Irreale nel presente: si + imparfait → condizionale presente (Si j’avais le temps, je viendrais). Irreale nel passato: si + plus-que-parfait → condizionale passato (Si j’avais su, je serais venu).',
+      fr: 'Irréel du présent : si + imparfait → conditionnel présent (Si j’avais le temps, je viendrais). Irréel du passé : si + plus-que-parfait → conditionnel passé (Si j’avais su, je serais venu).'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("Si j'avais le temps, je [___] plus de sport.", ['ferais', 'ferai', 'faisais'], 'ferais', "Si j'avais le temps, je ferais plus de sport.", 'si + imparfait → conditionnel'),
+      Q('Si tu [___] plus, tu réussirais.', ['travaillais', 'travailles', 'travaillerais'], 'travaillais', 'Si tu travaillais plus, tu réussirais.', 'si + imparfait'),
+      Q("Si j'étais riche, j'[___] une maison.", ['achèterais', 'achèterai', 'achetais'], 'achèterais', "Si j'étais riche, j'achèterais une maison.", 'si + imparfait → conditionnel'),
+      Q("S'il [___] beau, nous irions à la plage.", ['faisait', 'fait', 'ferait'], 'faisait', "S'il faisait beau, nous irions à la plage.", 'si + imparfait'),
+      Q('Si nous [___] une voiture, nous partirions en vacances.', ['avions', 'aurions', 'avons'], 'avions', 'Si nous avions une voiture, nous partirions en vacances.', 'si + imparfait'),
+      Q("Si j'avais su, je [___] venu.", ['serais', 'serai', 'étais'], 'serais', "Si j'avais su, je serais venu.", 'si + plus-que-parfait → conditionnel passé'),
+      Q("Si tu m'avais appelé, je t'[___] aidé.", ['aurais', 'aurai', 'avais'], 'aurais', "Si tu m'avais appelé, je t'aurais aidé.", 'si + plus-que-parfait → conditionnel passé'),
+      Q("Si elle [___] plus tôt, elle n'aurait pas raté le train.", ['était partie', 'partait', 'serait partie'], 'était partie', "Si elle était partie plus tôt, elle n'aurait pas raté le train.", 'si + plus-que-parfait'),
+      Q('À ta place, je [___] au professeur.', ['parlerais', 'parlerai', 'parlais'], 'parlerais', 'À ta place, je parlerais au professeur.', 'conseil → conditionnel'),
+      Q('Si vous [___] venir, cela nous ferait plaisir.', ['pouviez', 'pourriez', 'pouvez'], 'pouviez', 'Si vous pouviez venir, cela nous ferait plaisir.', 'si + imparfait'),
+      Q("S'ils avaient révisé, ils [___] l'examen.", ['auraient réussi', 'avaient réussi', 'réussiront'], 'auraient réussi', "S'ils avaient révisé, ils auraient réussi l'examen.", 'conditionnel passé')
+    ]
+  },
+  {
+    id: 'interrogation', o: 15, g: 2, yt: 'interrogation poser des questions', title: 'L’interrogation',
+    intro: {
+      de: 'Fragewörter: qui (wer), que / qu’est-ce que (was), où, quand, comment, pourquoi, combien. quel, quelle, quels, quelles richten sich nach dem Nomen. est-ce que leitet eine Ja/Nein-Frage ein.',
+      en: 'Question words: qui (who), que / qu’est-ce que (what), où, quand, comment, pourquoi, combien. quel, quelle, quels, quelles agree with the noun. est-ce que introduces a yes/no question.',
+      it: 'Parole interrogative: qui (chi), que / qu’est-ce que (che cosa), où, quand, comment, pourquoi, combien. quel, quelle, quels, quelles concordano con il nome. est-ce que introduce una domanda sì/no.',
+      fr: 'Mots interrogatifs : qui, que / qu’est-ce que, où, quand, comment, pourquoi, combien. quel, quelle, quels, quelles s’accordent avec le nom. est-ce que introduit une question fermée (oui / non).'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('[___] habites-tu ? – À Berne.', ['Où', 'Quand', 'Comment'], 'Où', 'Où habites-tu ?'),
+      Q('[___] pars-tu ? – Demain matin.', ['Quand', 'Où', 'Combien'], 'Quand', 'Quand pars-tu ?'),
+      Q('[___] tu fais ce soir ?', ["Qu'est-ce que", 'Qui est-ce qui', 'Est-ce que'], "Qu'est-ce que", "Qu'est-ce que tu fais ce soir ?"),
+      Q("[___] a téléphoné ? – C'est Paul.", ['Qui', 'Que', 'Quoi'], 'Qui', 'Qui a téléphoné ?'),
+      Q('[___] coûte ce livre ?', ['Combien', 'Comment', 'Quel'], 'Combien', 'Combien coûte ce livre ?'),
+      Q('[___] est ton film préféré ?', ['Quel', 'Quelle', 'Quels'], 'Quel', 'Quel est ton film préféré ?', 'masculin singulier'),
+      Q('[___] heure est-il ?', ['Quel', 'Quelle', 'Quelles'], 'Quelle', 'Quelle heure est-il ?', 'féminin singulier'),
+      Q('[___] tu viens avec nous ? – Oui.', ['Est-ce que', "Qu'est-ce que", 'Qui est-ce que'], 'Est-ce que', 'Est-ce que tu viens avec nous ?', 'question oui / non'),
+      Q("[___] es-tu en retard ? – Parce que j'ai raté le bus.", ['Pourquoi', 'Comment', 'Quand'], 'Pourquoi', 'Pourquoi es-tu en retard ?'),
+      Q("[___] vas-tu à l'école ? – En train.", ['Comment', 'Combien', 'Pourquoi'], 'Comment', "Comment vas-tu à l'école ?"),
+      Q('Avec [___] pars-tu en vacances ?', ['qui', 'que', "qu'est-ce que"], 'qui', 'Avec qui pars-tu en vacances ?', 'préposition + qui'),
+      Q('[___] langues parles-tu ?', ['Quelles', 'Quels', 'Quelle'], 'Quelles', 'Quelles langues parles-tu ?', 'féminin pluriel')
+    ]
+  },
+  {
+    id: 'negation', o: 16, g: 2, yt: 'négation ne pas ne plus ne jamais rien personne', title: 'La négation',
+    intro: {
+      de: 'ne … pas (nicht), ne … plus (nicht mehr), ne … jamais (nie), ne … rien (nichts), ne … personne (niemand), ne … que (nur), ne … ni … ni (weder noch), ne … aucun(e) (kein). Nach der Verneinung: du, de la, des → de.',
+      en: 'ne … pas (not), ne … plus (no longer), ne … jamais (never), ne … rien (nothing), ne … personne (nobody), ne … que (only), ne … ni … ni (neither nor), ne … aucun(e) (none). After a negation: du, de la, des → de.',
+      it: 'ne … pas (non), ne … plus (non più), ne … jamais (mai), ne … rien (niente), ne … personne (nessuno), ne … que (soltanto), ne … ni … ni (né né), ne … aucun(e) (nessuno). Dopo la negazione: du, de la, des → de.',
+      fr: 'ne … pas, ne … plus, ne … jamais, ne … rien, ne … personne, ne … que (seulement), ne … ni … ni, ne … aucun(e). Après la négation : du, de la, des → de.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Tu fumes encore ? – Non, je ne fume [___].', ['plus', 'jamais', 'rien'], 'plus', 'Non, je ne fume plus.', 'encore ↔ ne … plus'),
+      Q("Tu vas souvent au théâtre ? – Non, je n'y vais [___].", ['jamais', 'rien', 'personne'], 'jamais', "Non, je n'y vais jamais.", 'souvent ↔ ne … jamais'),
+      Q('Tu vois quelque chose ? – Non, je ne vois [___].', ['rien', 'personne', 'plus'], 'rien', 'Non, je ne vois rien.', 'quelque chose ↔ ne … rien'),
+      Q("Tu connais quelqu'un ici ? – Non, je ne connais [___].", ['personne', 'rien', 'jamais'], 'personne', 'Non, je ne connais personne.', "quelqu'un ↔ ne … personne"),
+      Q("Il n'a [___] dix francs.", ['que', 'pas', 'rien'], 'que', "Il n'a que dix francs.", 'ne … que = seulement'),
+      Q("Je n'ai [___] mangé ce matin.", ['rien', 'personne', 'aucun'], 'rien', "Je n'ai rien mangé ce matin."),
+      Q("[___] n'est venu à la fête.", ['Personne', 'Rien', 'Jamais'], 'Personne', "Personne n'est venu à la fête.", 'personne comme sujet'),
+      Q("Elle n'aime ni le thé [___] le café.", ['ni', 'pas', 'et'], 'ni', "Elle n'aime ni le thé ni le café.", 'ne … ni … ni'),
+      Q("Je n'ai [___] vu ce film.", ['pas encore', 'rien', 'personne'], 'pas encore', "Je n'ai pas encore vu ce film.", 'déjà ↔ ne … pas encore'),
+      Q("Il n'y a pas [___] lait.", ['de', 'du', 'le'], 'de', "Il n'y a pas de lait.", 'du → de après la négation'),
+      Q("Je n'ai [___] idée.", ['aucune', 'aucun', 'rien'], 'aucune', "Je n'ai aucune idée.", 'ne … aucun(e)'),
+      Q('Où se place [personne] au passé composé ?', ["Je n'ai vu personne.", "Je n'ai personne vu.", "Je ne personne ai vu."], "Je n'ai vu personne.", "Je n'ai vu personne.", 'personne : après le participe')
+    ]
+  },
+  {
+    id: 'gerondif', o: 20, g: 3, yt: 'gérondif participe présent', title: 'Gérondif et participe présent',
+    intro: {
+      de: 'Gérondif: en + Stamm der nous-Form + -ant (nous faisons → en faisant). Es drückt Gleichzeitigkeit oder die Art und Weise aus; das Subjekt ist dasselbe. Das Participe présent (ohne «en») ersetzt oft einen Relativsatz: une personne parlant allemand.',
+      en: 'Gérondif: en + stem of the nous form + -ant (nous faisons → en faisant). It expresses simultaneity or manner; same subject. The present participle (without «en») often replaces a relative clause: une personne parlant allemand.',
+      it: 'Gérondif: en + radice della forma nous + -ant (nous faisons → en faisant). Esprime simultaneità o modo; stesso soggetto. Il participio presente (senza «en») sostituisce spesso una relativa: une personne parlant allemand.',
+      fr: 'Gérondif : en + radical de la forme nous + -ant (nous faisons → en faisant). Il exprime la simultanéité ou la manière ; même sujet. Le participe présent (sans «en») remplace souvent une relative : une personne parlant allemand.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Il travaille [___] de la musique.', ['en écoutant', 'écouter', 'en écouté'], 'en écoutant', 'Il travaille en écoutant de la musique.', 'simultanéité'),
+      Q('Elle a appris le français [___] des films.', ['en regardant', 'en regardé', 'regarder'], 'en regardant', 'Elle a appris le français en regardant des films.', 'manière'),
+      Q('[___] du sport, on reste en forme.', ['En faisant', 'En fesant', 'En faire'], 'En faisant', 'En faisant du sport, on reste en forme.', 'nous faisons → faisant'),
+      Q('Ne parle pas [___] !', ['en mangeant', 'en mangant', 'en mangé'], 'en mangeant', 'Ne parle pas en mangeant !', 'nous mangeons → mangeant'),
+      Q("Je l'ai rencontré [___] du travail.", ['en sortant', 'en sorti', 'en sortissant'], 'en sortant', "Je l'ai rencontré en sortant du travail.", 'simultanéité'),
+      Q('[___] plus, tu réussiras.', ['En travaillant', 'En travaillé', 'Travailler'], 'En travaillant', 'En travaillant plus, tu réussiras.', 'condition, manière'),
+      Q("Il s'est blessé [___] du ski.", ['en faisant', 'en faire', 'en fait'], 'en faisant', "Il s'est blessé en faisant du ski.", 'simultanéité'),
+      Q('Elle est partie [___] au revoir.', ['en disant', 'en dissant', 'en dit'], 'en disant', 'Elle est partie en disant au revoir.', 'nous disons → disant'),
+      Q("Il s'endort souvent [___] la télévision.", ['en regardant', 'en regardé', 'regarder'], 'en regardant', "Il s'endort souvent en regardant la télévision.", 'simultanéité'),
+      Q("On cherche une personne [___] l'allemand.", ['parlant', 'en parlé', 'parlée'], 'parlant', "On cherche une personne parlant l'allemand.", 'participe présent = qui parle'),
+      Q("[___] qu'il était tard, il est rentré.", ['Sachant', 'En su', 'Savant'], 'Sachant', "Sachant qu'il était tard, il est rentré.", 'participe présent irrégulier : savoir → sachant')
+    ]
+  },
+  {
+    id: 'recit', o: 21, g: 3, yt: 'plus-que-parfait', title: 'Les temps du récit : plus-que-parfait, imparfait, passé composé',
+    intro: {
+      de: 'Das Plus-que-parfait (avoir / être im Imparfait + Partizip) beschreibt, was vor einer anderen Handlung in der Vergangenheit schon passiert war. Passé composé = die Handlung selbst, Imparfait = Hintergrund.',
+      en: 'The plus-que-parfait (avoir / être in the imparfait + participle) tells what had already happened before another past action. Passé composé = the action itself, imparfait = background.',
+      it: 'Il plus-que-parfait (avoir / être all’imparfait + participio) indica ciò che era già successo prima di un’altra azione passata. Passé composé = l’azione, imparfait = lo sfondo.',
+      fr: 'Le plus-que-parfait (avoir / être à l’imparfait + participe) exprime l’antériorité : ce qui s’était déjà passé avant une autre action passée. Passé composé = l’action, imparfait = l’arrière-plan.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Quand je suis arrivé à la gare, le train [___].', ['était déjà parti', 'est déjà parti', 'partait déjà'], 'était déjà parti', 'Quand je suis arrivé à la gare, le train était déjà parti.', 'antériorité → plus-que-parfait'),
+      Q("Elle a retrouvé les clés qu'elle [___].", ['avait perdues', 'a perdues', 'perdra'], 'avait perdues', "Elle a retrouvé les clés qu'elle avait perdues.", 'antériorité → plus-que-parfait'),
+      Q("Il était fatigué parce qu'il [___] toute la nuit.", ['avait travaillé', 'a travaillé', 'travaillera'], 'avait travaillé', "Il était fatigué parce qu'il avait travaillé toute la nuit.", 'antériorité → plus-que-parfait'),
+      Q('Hier, nous [___] au restaurant.', ['sommes allés', 'étions allés', 'allions'], 'sommes allés', 'Hier, nous sommes allés au restaurant.', 'action terminée → passé composé'),
+      Q('Quand nous [___], le film avait déjà commencé.', ['sommes entrés', 'étions entrés', 'entrerons'], 'sommes entrés', 'Quand nous sommes entrés, le film avait déjà commencé.', 'action → passé composé'),
+      Q("J'ai lu le livre que tu m'[___].", ['avais conseillé', 'conseillais', 'conseilleras'], 'avais conseillé', "J'ai lu le livre que tu m'avais conseillé.", 'antériorité → plus-que-parfait'),
+      Q('Il [___] beau, alors nous avons mangé dehors.', ['faisait', 'avait fait', 'a fait'], 'faisait', 'Il faisait beau, alors nous avons mangé dehors.', 'arrière-plan → imparfait'),
+      Q("Elle n'avait pas faim parce qu'elle [___] avant.", ['avait mangé', 'mangeait', 'mangera'], 'avait mangé', "Elle n'avait pas faim parce qu'elle avait mangé avant.", 'antériorité → plus-que-parfait'),
+      Q("Je ne connaissais pas Paris : je n'y [___].", ['étais jamais allé', 'suis jamais allé', 'allais jamais'], 'étais jamais allé', "Je ne connaissais pas Paris : je n'y étais jamais allé.", 'antériorité → plus-que-parfait')
+    ]
+  },
+  {
+    id: 'but', o: 22, g: 3, yt: 'exprimer le but pour que afin de', title: 'Le but : pour, pour que, afin de',
+    intro: {
+      de: 'Gleiches Subjekt: pour / afin de + Infinitiv. Verschiedene Subjekte: pour que / afin que + Subjonctif.',
+      en: 'Same subject: pour / afin de + infinitive. Different subjects: pour que / afin que + subjunctive.',
+      it: 'Stesso soggetto: pour / afin de + infinito. Soggetti diversi: pour que / afin que + congiuntivo.',
+      fr: 'Même sujet : pour / afin de + infinitif. Sujets différents : pour que / afin que + subjonctif.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("J'apprends le français [___] travailler à Genève.", ['pour', 'pour que', 'afin que'], 'pour', "J'apprends le français pour travailler à Genève.", 'même sujet → infinitif'),
+      Q("Je t'explique [___] tu comprennes.", ['pour', 'pour que', 'afin de'], 'pour que', "Je t'explique pour que tu comprennes.", 'sujets différents → subjonctif'),
+      Q('Elle économise [___] partir en voyage.', ['afin de', 'afin que', 'pour que'], 'afin de', 'Elle économise afin de partir en voyage.', 'même sujet → infinitif'),
+      Q("Parle plus fort [___] tout le monde t'entende.", ['afin que', 'afin de', 'pour'], 'afin que', "Parle plus fort afin que tout le monde t'entende.", 'sujets différents → subjonctif'),
+      Q('Il se lève tôt [___] ne pas être en retard.', ['pour', 'pour que', 'afin que'], 'pour', 'Il se lève tôt pour ne pas être en retard.', 'même sujet → infinitif'),
+      Q('Je répète pour que vous [___] bien.', ['comprenez', 'compreniez', 'comprendrez'], 'compreniez', 'Je répète pour que vous compreniez bien.', 'pour que + subjonctif'),
+      Q("Nous partons tôt afin d'[___] les bouchons.", ['éviter', 'évitions', 'évitons'], 'éviter', "Nous partons tôt afin d'éviter les bouchons.", 'afin de + infinitif'),
+      Q("Je te donne mon numéro pour que tu [___] m'appeler.", ['peux', 'puisses', 'pourras'], 'puisses', "Je te donne mon numéro pour que tu puisses m'appeler.", 'pour que + subjonctif')
+    ]
+  },
+  {
+    id: 'passif', o: 23, g: 3, yt: 'forme passive voix passive', title: 'La forme passive',
+    intro: {
+      de: 'Passiv: être (in der passenden Zeit) + Participe passé, das sich nach dem Subjekt richtet. Der Handelnde wird mit «par» angeschlossen: Le livre a été écrit par Hugo.',
+      en: 'Passive: être (in the right tense) + past participle, which agrees with the subject. The agent is introduced by «par»: Le livre a été écrit par Hugo.',
+      it: 'Passivo: être (al tempo giusto) + participio passato, che concorda con il soggetto. L’agente è introdotto da «par»: Le livre a été écrit par Hugo.',
+      fr: 'Passif : être (au temps voulu) + participe passé accordé avec le sujet. Le complément d’agent est introduit par «par» : Le livre a été écrit par Hugo.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Le musée [___] en 1900.', ['a été construit', 'a construit', 'est construisant'], 'a été construit', 'Le musée a été construit en 1900.', 'passif au passé composé'),
+      Q('Ce livre a été écrit [___] Victor Hugo.', ['par', 'de', 'pour'], 'par', 'Ce livre a été écrit par Victor Hugo.', "complément d'agent"),
+      Q('La lettre [___] demain.', ['sera envoyée', 'sera envoyé', 'enverra'], 'sera envoyée', 'La lettre sera envoyée demain.', 'passif au futur, accord féminin'),
+      Q('Les voleurs [___] par la police.', ['ont été arrêtés', 'ont arrêté', 'sont arrêté'], 'ont été arrêtés', 'Les voleurs ont été arrêtés par la police.', 'accord masculin pluriel'),
+      Q('La tour Eiffel [___] par des millions de touristes chaque année.', ['est visitée', 'est visité', 'visite'], 'est visitée', 'La tour Eiffel est visitée par des millions de touristes chaque année.', 'passif au présent'),
+      Q('Actif : « Le chef prépare le repas. » → Le repas [___] par le chef.', ['est préparé', 'a préparé', 'prépare'], 'est préparé', 'Le repas est préparé par le chef.', 'présent → est + participe'),
+      Q('Actif : « On a fermé le magasin. » → Le magasin [___].', ['a été fermé', 'est fermant', 'a fermé'], 'a été fermé', 'Le magasin a été fermé.', 'passé composé → a été + participe'),
+      Q("Ces maisons [___] l'année prochaine.", ['seront rénovées', 'seront rénové', 'rénoveront'], 'seront rénovées', "Ces maisons seront rénovées l'année prochaine.", 'accord féminin pluriel'),
+      Q('La décision [___] hier par le directeur.', ['a été prise', 'a été pris', 'a pris'], 'a été prise', 'La décision a été prise hier par le directeur.', 'accord féminin'),
+      Q('Le français [___] dans de nombreux pays.', ['est parlé', 'est parlée', 'parle'], 'est parlé', 'Le français est parlé dans de nombreux pays.', 'passif au présent')
+    ]
+  },
+  {
+    id: 'adjectifs', o: 24, g: 3, yt: "place de l'adjectif", title: 'La place des adjectifs',
+    intro: {
+      de: 'Die meisten Adjektive stehen nach dem Nomen (Farbe, Form, Nationalität, lange Adjektive). Vor dem Nomen stehen kurze, häufige Adjektive: beau, bon, grand, petit, jeune, vieux, nouveau, mauvais, joli, gros. Vor Vokal: beau → bel, nouveau → nouvel, vieux → vieil.',
+      en: 'Most adjectives follow the noun (colour, shape, nationality, long adjectives). Short common ones go before it: beau, bon, grand, petit, jeune, vieux, nouveau, mauvais, joli, gros. Before a vowel: beau → bel, nouveau → nouvel, vieux → vieil.',
+      it: 'La maggior parte degli aggettivi segue il nome (colore, forma, nazionalità, aggettivi lunghi). Prima del nome quelli brevi e frequenti: beau, bon, grand, petit, jeune, vieux, nouveau, mauvais, joli, gros. Davanti a vocale: beau → bel, nouveau → nouvel, vieux → vieil.',
+      fr: 'La plupart des adjectifs se placent après le nom (couleur, forme, nationalité, adjectifs longs). Avant le nom : les adjectifs courts et fréquents : beau, bon, grand, petit, jeune, vieux, nouveau, mauvais, joli, gros. Devant voyelle : beau → bel, nouveau → nouvel, vieux → vieil.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q("C'est une [___].", ['belle maison', 'maison belle'], 'belle maison', "C'est une belle maison.", 'beau : avant le nom'),
+      Q('Il porte une [___].', ['chemise bleue', 'bleue chemise'], 'chemise bleue', 'Il porte une chemise bleue.', 'couleur : après le nom'),
+      Q("J'ai un [___].", ['petit chien', 'chien petit'], 'petit chien', "J'ai un petit chien.", 'petit : avant le nom'),
+      Q("C'est un [___].", ['film intéressant', 'intéressant film'], 'film intéressant', "C'est un film intéressant.", 'adjectif long : après le nom'),
+      Q('Ils habitent dans une [___].', ['vieille maison', 'maison vieille'], 'vieille maison', 'Ils habitent dans une vieille maison.', 'vieux : avant le nom'),
+      Q('Nous avons acheté une [___].', ['table ronde', 'ronde table'], 'table ronde', 'Nous avons acheté une table ronde.', 'forme : après le nom'),
+      Q('Nous avons mangé un [___].', ['bon repas', 'repas bon'], 'bon repas', 'Nous avons mangé un bon repas.', 'bon : avant le nom'),
+      Q("C'est une [___].", ['étudiante suisse', 'suisse étudiante'], 'étudiante suisse', "C'est une étudiante suisse.", 'nationalité : après le nom'),
+      Q('Il a un [___].', ['grand jardin', 'jardin grand'], 'grand jardin', 'Il a un grand jardin.', 'grand : avant le nom'),
+      Q("C'est un [___].", ['bel homme', 'beau homme', 'homme bel'], 'bel homme', "C'est un bel homme.", 'beau → bel devant voyelle ou h muet'),
+      Q('Quelle [___] !', ['mauvaise idée', 'idée mauvaise'], 'mauvaise idée', 'Quelle mauvaise idée !', 'mauvais : avant le nom'),
+      Q("C'est un [___].", ['jeune professeur sympathique', 'sympathique jeune professeur', 'professeur jeune sympathique'], 'jeune professeur sympathique', "C'est un jeune professeur sympathique.", 'court avant, long après')
+    ]
+  },
+  {
+    id: 'yen', o: 25, g: 3, yt: 'pronoms y et en', title: 'Les pronoms y et en',
+    intro: {
+      de: 'y ersetzt einen Ort oder eine Ergänzung mit «à» (Sache): Je vais à Paris → J’y vais. en ersetzt eine Ergänzung mit «de», Mengen und unbestimmte Artikel: Je mange du pain → J’en mange. Für Personen mit «à»: lui / leur.',
+      en: 'y replaces a place or a complement with «à» (thing): Je vais à Paris → J’y vais. en replaces a complement with «de», quantities and indefinite articles: Je mange du pain → J’en mange. For people with «à»: lui / leur.',
+      it: 'y sostituisce un luogo o un complemento con «à» (cosa): Je vais à Paris → J’y vais. en sostituisce un complemento con «de», quantità e articoli indeterminativi: Je mange du pain → J’en mange. Per le persone con «à»: lui / leur.',
+      fr: 'y remplace un lieu ou un complément avec «à» (chose) : Je vais à Paris → J’y vais. en remplace un complément avec «de», une quantité ou un article indéfini : Je mange du pain → J’en mange. Pour une personne avec «à» : lui / leur.'
+    },
+    task: TASK_SWAP,
+    items: [
+      Q('Je vais [à Paris].', ['y', 'en', 'le', 'lui'], 'y', "J'y vais.", 'lieu → y'),
+      Q('Elle mange [du pain].', ['y', 'en', 'le', 'lui'], 'en', 'Elle en mange.', 'du → en'),
+      Q('Nous pensons [à nos vacances].', ['y', 'en', 'les', 'leur'], 'y', 'Nous y pensons.', 'penser à + chose → y'),
+      Q('Il parle [de son travail].', ['y', 'en', 'le', 'lui'], 'en', 'Il en parle.', 'parler de → en'),
+      Q('Tu as [des frères] ?', ['y', 'en', 'les', 'leur'], 'en', 'Tu en as ?', 'des → en'),
+      Q('Ils habitent [en Suisse].', ['y', 'en', 'la', 'lui'], 'y', 'Ils y habitent.', 'lieu → y'),
+      Q('Je reviens [de la gare].', ['y', 'en', 'la', 'lui'], 'en', "J'en reviens.", 'venir de → en'),
+      Q('Elle a besoin [de ce livre].', ['y', 'en', 'le', 'lui'], 'en', 'Elle en a besoin.', 'avoir besoin de → en'),
+      Q('Tu participes [au débat] ?', ['y', 'en', 'le', 'lui'], 'y', 'Tu y participes ?', 'participer à → y'),
+      Q("J'ai trois [chats].", ['y', 'en', 'les', 'leur'], 'en', "J'en ai trois.", 'quantité → en'),
+      Q('Nous restons [à la maison].', ['y', 'en', 'la', 'lui'], 'y', 'Nous y restons.', 'lieu → y'),
+      Q("Il s'intéresse [à la musique].", ['y', 'en', 'la', 'lui'], 'y', "Il s'y intéresse.", "s'intéresser à → y"),
+      Q('Je parle [à Marie].', ['y', 'en', 'la', 'lui'], 'lui', 'Je lui parle.', 'personne avec à → lui (pas y)'),
+      Q('Je connais [ce musée].', ['y', 'en', 'le', 'lui'], 'le', 'Je le connais.', 'COD → le')
+    ]
+  },
+  {
+    id: 'indirect', o: 26, g: 3, yt: 'discours indirect', title: 'Le discours indirect',
+    intro: {
+      de: 'Aussage: dire que … Ja/Nein-Frage: demander si … «Qu’est-ce que» wird zu «ce que», «qu’est-ce qui» zu «ce qui». Befehl: dire de + Infinitiv. Steht das einleitende Verb in der Vergangenheit: Présent → Imparfait, Passé composé → Plus-que-parfait, Futur → Conditionnel.',
+      en: 'Statement: dire que … Yes/no question: demander si … «Qu’est-ce que» becomes «ce que», «qu’est-ce qui» becomes «ce qui». Command: dire de + infinitive. If the reporting verb is in the past: present → imparfait, passé composé → plus-que-parfait, future → conditional.',
+      it: 'Affermazione: dire que … Domanda sì/no: demander si … «Qu’est-ce que» diventa «ce que», «qu’est-ce qui» diventa «ce qui». Ordine: dire de + infinito. Se il verbo introduttivo è al passato: presente → imparfait, passé composé → plus-que-parfait, futuro → condizionale.',
+      fr: 'Déclaration : dire que … Question fermée : demander si … «Qu’est-ce que» devient «ce que», «qu’est-ce qui» devient «ce qui». Ordre : dire de + infinitif. Verbe introducteur au passé : présent → imparfait, passé composé → plus-que-parfait, futur → conditionnel.'
+    },
+    task: TASK_FILL,
+    items: [
+      Q('Il dit : « Je suis fatigué. » → Il dit [___] fatigué.', ["qu'il est", 'que je suis', "s'il est"], "qu'il est", "Il dit qu'il est fatigué.", 'dire que'),
+      Q('Elle demande : « Tu viens ? » → Elle demande [___].', ['si je viens', 'que je viens', 'est-ce que je viens'], 'si je viens', 'Elle demande si je viens.', 'question oui / non → si'),
+      Q("Il demande : « Qu'est-ce que tu fais ? » → Il demande [___].", ['ce que je fais', "qu'est-ce que je fais", 'que je fais'], 'ce que je fais', 'Il demande ce que je fais.', "qu'est-ce que → ce que"),
+      Q('Elle dit : « Venez ! » → Elle nous dit [___].', ['de venir', 'que venez', 'si venir'], 'de venir', 'Elle nous dit de venir.', 'impératif → de + infinitif'),
+      Q('Il demande : « Où habites-tu ? » → Il demande [___].', ["où j'habite", "où est-ce que j'habite", 'où habites-tu'], "où j'habite", "Il demande où j'habite.", "pas d'inversion"),
+      Q("Elle demande : « Qu'est-ce qui se passe ? » → Elle demande [___].", ['ce qui se passe', 'ce que se passe', "qu'est-ce qui se passe"], 'ce qui se passe', 'Elle demande ce qui se passe.', "qu'est-ce qui → ce qui"),
+      Q('Ils disent : « Nous avons faim. » → Ils disent [___] faim.', ["qu'ils ont", 'que nous avons', "s'ils ont"], "qu'ils ont", "Ils disent qu'ils ont faim.", 'dire que'),
+      Q('Il me dit : « Ne pars pas ! » → Il me dit [___].', ['de ne pas partir', 'de ne partir pas', 'que ne pars pas'], 'de ne pas partir', 'Il me dit de ne pas partir.', 'impératif négatif → de ne pas + infinitif'),
+      Q('Elle demande : « Quand arrive le train ? » → Elle demande [___].', ['quand le train arrive', 'quand arrive-t-il le train', "quand est-ce qu'arrive le train"], 'quand le train arrive', 'Elle demande quand le train arrive.', "pas d'inversion"),
+      Q('Il a dit : « Je suis malade. » → Il a dit [___] malade.', ["qu'il était", "qu'il est", "qu'il sera"], "qu'il était", "Il a dit qu'il était malade.", 'au passé : présent → imparfait'),
+      Q('Elle a dit : « Je viendrai. » → Elle a dit [___].', ["qu'elle viendrait", "qu'elle viendra", "qu'elle venait"], "qu'elle viendrait", "Elle a dit qu'elle viendrait.", 'au passé : futur → conditionnel'),
+      Q("Il a dit : « J'ai fini. » → Il a dit [___].", ["qu'il avait fini", "qu'il a fini", "qu'il finissait"], "qu'il avait fini", "Il a dit qu'il avait fini.", 'au passé : passé composé → plus-que-parfait')
+    ]
+  },
+  {
+    id: 'doubles', o: 27, g: 3, yt: 'doubles pronoms compléments', title: 'Les doubles pronoms',
+    intro: {
+      de: 'Reihenfolge vor dem Verb: me, te, se, nous, vous → le, la, les → lui, leur → y → en. Beispiele: Il me le donne. Je le lui donne. Je lui en parle. Im bejahten Impératif: Donne-le-lui !',
+      en: 'Order before the verb: me, te, se, nous, vous → le, la, les → lui, leur → y → en. Examples: Il me le donne. Je le lui donne. Je lui en parle. Affirmative imperative: Donne-le-lui !',
+      it: 'Ordine prima del verbo: me, te, se, nous, vous → le, la, les → lui, leur → y → en. Esempi: Il me le donne. Je le lui donne. Je lui en parle. Imperativo affermativo: Donne-le-lui !',
+      fr: 'Ordre avant le verbe : me, te, se, nous, vous → le, la, les → lui, leur → y → en. Exemples : Il me le donne. Je le lui donne. Je lui en parle. Impératif affirmatif : Donne-le-lui !'
+    },
+    task: TASK_SWAP,
+    items: [
+      Q('Je donne [le livre à Paul].', ['le lui', 'lui le', 'la lui', 'les leur'], 'le lui', 'Je le lui donne.', 'le, la, les avant lui, leur'),
+      Q('Elle montre [ses photos à ses amis].', ['les leur', 'leur les', 'les lui', 'le leur'], 'les leur', 'Elle les leur montre.', 'le, la, les avant lui, leur'),
+      Q('Il me donne [le stylo]. → Il [___] donne.', ['me le', 'le me', 'me la'], 'me le', 'Il me le donne.', 'me, te, nous, vous avant le, la, les'),
+      Q('Je vous donne [la clé]. → Je [___] donne.', ['vous la', 'la vous', 'vous le'], 'vous la', 'Je vous la donne.', 'me, te, nous, vous avant le, la, les'),
+      Q('Nous offrons [des fleurs à notre mère].', ['lui en', 'en lui', 'les lui', 'leur en'], 'lui en', 'Nous lui en offrons.', 'en toujours en dernier'),
+      Q('Il parle [de ce problème à ses parents].', ['leur en', 'en leur', 'lui en', 'les leur'], 'leur en', 'Il leur en parle.', 'en toujours en dernier'),
+      Q("Elle te raconte [l'histoire]. → Elle [___] raconte.", ['te la', 'la te', 'te le'], 'te la', 'Elle te la raconte.', 'me, te, nous, vous avant le, la, les'),
+      Q("J'explique [la règle aux élèves].", ['la leur', 'leur la', 'la lui', 'les leur'], 'la leur', 'Je la leur explique.', 'le, la, les avant lui, leur'),
+      Q('Tu donnes [les clés à ta sœur] ?', ['les lui', 'lui les', 'les leur', 'la lui'], 'les lui', 'Tu les lui donnes ?', 'le, la, les avant lui, leur'),
+      Q('Il nous apporte [les cafés]. → Il [___] apporte.', ['nous les', 'les nous', 'nous le'], 'nous les', 'Il nous les apporte.', 'me, te, nous, vous avant le, la, les'),
+      Q("Elle emmène [les enfants à l'école].", ['les y', 'y les', 'leur y'], 'les y', 'Elle les y emmène.', 'y après le, la, les'),
+      Q('Donne [le livre à Paul] ! → Donne-[___] !', ['le-lui', 'lui-le', 'le-leur'], 'le-lui', 'Donne-le-lui !', 'impératif : verbe-le-lui')
+    ]
+  }
+];
 
 /* ============================================================
    VerbMaster – Engine (Daten + Konjugation). Keine DOM-Zugriffe.
@@ -779,6 +1289,7 @@ const I18N = {
     wSure: '{a} / {b} Wörter sicher', vocabEmpty: 'Noch keine Vokabeln. Füge unter «Hinzufügen» eigene Wörter hinzu – einzeln oder als ganze Liste.',
     addNow: 'Wörter hinzufügen', myWords: 'Meine Vokabeln', noWords: 'Noch keine Vokabeln.', translate: 'Wie heisst das auf Französisch?',
     dupW: 'Dieses Wort gibt es schon.', needWord: 'Bitte Wort und Bedeutung eingeben.', wCount: '{a} Vokabeln', ownEmpty: 'Noch leer – füge eigene Wörter hinzu.',
+    semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
     sneakInfo: 'Für jeden neuen Challenge-Rekord gibt es 1 Sneak. Damit spielst du einmalig eine Runde in einem gesperrten Level.', sneakRound: 'Sneak',
@@ -811,6 +1322,7 @@ const I18N = {
     wSure: '{a} / {b} words mastered', vocabEmpty: 'No vocabulary yet. Add your own words under «Add» – one by one or as a whole list.',
     addNow: 'Add words', myWords: 'My vocabulary', noWords: 'No vocabulary yet.', translate: 'What is this in French?',
     dupW: 'This word already exists.', needWord: 'Please enter a word and its meaning.', wCount: '{a} words', ownEmpty: 'Still empty – add your own words.',
+    semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
     sneakInfo: 'Every new challenge record earns 1 sneak. It lets you play one round in a locked level, once.', sneakRound: 'Sneak',
@@ -843,6 +1355,7 @@ const I18N = {
     wSure: '{a} / {b} parole sicure', vocabEmpty: 'Ancora nessun vocabolo. Aggiungi le tue parole in «Aggiungi» – una alla volta o come lista.',
     addNow: 'Aggiungi parole', myWords: 'I miei vocaboli', noWords: 'Ancora nessun vocabolo.', translate: 'Come si dice in francese?',
     dupW: 'Questa parola esiste già.', needWord: 'Inserisci parola e significato.', wCount: '{a} vocaboli', ownEmpty: 'Ancora vuoto – aggiungi le tue parole.',
+    semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
     sneakInfo: 'Ogni nuovo record nella sfida vale 1 sneak. Ti permette di giocare una volta un round in un livello bloccato.', sneakRound: 'Sneak',
@@ -875,6 +1388,7 @@ const I18N = {
     wSure: '{a} / {b} mots maîtrisés', vocabEmpty: 'Pas encore de vocabulaire. Ajoute tes mots sous «Ajouter» – un par un ou en liste.',
     addNow: 'Ajouter des mots', myWords: 'Mon vocabulaire', noWords: 'Pas encore de vocabulaire.', translate: 'Comment dit-on en français ?',
     dupW: 'Ce mot existe déjà.', needWord: 'Saisis un mot et sa signification.', wCount: '{a} mots', ownEmpty: 'Encore vide – ajoute tes mots.',
+    semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
     sneakInfo: 'Chaque nouveau record au défi rapporte 1 sneak. Il permet de jouer une seule série dans un niveau verrouillé.', sneakRound: 'Sneak',
@@ -904,7 +1418,7 @@ const TASK_REPLACE = {
 };
 const GRAMMAR = [
   {
-    id: 'cod',
+    id: 'cod', o: 13.1, g: 2, yt: 'pronoms COD complément d\'objet direct',
     title: { de: 'COD – direktes Objekt', en: 'COD – direct object', it: 'COD – oggetto diretto', fr: 'COD – complément d’objet direct' },
     intro: {
       de: 'Das COD steht direkt nach dem Verb, ohne Präposition (wen? was?). Pronomen: le, la, les – vor Vokal oder stummem h wird le/la zu l’. Das Pronomen steht vor dem Verb.',
@@ -929,7 +1443,7 @@ const GRAMMAR = [
     ]
   },
   {
-    id: 'coi',
+    id: 'coi', o: 13.2, g: 2, yt: 'pronoms COI complément d\'objet indirect',
     title: { de: 'COI – indirektes Objekt', en: 'COI – indirect object', it: 'COI – oggetto indiretto', fr: 'COI – complément d’objet indirect' },
     intro: {
       de: 'Das COI wird mit «à» angeschlossen (wem?). Für Personen: lui (Einzahl, männlich und weiblich) und leur (Mehrzahl). Das Pronomen steht vor dem Verb.',
@@ -954,7 +1468,7 @@ const GRAMMAR = [
     ]
   },
   {
-    id: 'codcoi',
+    id: 'codcoi', o: 13.3, g: 2, yt: 'pronoms COD COI',
     title: { de: 'COD oder COI?', en: 'COD or COI?', it: 'COD o COI?', fr: 'COD ou COI ?' },
     intro: {
       de: 'Entscheidend ist das französische Verb, nicht das deutsche: «aider quelqu’un» hat ein COD, «téléphoner à quelqu’un» ein COI. Steht «à» vor der Person, ist es ein COI (lui, leur) – sonst ein COD (le, la, l’, les).',
@@ -982,8 +1496,14 @@ const GRAMMAR = [
   }
 ];
 
+if (typeof GRAMMAR_MORE !== 'undefined') GRAMMAR.push(...GRAMMAR_MORE);
+GRAMMAR.sort((a, b) => (a.o || 99) - (b.o || 99));
+/* Video zu einem Modul: öffnet die YouTube-Suche nach «Fit für Franze» + Thema (m.yt). Für einen festen Link: m.video = 'https://…' */
+const VIDEO_CHANNEL = 'Fit für Franze';
+const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
+
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '1.7';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '1.8';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1041,7 +1561,7 @@ function t(k, o) {
 }
 function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 const pick = a => a[Math.floor(Math.random() * a.length)];
-const L = (o) => o[S.lang] || o.de;
+const L = (o) => typeof o === 'string' ? o : (o[S.lang] || o.de);
 
 let _verbs = null;
 function verbs() {
@@ -1074,6 +1594,7 @@ const IC = {
   lock: svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 16),
   check: svg('<path d="M5 12l5 5 9-10"/>', 18),
   x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
+  play: svg('<path d="M7 5l12 7-12 7z"/>', 16),
   trash: svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 18)
 };
 
@@ -1133,12 +1654,16 @@ function vLearn() {
     }).join('') + `<button type="button" class="btn ghost" data-a="addwords">${t('addNow')}</button></div>`;
   }
   if (V.tab === 'gram') {
-    return head + `<div class="list">` + GRAMMAR.map(m => {
+    let h = head + `<div class="list">`, grp = null;
+    for (const m of GRAMMAR) {
+      if (m.g !== grp) { grp = m.g; h += `<h2 class="grp">${m.g ? t('semester', { a: m.g }) : t('grammar')}<small>${t('topics', { a: GRAMMAR.filter(x => x.g === m.g).length })}</small></h2>`; }
       const n = Object.keys(S.gram[m.id] || {}).length;
-      return `<section class="card act"><div class="row"><div class="grow"><h2>${esc(L(m.title))}</h2><p class="muted">${t('solved', { a: n, b: m.items.length })}</p></div></div>
+      h += `<section class="card gcard"><h3>${esc(L(m.title))}</h3><p class="muted">${t('solved', { a: n, b: m.items.length })}</p>
         <div class="bar"><i style="width:${Math.round(100 * n / m.items.length)}%"></i></div>
-        <button type="button" class="btn" data-a="gstart" data-id="${m.id}">${t('practise')}</button></section>`;
-    }).join('') + `<p class="hint">${t('gramMore')}</p></div>`;
+        <div class="row"><button type="button" class="btn grow" data-a="gstart" data-id="${m.id}">${t('practise')}</button>
+        <a class="btn line" href="${esc(videoUrl(m))}" target="_blank" rel="noopener">${IC.play}${t('video')}</a></div></section>`;
+    }
+    return h + `<p class="hint">${t('gramMore')}</p></div>`;
   }
   const lv = level();
   let h = head + `<p class="sub">${t('levelOf', { a: lv + 1, b: TENSES.length })} · ${TENSES[lv].m}${S.sneaks > 0 ? ` · <b class="sneak">${t('sneaksN', { a: S.sneaks })}</b>` : ''}</p><div class="list">`;
@@ -1475,7 +2000,7 @@ function bulkImport() {
 /* --- Grammatik --- */
 /* Aufgabenarten: neue Art = neuer Eintrag mit html(item). Geprüft wird immer gegen item.a. */
 const GRAM_TYPES = {
-  choice: item => `<div class="opts">${(item.options || PRONOUNS).map(o => `<button type="button" data-a="gopt" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`,
+  choice: item => `<div class="opts${(item.options || PRONOUNS).some(o => o.length > 16) ? ' wide' : (item.options || PRONOUNS).some(o => o.length > 9) || (item.options || PRONOUNS).length === 2 || (item.options || PRONOUNS).length === 4 ? ' two' : ''}">${(item.options || PRONOUNS).map(o => `<button type="button" data-a="gopt" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`,
   input: () => `<div class="field"><input id="ans" type="text" aria-label="${t('yourAnswer')}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
     <div class="keys">${KEYS.map(c => `<button type="button" data-a="key" data-c="${c}">${c}</button>`).join('')}</div>`
 };
@@ -1487,7 +2012,7 @@ function gStart(id) {
 }
 function vGram() {
   const item = G.mod.items[G.order[G.n]];
-  const sent = esc(item.s).replace('[', '<mark>').replace(']', '</mark>');
+  const sent = esc(item.s).replace(/\[([^\]]*)\]/g, '<mark>$1</mark>');
   return `<header class="top"><button type="button" class="icon" data-a="gquit" aria-label="${t('quit')}">${IC.x}</button>
     <div class="bar grow"><i style="width:${Math.round(100 * G.n / G.order.length)}%"></i></div><span class="muted">${G.n + 1} / ${G.order.length}</span></header>
     <div class="q"><span class="chip">${esc(L(G.mod.title))}</span></div>

@@ -93,6 +93,15 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
 .stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
 .stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.sneak,.lvl small.sneak{color:var(--g);font-weight:600;font-size:13px}
+.ask{background:var(--soft);border:1.5px solid var(--g);display:flex;flex-direction:column;gap:12px}
+button.lvl.off{background:#fff}
+.hero.col{flex-direction:column;text-align:center;gap:12px}
+.board{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.board li{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 12px;border-bottom:1px solid var(--line);font-size:14px;color:var(--mute)}
+.board li b{font:700 20px 'Space Grotesk',sans-serif;color:var(--ink);min-width:28px}
+.board .rank{width:24px;font-weight:600}
+.board li.me{background:var(--soft);border-radius:12px;border-bottom-color:transparent}.board li.me b{color:var(--g)}
 .hero{display:flex;align-items:center;gap:20px;padding:20px;background:var(--soft);border-radius:20px}
 .ring{position:relative;width:120px;height:120px;flex:none}
 .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 26px 'Space Grotesk',sans-serif}
@@ -755,6 +764,9 @@ const I18N = {
     wSure: '{a} / {b} Wörter sicher', vocabEmpty: 'Noch keine Vokabeln. Füge unter «Hinzufügen» eigene Wörter hinzu – einzeln oder als ganze Liste.',
     addNow: 'Wörter hinzufügen', myWords: 'Meine Vokabeln', noWords: 'Noch keine Vokabeln.', translate: 'Wie heisst das auf Französisch?',
     dupW: 'Dieses Wort gibt es schon.', needWord: 'Bitte Wort und Bedeutung eingeben.', wCount: '{a} Vokabeln', ownEmpty: 'Noch leer – füge eigene Wörter hinzu.',
+    best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
+    sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
+    sneakInfo: 'Für jeden neuen Challenge-Rekord gibt es 1 Sneak. Damit spielst du einmalig eine Runde in einem gesperrten Level.', sneakRound: 'Sneak',
     backup: 'Sicherung', backupDesc: 'Nimm deinen Fortschritt und deine eigenen Einträge auf ein anderes Gerät mit.', exportFile: 'Als Datei speichern', exportCopy: 'Code kopieren',
     importTitle: 'Sicherung laden', importPh: 'Datei wählen oder Code hier einfügen', importBtn: 'Sicherung prüfen', importWarn: 'Sicherung vom {a} gefunden. Laden ersetzt den Fortschritt auf diesem Gerät.',
     importDo: 'Jetzt ersetzen', importOk: 'Sicherung geladen.', importBad: 'Das ist keine gültige VerbMaster-Sicherung.',
@@ -784,6 +796,9 @@ const I18N = {
     wSure: '{a} / {b} words mastered', vocabEmpty: 'No vocabulary yet. Add your own words under «Add» – one by one or as a whole list.',
     addNow: 'Add words', myWords: 'My vocabulary', noWords: 'No vocabulary yet.', translate: 'What is this in French?',
     dupW: 'This word already exists.', needWord: 'Please enter a word and its meaning.', wCount: '{a} words', ownEmpty: 'Still empty – add your own words.',
+    best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
+    sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
+    sneakInfo: 'Every new challenge record earns 1 sneak. It lets you play one round in a locked level, once.', sneakRound: 'Sneak',
     backup: 'Backup', backupDesc: 'Take your progress and your own entries to another device.', exportFile: 'Save as file', exportCopy: 'Copy code',
     importTitle: 'Load a backup', importPh: 'Choose a file or paste the code here', importBtn: 'Check backup', importWarn: 'Backup from {a} found. Loading it replaces the progress on this device.',
     importDo: 'Replace now', importOk: 'Backup loaded.', importBad: 'This is not a valid VerbMaster backup.',
@@ -813,6 +828,9 @@ const I18N = {
     wSure: '{a} / {b} parole sicure', vocabEmpty: 'Ancora nessun vocabolo. Aggiungi le tue parole in «Aggiungi» – una alla volta o come lista.',
     addNow: 'Aggiungi parole', myWords: 'I miei vocaboli', noWords: 'Ancora nessun vocabolo.', translate: 'Come si dice in francese?',
     dupW: 'Questa parola esiste già.', needWord: 'Inserisci parola e significato.', wCount: '{a} vocaboli', ownEmpty: 'Ancora vuoto – aggiungi le tue parole.',
+    best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
+    sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
+    sneakInfo: 'Ogni nuovo record nella sfida vale 1 sneak. Ti permette di giocare una volta un round in un livello bloccato.', sneakRound: 'Sneak',
     backup: 'Backup', backupDesc: 'Porta i tuoi progressi e le tue voci su un altro dispositivo.', exportFile: 'Salva come file', exportCopy: 'Copia codice',
     importTitle: 'Carica un backup', importPh: 'Scegli un file o incolla qui il codice', importBtn: 'Controlla backup', importWarn: 'Trovato un backup del {a}. Caricandolo sostituisci i progressi su questo dispositivo.',
     importDo: 'Sostituisci ora', importOk: 'Backup caricato.', importBad: 'Questo non è un backup valido di VerbMaster.',
@@ -842,6 +860,9 @@ const I18N = {
     wSure: '{a} / {b} mots maîtrisés', vocabEmpty: 'Pas encore de vocabulaire. Ajoute tes mots sous «Ajouter» – un par un ou en liste.',
     addNow: 'Ajouter des mots', myWords: 'Mon vocabulaire', noWords: 'Pas encore de vocabulaire.', translate: 'Comment dit-on en français ?',
     dupW: 'Ce mot existe déjà.', needWord: 'Saisis un mot et sa signification.', wCount: '{a} mots', ownEmpty: 'Encore vide – ajoute tes mots.',
+    best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
+    sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
+    sneakInfo: 'Chaque nouveau record au défi rapporte 1 sneak. Il permet de jouer une seule série dans un niveau verrouillé.', sneakRound: 'Sneak',
     backup: 'Sauvegarde', backupDesc: 'Emporte tes progrès et tes propres entrées sur un autre appareil.', exportFile: 'Enregistrer en fichier', exportCopy: 'Copier le code',
     importTitle: 'Charger une sauvegarde', importPh: 'Choisis un fichier ou colle le code ici', importBtn: 'Vérifier la sauvegarde', importWarn: 'Sauvegarde du {a} trouvée. La charger remplace les progrès sur cet appareil.',
     importDo: 'Remplacer maintenant', importOk: 'Sauvegarde chargée.', importBad: 'Ce n’est pas une sauvegarde VerbMaster valide.',
@@ -947,7 +968,7 @@ const GRAMMAR = [
 ];
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '1.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '1.6';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -957,11 +978,13 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {} };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0 };
 }
 function loadState() {
   const d = defaults();
   try { const r = localStorage.getItem(STORE); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
+  if (!Array.isArray(d.scores)) d.scores = [];
+  if (!d.scores.length && d.hi > 0) d.scores = [{ s: d.hi, d: '' }];   // Rekord aus älteren Versionen übernehmen
   return d;
 }
 let S = loadState();
@@ -982,6 +1005,9 @@ function readBackup(txt) {
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
+  out.sneaks = Number.isFinite(d.sneaks) ? Math.max(0, Math.min(99, Math.round(d.sneaks))) : 0;
+  if (Array.isArray(d.scores)) out.scores = d.scores.filter(x => isObj(x) && Number.isFinite(x.s) && (x.d === '' || str(x.d))).map(x => ({ s: Math.max(0, Math.round(x.s)), d: x.d })).sort((a, b) => b.s - a.s).slice(0, 10);
+  if (!out.scores.length && out.hi > 0) out.scores = [{ s: out.hi, d: '' }];
   if (isObj(d.ov)) for (const k in d.ov) if (str(k) && str(d.ov[k])) out.ov[k] = d.ov[k];
   if (isObj(d.gram)) for (const m of GRAMMAR) if (isObj(d.gram[m.id])) { out.gram[m.id] = {}; for (const i in d.gram[m.id]) if (m.items[i]) out.gram[m.id][i] = 1; }
   if (Array.isArray(d.vocab)) out.vocab = d.vocab.filter(w => isObj(w) && str(w.fr) && str(w.m)).map(w => ({ fr: w.fr, m: w.m }));
@@ -1100,7 +1126,7 @@ function vLearn() {
     }).join('') + `<p class="hint">${t('gramMore')}</p></div>`;
   }
   const lv = level();
-  let h = head + `<p class="sub">${t('levelOf', { a: lv + 1, b: TENSES.length })} · ${TENSES[lv].m}</p><div class="list">`;
+  let h = head + `<p class="sub">${t('levelOf', { a: lv + 1, b: TENSES.length })} · ${TENSES[lv].m}${S.sneaks > 0 ? ` · <b class="sneak">${t('sneaksN', { a: S.sneaks })}</b>` : ''}</p><div class="list">`;
   TENSES.forEach((T, i) => {
     const n = sure(T.k);
     if (i < lv) {
@@ -1110,10 +1136,12 @@ function vLearn() {
         <div class="bar"><i style="width:${Math.min(100, Math.round(100 * n / GOAL))}%"></i></div>
         <button type="button" class="btn" data-a="start" data-k="${T.k}">${t('cont')}</button></section>`;
     } else {
-      h += `<div class="card lvl off"><span class="dot">${IC.lock}</span><span class="grow"><b>${T.n}</b></span><small>${t('level', { a: i + 1 })}</small></div>`;
+      if (V.ask === T.k && S.sneaks > 0) h += `<div class="card ask"><p><b>${T.n}</b> – ${t('sneakAsk')}</p><div class="row"><button type="button" class="btn grow" data-a="sneakgo" data-k="${T.k}">${t('sneakYes')}</button><button type="button" class="btn ghost" data-a="sneakno">${t('cancel')}</button></div></div>`;
+      else if (S.sneaks > 0) h += `<button type="button" class="card lvl off" data-a="sneakask" data-k="${T.k}"><span class="dot">${IC.lock}</span><span class="grow"><b>${T.n}</b></span><small class="sneak">${t('sneakUse')}</small></button>`;
+      else h += `<div class="card lvl off"><span class="dot">${IC.lock}</span><span class="grow"><b>${T.n}</b></span><small>${t('level', { a: i + 1 })}</small></div>`;
     }
   });
-  return h + `<p class="hint">${t('unlockInfo', { b: GOAL })}</p></div>`;
+  return h + `<p class="hint">${t('unlockInfo', { b: GOAL })} ${t('sneakInfo')}</p></div>`;
 }
 
 /* --- Verb-Runde --- */
@@ -1129,8 +1157,8 @@ function buildRound(k) {
   if (list.length < ROUND) list = list.concat(shuffle(vs.filter(v => !list.includes(v))).slice(0, ROUND - list.length));
   return shuffle(list).map(v => makeQ(v, k));
 }
-function startRound(k) {
-  X = { k, list: buildRound(k), n: 0, right: 0, done: false, lv: level() };
+function startRound(k, sneak) {
+  X = { k, list: buildRound(k), n: 0, right: 0, done: false, lv: level(), sneak: !!sneak };
   go('ex');
 }
 function qCard(q, label, ask) {
@@ -1143,7 +1171,7 @@ function vExercise() {
   const q = X.list[X.n], idx = TENSES.indexOf(TMAP[q.k]);
   return `<header class="top"><button type="button" class="icon" data-a="quit" aria-label="${t('quit')}">${IC.x}</button>
     <div class="bar grow"><i style="width:${Math.round(100 * X.n / X.list.length)}%"></i></div><span class="muted">${X.n + 1} / ${X.list.length}</span></header>
-    ${qCard(q, t('level', { a: idx + 1 }) + ' · ' + TMAP[q.k].n, t('whichForm'))}
+    ${qCard(q, (X.sneak ? t('sneakRound') : t('level', { a: idx + 1 })) + ' · ' + TMAP[q.k].n, t('whichForm'))}
     <div id="fb" aria-live="polite"></div><div class="grow"></div>
     <button type="button" class="btn big" id="go" data-a="check">${t('check')}</button>`;
 }
@@ -1178,8 +1206,8 @@ function vSummary() {
   return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${t('roundDone')}</h1>
     <p class="bignum">${t('score', { a: X.right, b: X.list.length })}</p>
     ${up ? `<p class="chip">${t('newLevel', { a: TENSES[lv].n })}</p>` : `<p class="muted">${TMAP[X.k].n}: ${t('goal', { a: sure(X.k), b: GOAL })}</p>`}
-    <button type="button" class="btn big" data-a="start" data-k="${up ? TENSES[lv].k : X.k}">${up ? t('cont') : t('again')}</button>
-    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+    ${X.sneak && !up ? '' : `<button type="button" class="btn big" data-a="start" data-k="${up ? TENSES[lv].k : X.k}">${up ? t('cont') : t('again')}</button>`}
+    <button type="button" class="btn ${X.sneak && !up ? 'big' : 'ghost'}" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
 }
 
 /* --- Vokabeln --- */
@@ -1243,11 +1271,20 @@ function vVocSum() {
 }
 
 /* --- Challenge --- */
+function board(mark) {
+  if (!S.scores.length) return `<p class="muted">${t('noScores')}</p>`;
+  let used = false;
+  return `<ol class="board">${S.scores.map((x, i) => {
+    const me = !used && mark != null && x.s === mark.s && x.d === mark.d; if (me) used = true;
+    let date = ''; try { if (x.d) date = new Date(x.d).toLocaleDateString(S.lang, { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { date = ''; }
+    return `<li class="${me ? 'me' : ''}"><span class="rank">${i + 1}</span><b>${x.s}</b><span class="grow">${t('points')}</span><small>${esc(date)}</small></li>`;
+  }).join('')}</ol>`;
+}
 function vChallenge() {
-  return `<header class="head"><h1>${t('challenge')}</h1></header>
-    <div class="center"><span class="dot num xl">${IC.bolt}</span><p class="lead">${t('chDesc')}</p>
-    <p class="muted">${t('record')}: <b>${S.hi}</b></p>
-    <button type="button" class="btn big" data-a="chstart">${t('chStart')}</button></div>`;
+  return `<header class="head"><h1>${t('challenge')}</h1>${S.sneaks > 0 ? `<b class="sneak">${t('sneaksN', { a: S.sneaks })}</b>` : ''}</header>
+    <section class="hero col"><p class="lead">${t('chDesc')}</p>
+    <button type="button" class="btn big" data-a="chstart">${t('chStart')}</button></section>
+    <section class="block"><h2>${t('best')}</h2>${board(null)}<p class="hint">${t('sneakInfo')}</p></section>`;
 }
 function chQuestion() {
   const ks = TENSES.slice(0, level() + 1).map(T => T.k);
@@ -1286,14 +1323,21 @@ function chCheck() {
 }
 function chEnd() {
   clearInterval(C.timer); C.timer = null;
-  C.isNew = C.score > S.hi; if (C.isNew) S.hi = C.score; save();
+  C.isNew = C.score > S.hi;
+  C.entry = { s: C.score, d: new Date().toISOString() };
+  if (C.score > 0) { S.scores.push(C.entry); S.scores.sort((a, b) => b.s - a.s); S.scores = S.scores.slice(0, 10); }
+  if (C.isNew) { S.hi = C.score; S.sneaks = (S.sneaks || 0) + 1; }
+  save();
   go('chend');
 }
 function vChEnd() {
-  return `<div class="center"><h1>${t('timeUp')}</h1><p class="bignum xl">${C.score}</p><p class="muted">${t('points')}</p>
+  return `<header class="head"><h1>${t('timeUp')}</h1></header>
+    <section class="hero col"><p class="bignum xl">${C.score}</p><p class="muted">${t('points')}</p>
     <p class="chip">${C.isNew ? t('newRecord') : t('record') + ': ' + S.hi}</p>
-    <button type="button" class="btn big" data-a="chstart">${t('again')}</button>
-    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+    ${C.isNew ? `<p class="note">${t('sneakWon')}</p>` : ''}
+    <button type="button" class="btn big" data-a="chstart">${t('again')}</button></section>
+    <section class="block"><h2>${t('best')}</h2>${board(C.entry)}</section>
+    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button>`;
 }
 
 /* --- Fortschritt --- */
@@ -1468,6 +1512,9 @@ function vGramSum() {
 const ACT = {
   nav: el => { if (C && C.timer) { clearInterval(C.timer); C.timer = null; } go(el.dataset.n); },
   tab: el => go('learn', { tab: el.dataset.n }),
+  sneakask: el => go('learn', { ask: el.dataset.k }),
+  sneakno: () => go('learn'),
+  sneakgo: el => { if (!(S.sneaks > 0)) return go('learn'); S.sneaks--; save(); startRound(el.dataset.k, true); },
   start: el => startRound(el.dataset.k),
   quit: () => go('learn'),
   check: checkAnswer,

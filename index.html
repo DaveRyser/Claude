@@ -93,6 +93,14 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
 .stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
 .stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.ltitle{font-size:22px;line-height:1.25}
+.row.sticky{position:sticky;top:0;background:#fff;padding:8px 0;z-index:2;gap:8px}.row.sticky .btn{padding:0 14px}
+.lq{border:0;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.lq legend{font-weight:600;font-size:16px;line-height:1.35;padding:0;margin-bottom:8px}
+.lq button{min-height:48px;padding:10px 14px;text-align:left;border:1.5px solid var(--line2);border-radius:14px;background:#fff;font-size:15px;line-height:1.3}
+.lq button.sel{border-color:var(--g);background:var(--soft);font-weight:600}
+.lq button.yes{border-color:var(--g);background:var(--soft);color:var(--gd);font-weight:600}
+.lq button.no{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
+details.card summary{min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--g);cursor:pointer}details.card p{line-height:1.55;font-size:15px}
 .playbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .lvl small{display:block}button.lvl:disabled{opacity:.5;cursor:default}
 .field input::placeholder{color:#8A968F;font-weight:400;font-size:16px}
@@ -678,6 +686,94 @@ const GRAMMAR_MORE = [
       Q('Il nous apporte [les cafés]. → Il [___] apporte.', ['nous les', 'les nous', 'nous le'], 'nous les', 'Il nous les apporte.', 'me, te, nous, vous avant le, la, les'),
       Q("Elle emmène [les enfants à l'école].", ['les y', 'y les', 'leur y'], 'les y', 'Elle les y emmène.', 'y après le, la, les'),
       Q('Donne [le livre à Paul] ! → Donne-[___] !', ['le-lui', 'lui-le', 'le-leur'], 'le-lui', 'Donne-le-lui !', 'impératif : verbe-le-lui')
+    ]
+  }
+];
+
+/* ============================================================
+   Hörverstehen – Texte mit Fragen (Stil DELF B1, compréhension de l'oral).
+   Neuer Text = neues Objekt. Bei jeder Frage steht die RICHTIGE Antwort an erster Stelle;
+   die App mischt die Reihenfolge beim Anzeigen.
+   ============================================================ */
+const LISTEN_TEXTS = [
+  {
+    id: 'rdv', title: 'Message vocal : le rendez-vous',
+    text: "Bonjour Julie, c'est Marc. Je t'appelle parce que je ne pourrai pas venir au cinéma ce soir. Mon chef m'a demandé de rester au bureau jusqu'à vingt heures pour finir un dossier important. Je suis vraiment désolé. Est-ce qu'on peut reporter à samedi ? Le film passe aussi à dix-huit heures trente. Si tu es d'accord, je réserve les billets sur Internet et on se retrouve devant le cinéma un quart d'heure avant. Après, on pourrait aller manger dans le nouveau restaurant italien près de la gare. Rappelle-moi ou envoie-moi un message. À bientôt !",
+    qs: [
+      ['Pourquoi Marc appelle-t-il Julie ?', ['Pour annuler la sortie de ce soir', "Pour l'inviter au restaurant ce soir", 'Pour lui demander un dossier']],
+      ['Pourquoi ne peut-il pas venir ?', ['Il doit travailler tard', 'Il est malade', 'Il a oublié les billets']],
+      ['Que propose-t-il ?', ["D'aller au cinéma samedi", 'De regarder le film à la maison', "D'y aller dimanche matin"]],
+      ['À quelle heure veulent-ils se retrouver devant le cinéma ?', ['À 18 h 15', 'À 18 h 30', 'À 20 h 00']]
+    ]
+  },
+  {
+    id: 'gare', title: 'Annonce à la gare',
+    text: "Mesdames et messieurs, votre attention s'il vous plaît. En raison de travaux sur la voie, le train à destination de Genève, départ prévu à neuf heures douze, partira avec un retard d'environ vingt-cinq minutes. Il partira de la voie sept et non de la voie quatre. Les voyageurs qui ont une correspondance à Lausanne pour Berne sont priés de s'adresser au personnel sur le quai. Un bus de remplacement est à votre disposition devant la gare pour les voyageurs à destination de Morges. Nous vous prions de nous excuser pour ce désagrément et vous remercions de votre compréhension.",
+    qs: [
+      ['Pourquoi le train a-t-il du retard ?', ['À cause de travaux', 'À cause de la météo', "À cause d'une grève"]],
+      ["Le retard est d'environ…", ['25 minutes', '12 minutes', '45 minutes']],
+      ['De quelle voie le train partira-t-il ?', ['De la voie 7', 'De la voie 4', 'De la voie 9']],
+      ['Que peuvent faire les voyageurs pour Morges ?', ['Prendre un bus devant la gare', 'Attendre le prochain train', 'Changer de train à Lausanne']]
+    ]
+  },
+  {
+    id: 'coloc', title: 'Témoignage : habiter chez une personne âgée',
+    text: "Je m'appelle Léa, j'ai vingt-deux ans et je suis étudiante à Lyon. Depuis septembre, j'habite chez Madeleine, une dame de soixante-dix-huit ans. Je paie un loyer très bas et, en échange, je l'aide un peu : je fais les courses deux fois par semaine et nous dînons ensemble le mercredi. Au début, j'avais peur de ne pas avoir assez de liberté. Mais en réalité, tout se passe très bien. Madeleine me raconte sa jeunesse et moi, je lui apprends à utiliser sa tablette. Mes amis trouvent cette idée étrange, pourtant je la recommande à tous les étudiants.",
+    qs: [
+      ['Chez qui Léa habite-t-elle ?', ['Chez une dame âgée', 'Chez ses grands-parents', 'Chez une amie étudiante']],
+      ['Que fait Léa en échange du loyer très bas ?', ['Elle fait les courses et dîne avec Madeleine', 'Elle fait le ménage tous les jours', 'Elle lui donne des cours de français']],
+      ['De quoi Léa avait-elle peur au début ?', ['De manquer de liberté', 'De payer trop cher', "De s'ennuyer"]],
+      ['Que pensent les amis de Léa ?', ["Ils trouvent l'idée étrange", 'Ils veulent faire la même chose', "Ils trouvent l'idée excellente"]]
+    ]
+  },
+  {
+    id: 'ville', title: 'Reportage : une avenue plus verte',
+    text: "Bienvenue dans notre émission « La ville de demain ». Aujourd'hui, nous sommes à Nantes, où la mairie a décidé de transformer une grande avenue du centre-ville. Avant, quatre voies étaient réservées aux voitures. Maintenant, il n'en reste que deux. À la place, on a planté cent cinquante arbres et construit une piste cyclable. Les habitants sont plutôt satisfaits : il y a moins de bruit et il fait plus frais en été. En revanche, certains commerçants se plaignent, car leurs clients ne trouvent plus de place pour se garer. La mairie promet d'ouvrir un nouveau parking l'année prochaine.",
+    qs: [
+      ["Qu'est-ce qui a changé sur l'avenue ?", ['Il y a moins de voies pour les voitures', "L'avenue est fermée aux vélos", 'On a construit un centre commercial']],
+      ["Combien d'arbres a-t-on plantés ?", ['150', '50', '500']],
+      ['Pourquoi les habitants sont-ils plutôt satisfaits ?', ['Il y a moins de bruit et il fait plus frais', 'Les loyers ont baissé', 'Il y a plus de magasins']],
+      ['De quoi certains commerçants se plaignent-ils ?', ['Du manque de places pour se garer', 'Du bruit des travaux', 'Du nombre de cyclistes']]
+    ]
+  },
+  {
+    id: 'musee', title: 'Annonce au musée',
+    text: "Chers visiteurs, bienvenue au musée des Beaux-Arts. Nous vous rappelons que le musée ferme ses portes à dix-huit heures. L'exposition temporaire consacrée à la photographie se trouve au deuxième étage. La visite guidée de quinze heures est complète, mais il reste des places pour celle de seize heures trente. L'entrée est gratuite pour les moins de vingt-six ans et, pour tout le monde, le premier dimanche du mois. Il est interdit de manger dans les salles et d'utiliser le flash. Vous pouvez laisser vos sacs au vestiaire, à côté de la boutique. Nous vous souhaitons une excellente visite.",
+    qs: [
+      ['À quelle heure le musée ferme-t-il ?', ['À 18 heures', 'À 17 heures', 'À 19 heures']],
+      ["Où se trouve l'exposition de photographie ?", ['Au deuxième étage', 'Au premier étage', 'Au rez-de-chaussée']],
+      ['Pour quelle visite guidée reste-t-il des places ?', ['Pour celle de 16 h 30', 'Pour celle de 15 heures', 'Pour aucune visite']],
+      ["Pour qui l'entrée est-elle gratuite tous les jours ?", ['Pour les moins de 26 ans', 'Pour les familles', 'Pour tous les visiteurs']]
+    ]
+  },
+  {
+    id: 'benevole', title: "Portrait : s'engager comme bénévole",
+    text: "Depuis trois ans, Thomas est bénévole dans une association qui distribue des repas aux personnes sans domicile. Il y va tous les jeudis soir, après son travail de comptable. Au début, il voulait simplement se sentir utile. Aujourd'hui, ce sont surtout les rencontres qui le motivent. L'association manque de bénévoles, surtout en hiver, quand les besoins sont les plus grands. Thomas encourage donc les jeunes à s'engager. Selon lui, deux heures par semaine suffisent pour changer quelque chose. Le mois prochain, l'association organisera une soirée d'information à la mairie.",
+    qs: [
+      ["Que fait l'association ?", ['Elle distribue des repas', 'Elle donne des cours du soir', 'Elle construit des logements']],
+      ['Quand Thomas y va-t-il ?', ['Le jeudi soir', 'Le samedi matin', 'Tous les jours']],
+      ["Qu'est-ce qui le motive surtout aujourd'hui ?", ['Les rencontres', 'Son salaire', 'Son travail de comptable']],
+      ["Quand l'association manque-t-elle le plus de bénévoles ?", ['En hiver', 'En été', 'Pendant les vacances scolaires']]
+    ]
+  },
+  {
+    id: 'ecrans', title: 'Enquête : les jeunes et les écrans',
+    text: "Selon une enquête récente, les jeunes de quinze à vingt-quatre ans passent en moyenne quatre heures par jour sur leur téléphone. La moitié d'entre eux disent qu'ils dorment mal à cause des écrans. Les médecins recommandent d'éteindre son téléphone au moins une heure avant de se coucher. Camille, dix-neuf ans, a essayé. Elle a remplacé les réseaux sociaux par un livre. Maintenant, elle s'endort plus vite et elle est moins fatiguée le matin. Pourtant, elle reconnaît que c'est difficile : quand ses amis lui écrivent le soir, elle a envie de répondre tout de suite.",
+    qs: [
+      ['Combien de temps par jour les jeunes passent-ils sur leur téléphone ?', ['Quatre heures', 'Deux heures', 'Six heures']],
+      ["Quel problème la moitié d'entre eux ont-ils ?", ['Ils dorment mal', 'Ils ont mal aux yeux', 'Ils ont de mauvaises notes']],
+      ['Que recommandent les médecins ?', ['Éteindre le téléphone une heure avant de se coucher', 'Ne plus utiliser les réseaux sociaux', 'Dormir dix heures par nuit']],
+      ['Pourquoi est-ce difficile pour Camille ?', ['Elle a envie de répondre à ses amis', "Elle n'aime pas lire", 'Elle travaille le soir']]
+    ]
+  },
+  {
+    id: 'marche', title: 'Environnement : le marché du village',
+    text: "Dans le village de Saint-Martin, les habitants ont trouvé une solution originale pour protéger l'environnement. Chaque samedi, un marché propose uniquement des produits cultivés à moins de trente kilomètres. Les emballages en plastique y sont interdits : il faut apporter ses propres sacs. Le maire explique que, grâce à ce marché, les agriculteurs de la région gagnent mieux leur vie. Les prix sont un peu plus élevés qu'au supermarché, mais les clients sont de plus en plus nombreux. L'année prochaine, le village voudrait aussi installer des panneaux solaires sur le toit de l'école.",
+    qs: [
+      ['Quels produits trouve-t-on sur ce marché ?', ['Des produits de la région', 'Des produits du monde entier', 'Des vêtements']],
+      ["Qu'est-ce qui est interdit sur le marché ?", ['Les emballages en plastique', 'Les voitures', 'Les sacs personnels']],
+      ['Comment sont les prix ?', ["Un peu plus élevés qu'au supermarché", "Moins élevés qu'au supermarché", "Les mêmes qu'au supermarché"]],
+      ["Quel est le projet du village pour l'année prochaine ?", ['Installer des panneaux solaires', 'Ouvrir un supermarché', "Agrandir l'école"]]
     ]
   }
 ];
@@ -1296,6 +1392,9 @@ const I18N = {
     lVoc: 'Vokabeln', lVocD: 'Du hörst ein Wort aus deinen Vokabel-Listen und tippst es.', lSent: 'Sätze', lSentD: 'Du hörst einen ganzen Satz und schreibst ihn auf.',
     lNum: 'Zahlen', lNumD: 'Du hörst eine Zahl und tippst sie in Ziffern.', play: 'Abspielen', slow: 'Langsam', typeHeard: 'Was hast du gehört?',
     noSpeech: 'Auf diesem Gerät oder in dieser Ansicht ist keine Sprachausgabe verfügbar.', noFrVoice: 'Keine französische Stimme gefunden. Die Aussprache kann falsch klingen.', heardN: '{a} richtig gehört',
+    lText: 'Hörverstehen', lTextD: 'Du hörst einen Text wie im DELF B1 und beantwortest Fragen dazu.', lTextHint: 'Lies zuerst die Fragen. Hör den Text dann zweimal an und wähle die Antworten.',
+    dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
+    answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1333,6 +1432,9 @@ const I18N = {
     lVoc: 'Vocabulary', lVocD: 'You hear a word from your vocabulary lists and type it.', lSent: 'Sentences', lSentD: 'You hear a whole sentence and write it down.',
     lNum: 'Numbers', lNumD: 'You hear a number and type it in digits.', play: 'Play', slow: 'Slow', typeHeard: 'What did you hear?',
     noSpeech: 'Speech output is not available on this device or in this view.', noFrVoice: 'No French voice found. The pronunciation may sound wrong.', heardN: '{a} heard correctly',
+    lText: 'Listening comprehension', lTextD: 'You hear a text as in the DELF B1 and answer questions about it.', lTextHint: 'Read the questions first. Then listen to the text twice and choose the answers.',
+    dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
+    answerAll: 'Answer all questions first.', nextText: 'Next text',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1370,6 +1472,9 @@ const I18N = {
     lVoc: 'Vocaboli', lVocD: 'Ascolti una parola delle tue liste e la scrivi.', lSent: 'Frasi', lSentD: 'Ascolti una frase intera e la scrivi.',
     lNum: 'Numeri', lNumD: 'Ascolti un numero e lo scrivi in cifre.', play: 'Ascolta', slow: 'Lento', typeHeard: 'Che cosa hai sentito?',
     noSpeech: 'La sintesi vocale non è disponibile su questo dispositivo o in questa vista.', noFrVoice: 'Nessuna voce francese trovata. La pronuncia può essere sbagliata.', heardN: '{a} capite correttamente',
+    lText: 'Comprensione orale', lTextD: 'Ascolti un testo come nel DELF B1 e rispondi alle domande.', lTextHint: 'Leggi prima le domande. Poi ascolta il testo due volte e scegli le risposte.',
+    dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
+    answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1407,6 +1512,9 @@ const I18N = {
     lVoc: 'Vocabulaire', lVocD: 'Tu entends un mot de tes listes et tu l’écris.', lSent: 'Phrases', lSentD: 'Tu entends une phrase entière et tu l’écris.',
     lNum: 'Nombres', lNumD: 'Tu entends un nombre et tu l’écris en chiffres.', play: 'Écouter', slow: 'Lentement', typeHeard: 'Qu’as-tu entendu ?',
     noSpeech: 'La synthèse vocale n’est pas disponible sur cet appareil ou dans cette vue.', noFrVoice: 'Aucune voix française trouvée. La prononciation peut être incorrecte.', heardN: '{a} bien entendus',
+    lText: 'Compréhension de l’oral', lTextD: 'Tu écoutes un document comme au DELF B1 et tu réponds aux questions.', lTextHint: 'Lis d’abord les questions. Écoute ensuite le document deux fois et choisis les réponses.',
+    dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
+    answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1522,7 +1630,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '1.9';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.0';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1532,7 +1640,7 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {} };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {} };
 }
 function loadState() {
   const d = defaults();
@@ -1555,7 +1663,7 @@ function readBackup(txt) {
   const nums = (src, max) => { const r = {}; if (isObj(src)) for (const k in src) if (str(k) && Number.isFinite(src[k])) r[k] = Math.max(0, Math.min(max, Math.round(src[k]))); return r; };
   if (I18N[d.lang]) out.lang = d.lang;
   if (isObj(d.box)) for (const T of TENSES) if (isObj(d.box[T.k])) out.box[T.k] = nums(d.box[T.k], 3);
-  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999);
+  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999); out.ltext = nums(d.ltext, 20);
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
@@ -1635,7 +1743,7 @@ function render() {
   $('#nav').hidden = full;
   $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['listen', IC.ear], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
     `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${t(n === 'verbs' ? 'add' : n)}</span></button>`).join('');
-  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum };
+  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum, ltext: vLText };
   // Tastatur offen halten, während die nächste Aufgabe aufgebaut wird (sonst springt der Bildschirm auf dem Handy)
   const keep = $('#kbkeep'), hadFocus = document.activeElement && document.activeElement.id === 'ans';
   if (hadFocus && keep) keep.focus({ preventScroll: true });
@@ -1658,7 +1766,7 @@ function fitViewport() {
 if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
 window.addEventListener('resize', fitViewport);
 function navActive(n) {
-  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && V.name === 'lsum');
+  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && ['lsum', 'ltext'].includes(V.name));
 }
 
 /* --- Lernen --- */
@@ -1920,6 +2028,19 @@ function say(text, slow) {
     speechSynthesis.speak(u);
   } catch (e) { /* ohne Ton weiter */ }
 }
+/* Längere Texte Satz für Satz vorlesen (manche Geräte brechen lange Ausgaben ab) */
+function sayLong(text, slow) {
+  if (!speechOK) return;
+  try {
+    speechSynthesis.cancel();
+    for (const part of (text.match(/[^.!?…]+[.!?…]+[\s»"]*/g) || [text])) {
+      const u = new SpeechSynthesisUtterance(part.trim());
+      u.lang = 'fr-FR'; if (frVoice) u.voice = frVoice; u.rate = slow ? 0.7 : 0.92;
+      speechSynthesis.speak(u);
+    }
+  } catch (e) { /* ohne Ton weiter */ }
+}
+function hush() { try { if (speechOK) speechSynthesis.cancel(); } catch (e) { /* egal */ } }
 const plain = s => norm(s).replace(/[.,!?;:«»"…]/g, ' ').replace(/\s+/g, ' ').trim();
 const sameOrAccent = (a, list) => list.includes(a) ? 'ok' : (list.some(x => flat(x) === flat(a)) ? 'accent' : 'no');
 /* Hör-Arten: neue Art = neuer Eintrag. make() liefert { say, show, sub, check(eingabe) } */
@@ -1952,10 +2073,48 @@ const LISTEN = [
     } }
 ];
 let H = null;   // laufende Hör-Runde
+const TEXTS = typeof LISTEN_TEXTS !== 'undefined' ? LISTEN_TEXTS : [];
+let TX = null;   // laufendes Hörverstehen
 function vListen() {
   const warn = !speechOK ? `<p class="note warn">${t('noSpeech')}</p>` : (voicesSeen && !frVoice ? `<p class="note warn">${t('noFrVoice')}</p>` : '');
-  return `<header class="head"><h1>${t('listen')}</h1></header><p class="muted">${t('listenDesc')}</p>${warn}
-    <div class="list">${LISTEN.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${speechOK ? '' : ' disabled'}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>`;
+  const dis = speechOK ? '' : ' disabled';
+  return `<header class="head"><h1>${t('listen')}</h1></header>${warn}
+    <h2 class="grp">${t('lText')}<small>DELF B1</small></h2><p class="muted">${t('lTextD')}</p>
+    <div class="list">${TEXTS.map((x, i) => `<button type="button" class="card lvl" data-a="ltopen" data-id="${x.id}"${dis}><span class="dot num">${i + 1}</span><span class="grow"><b>${esc(x.title)}</b><small${x.id in S.ltext ? ' class="sneak"' : ''}>${x.id in S.ltext ? t('bestScore', { a: S.ltext[x.id], b: x.qs.length }) : t('notDone')}</small></span></button>`).join('')}</div>
+    <h2 class="grp">${t('dictation')}</h2><p class="muted">${t('listenDesc')}</p>
+    <div class="list">${LISTEN.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${dis}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>`;
+}
+function ltOpen(id) {
+  const tx = TEXTS.find(x => x.id === id) || TEXTS[0];
+  loadVoices();
+  TX = { tx, order: tx.qs.map(q => shuffle(q[1].map((_, i) => i))), pick: {}, done: false };
+  go('ltext');
+}
+function vLText() {
+  const x = TX.tx;
+  return `<header class="top"><button type="button" class="icon" data-a="ltquit" aria-label="${t('quit')}">${IC.x}</button><b class="grow">${t('lText')}</b><span class="muted">${TEXTS.indexOf(x) + 1} / ${TEXTS.length}</span></header>
+    <h1 class="ltitle">${esc(x.title)}</h1><p class="muted">${t('lTextHint')}</p>
+    <div class="row sticky"><button type="button" class="btn grow playbtn" data-a="ltplay">${IC.play}${t('play')}</button><button type="button" class="btn line" data-a="ltslow">${t('slow')}</button><button type="button" class="btn line" data-a="ltstop">${t('stop')}</button></div>
+    ${x.qs.map((q, qi) => `<fieldset class="lq" data-q="${qi}"><legend>${qi + 1}. ${esc(q[0])}</legend>${TX.order[qi].map(oi => `<button type="button" data-a="ltpick" data-q="${qi}" data-o="${oi}">${esc(q[1][oi])}</button>`).join('')}</fieldset>`).join('')}
+    <div id="lres" aria-live="polite"></div>
+    <button type="button" class="btn big" id="go" data-a="lteval">${t('evaluate')}</button>
+    <details class="card" id="ltrans" hidden><summary>${t('transcript')}</summary><p>${esc(x.text)}</p></details>`;
+}
+function ltEval() {
+  const x = TX.tx;
+  if (TX.done) { hush(); const nx = TEXTS[(TEXTS.indexOf(x) + 1) % TEXTS.length]; return ltOpen(nx.id); }
+  if (Object.keys(TX.pick).length < x.qs.length) { $('#lres').innerHTML = `<p class="note warn">${t('answerAll')}</p>`; return; }
+  TX.done = true; hush();
+  let right = 0;
+  document.querySelectorAll('.lq button').forEach(b => {
+    const qi = +b.dataset.q, oi = +b.dataset.o; b.disabled = true;
+    if (oi === 0) b.classList.add('yes'); else if (TX.pick[qi] === oi) b.classList.add('no');
+  });
+  x.qs.forEach((q, qi) => { if (TX.pick[qi] === 0) right++; });
+  S.ltext[x.id] = Math.max(S.ltext[x.id] || 0, right); markDay(); save();
+  $('#lres').innerHTML = `<p class="note${right === x.qs.length ? '' : ' warn'}"><b>${t('score', { a: right, b: x.qs.length })}</b></p>`;
+  const tr = $('#ltrans'); tr.hidden = false; tr.open = true;
+  $('#go').textContent = t('nextText');
 }
 function lStart(id) {
   const mode = LISTEN.find(m => m.id === id) || LISTEN[0];
@@ -2170,7 +2329,7 @@ function vGramSum() {
 
 /* ---------- Ereignisse ---------- */
 const ACT = {
-  nav: el => { if (C && C.timer) { clearInterval(C.timer); C.timer = null; } go(el.dataset.n); },
+  nav: el => { if (C && C.timer) { clearInterval(C.timer); C.timer = null; } hush(); go(el.dataset.n); },
   tab: el => go('learn', { tab: el.dataset.n }),
   sneakask: el => go('learn', { ask: el.dataset.k }),
   sneakno: () => go('learn'),
@@ -2228,6 +2387,18 @@ const ACT = {
   gopt: el => gAnswer(el.dataset.v, el),
   gnext: gNext,
   gquit: () => go('learn', { tab: 'gram' }),
+  ltopen: el => ltOpen(el.dataset.id),
+  ltplay: () => sayLong(TX.tx.text),
+  ltslow: () => sayLong(TX.tx.text, true),
+  ltstop: hush,
+  ltquit: () => { hush(); go('listen'); },
+  ltpick: el => {
+    if (TX.done) return;
+    TX.pick[+el.dataset.q] = +el.dataset.o;
+    el.parentElement.querySelectorAll('button').forEach(b => b.classList.toggle('sel', b === el));
+    $('#lres').innerHTML = '';
+  },
+  lteval: ltEval,
   lstart: el => lStart(el.dataset.id),
   lplay: () => { say(H.list[H.n].say); const i = $('#ans'); if (i && !i.readOnly) i.focus({ preventScroll: true }); },
   lslow: () => { say(H.list[H.n].say, true); const i = $('#ans'); if (i && !i.readOnly) i.focus({ preventScroll: true }); },

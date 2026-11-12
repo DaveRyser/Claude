@@ -163,7 +163,36 @@ mark{background:#DCEDE3;color:var(--gd);padding:2px 6px;border-radius:6px}
 #nav button{flex:1;min-width:0;padding:0;min-height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;color:var(--mute)}
 #nav button.on{color:var(--g);font-weight:600}
 button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
-@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+/* ---------- Animationen (dezent) ---------- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes bounce{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes growBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes ringDraw{from{stroke-dashoffset:440}}
+@keyframes fall{0%{transform:translate(0,-20px) rotate(0);opacity:1}100%{transform:translate(var(--dx),70vh) rotate(var(--rot));opacity:0}}
+#view:not(.full)>*{animation:fadeUp .32s ease-out both}
+#view:not(.full)>*:nth-child(2){animation-delay:.04s}#view:not(.full)>*:nth-child(3){animation-delay:.08s}#view:not(.full)>*:nth-child(4){animation-delay:.12s}#view:not(.full)>*:nth-child(n+5){animation-delay:.16s}
+#view.full .q,#view.full .sentence,#view.full .intro{animation:fadeIn .28s ease-out both}
+.fb,.note{animation:pop .24s ease-out both}
+.field.shake{animation:shake .38s ease-in-out}
+.dot.xl{animation:bounce .55s cubic-bezier(.3,1.4,.5,1) both}
+.fb .dot.ok{animation:bounce .4s cubic-bezier(.3,1.4,.5,1) both}
+.list .bar i,.areas .bar i,.fold .bar i,.gcard .bar i{transform-origin:left;animation:growBar .7s cubic-bezier(.2,.8,.2,1) both}
+.ringfill{animation:ringDraw .9s cubic-bezier(.2,.8,.2,1) both}
+.gring b{animation:pop .5s ease-out both}
+.btn,.card.lvl,.opts button,.lq button,.keys button,#nav button,.seg button{transition:transform .12s ease,background-color .18s ease,border-color .18s ease,color .18s ease}
+.btn:active,button.card.lvl:active,.opts button:active,.lq button:active{transform:scale(.97)}
+.keys button:active{transform:scale(.92)}
+#nav button.on svg{animation:bounce .35s cubic-bezier(.3,1.4,.5,1) both}
+.opts button.yes,.lq button.yes{animation:pop .25s ease-out both}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translate(-50%,-140%);background:var(--g);color:#fff;font-weight:600;font-size:15px;padding:12px 20px;border-radius:24px;box-shadow:0 6px 20px rgba(28,43,36,.18);transition:transform .35s cubic-bezier(.3,1.3,.5,1);z-index:20;pointer-events:none;white-space:nowrap}
+#toast.show{transform:translate(-50%,0)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:19;overflow:hidden}
+.confetti i{position:absolute;top:8%;width:9px;height:9px;border-radius:2px;animation:fall 1.4s cubic-bezier(.3,.6,.6,1) both}
+.confetti i:nth-child(3n){border-radius:50%}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -179,6 +208,7 @@ button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 </head>
 <body>
 <input id="kbkeep" type="text" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="off">
+<div id="toast" role="status" aria-live="polite"></div>
 <div id="app"><main id="view"></main><nav id="nav" aria-label="Navigation"></nav></div>
 <script>
 /* Mitgelieferte Vokabel-Listen: [französisch, Bedeutung]. Neue Liste = neues Objekt in diesem Array. */
@@ -1753,7 +1783,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.2';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.3';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -1828,12 +1858,38 @@ function persons(v, k) { const f = forms(v, k); const out = []; if (f) f.forEach
 const boxOf = (k, v) => (S.box[k] || {})[v.fr] || 0;
 function sure(k) { const b = S.box[k] || {}; let n = 0; for (const v of verbs()) if (b[v.fr] >= 2) n++; return n; }
 function level() { let n = 0; while (n < TENSES.length - 1 && sure(TENSES[n].k) >= GOAL) n++; return n; }
+/* ---------- Kleine Effekte ---------- */
+const calm = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
+function burst() {
+  if (calm()) return;
+  const box = document.createElement('div'); box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+  const cols = ['#2F7D5B', '#5FA882', '#CFE8DA', '#1F5C42'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('i');
+    p.style.cssText = `left:${8 + Math.random() * 84}%;background:${cols[i % cols.length]};animation-delay:${(Math.random() * 0.25).toFixed(2)}s;animation-duration:${(1.1 + Math.random() * 0.7).toFixed(2)}s;--dx:${Math.round(Math.random() * 80 - 40)}px;--rot:${Math.round(Math.random() * 540 - 270)}deg`;
+    box.appendChild(p);
+  }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 2200);
+}
+let toastTimer = null;
+function toast(text, party) {
+  const el = $('#toast'); if (!el) return;
+  el.textContent = text; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+  if (party) burst();
+}
+function shake() {
+  const f = $('.field'); if (!f || calm()) return;
+  f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake');
+}
 const localDay = d => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
 /** Nach jeder beantworteten Aufgabe: Lerntage in Folge und Tageszähler nachführen */
 function markDay(n) {
   const now = new Date(), today = localDay(now);
   if (S.day !== today) { S.days = S.day === localDay(new Date(now.getTime() - 864e5)) ? (S.days || 0) + 1 : 1; S.day = today; }
-  S.hist = S.hist || {}; S.hist[today] = (S.hist[today] || 0) + (n || 1);
+  S.hist = S.hist || {}; const before = S.hist[today] || 0;
+  S.hist[today] = before + (n || 1);
+  if (before < DAILY_GOAL && S.hist[today] >= DAILY_GOAL) toast(t('goalDone'), true);
   const keys = Object.keys(S.hist).sort(); while (keys.length > 35) delete S.hist[keys.shift()];
 }
 function streak() {
@@ -1987,7 +2043,7 @@ function checkAnswer() {
   if (!inp.value.trim()) return inp.focus();
   const g = grade(inp.value, q.f), ok = g === 'ok';
   X.done = true; inp.readOnly = true; if (ok) X.right++; $('#view').classList.add('answered');
-  record(q, ok);
+  record(q, ok); if (!ok) shake();
   $('#fb').innerHTML = ok
     ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${full(q)}</p></div></div>`
     : `<div class="fb bad"><div><b>${g === 'accent' ? t('accent') : t('wrong')}</b><p>${t('solution')}: <strong>${full(q)}</strong></p>
@@ -1996,7 +2052,7 @@ function checkAnswer() {
 }
 function nextQ() {
   X.n++; X.done = false;
-  if (X.n >= X.list.length) return go('sum');
+  if (X.n >= X.list.length) { go('sum'); if (level() > X.lv) burst(); return; }
   render();
 }
 function vSummary() {
@@ -2052,7 +2108,7 @@ function vocCheck() {
   if (!inp.value.trim()) return inp.focus();
   const a = noArt(norm(inp.value).replace(/[.!?…]+$/, '').trim()), acc = [...vocVariants(w.fr)], ok = acc.includes(a);
   W.done = true; inp.readOnly = true; $('#view').classList.add('answered');
-  if (ok) { W.right++; S.vbox[w.fr] = Math.min(3, (S.vbox[w.fr] || 0) + 1); } else S.vbox[w.fr] = 0;
+  if (ok) { W.right++; S.vbox[w.fr] = Math.min(3, (S.vbox[w.fr] || 0) + 1); } else { S.vbox[w.fr] = 0; shake(); }
   markDay(); save();
   $('#fb').innerHTML = ok
     ? `<div class="fb good"><span class="dot ok">${IC.check}</span><div><b>${t('right')}</b><p>${esc(w.fr)}</p></div></div>`
@@ -2126,7 +2182,7 @@ function chEnd() {
   if (C.score > 0) { S.scores.push(C.entry); S.scores.sort((a, b) => b.s - a.s); S.scores = S.scores.slice(0, 10); }
   if (C.isNew) { S.hi = C.score; S.sneaks = (S.sneaks || 0) + 1; }
   save();
-  go('chend');
+  go('chend'); if (C.isNew) burst();
 }
 function vChEnd() {
   return `<header class="head"><h1>${t('timeUp')}</h1></header>
@@ -2278,7 +2334,7 @@ function lCheck() {
   if (!inp.value.trim()) return inp.focus();
   const g = q.check(inp.value), ok = g === 'ok';
   H.done = true; inp.readOnly = true; $('#view').classList.add('answered');
-  if (ok) { H.right++; S.heard[H.mode.id] = (S.heard[H.mode.id] || 0) + 1; }
+  if (ok) { H.right++; S.heard[H.mode.id] = (S.heard[H.mode.id] || 0) + 1; } else shake();
   markDay(); save();
   const sub = q.sub ? `<p class="muted">${esc(q.sub)}</p>` : '';
   $('#fb').innerHTML = ok
@@ -2321,7 +2377,7 @@ function vProgress() {
     <section class="goal">
       <div class="gring"><svg role="img" aria-label="${done} / ${DAILY_GOAL}" width="180" height="180" viewBox="0 0 180 180">
         <circle cx="90" cy="90" r="70" fill="none" stroke="#F1F7F3" stroke-width="14"/>
-        ${frac ? `<circle cx="90" cy="90" r="70" fill="none" stroke="#2F7D5B" stroke-width="14" stroke-linecap="round" stroke-dasharray="${Math.max(1, circ * frac).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 90 90)"/>` : ''}</svg>
+        ${frac ? `<circle class="ringfill" cx="90" cy="90" r="70" fill="none" stroke="#2F7D5B" stroke-width="14" stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${(circ * (1 - frac)).toFixed(1)}" transform="rotate(-90 90 90)"/>` : ''}</svg>
         <div><b>${done}</b><span>/ ${DAILY_GOAL}</span><small>${t('today')}</small></div></div>
       <p class="strong">${done >= DAILY_GOAL ? t('goalDone') : t('goalLeft', { a: DAILY_GOAL - done })}</p>
       <div class="week">${week}</div>

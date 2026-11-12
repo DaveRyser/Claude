@@ -93,6 +93,19 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .stats div{padding:12px 16px;border:1px solid var(--line);border-radius:16px}
 .stats small{display:block;font-size:13px;color:var(--mute)}.stats b{font-size:26px}
 .stats em{font:500 14px Inter,sans-serif;color:var(--g)}
+.goal{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0 4px;text-align:center}
+.gring{position:relative;width:180px;height:180px}
+.gring>div{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;align-content:center;column-gap:6px}
+.gring b{font:700 52px/1 'Space Grotesk',sans-serif;color:var(--ink)}.gring span{font-size:18px;color:var(--mute)}
+.gring small{flex-basis:100%;font-size:13px;color:var(--mute);margin-top:6px}
+.week{display:flex;gap:14px;margin-top:6px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:6px}
+.wd i{width:14px;height:14px;border-radius:50%;background:var(--grey);box-sizing:border-box}
+.wd.part i{background:#fff;border:2px solid var(--g)}.wd.on i{background:var(--g)}
+.wd small{font-size:11px;color:var(--mute)}.wd.now small{color:var(--ink);font-weight:600}
+.areas{gap:16px;margin-top:16px}.areas .trow>small{font-size:12px;color:var(--mute)}.areas .trow span:first-child{font-weight:500;font-size:15px}
+.fold{padding:4px 16px}.fold summary{font-weight:600;color:var(--ink)}.fold[open]{padding-bottom:16px}
+.fold .form{padding:0;border:0}.fold .block:first-of-type{margin-top:0}
 .ltitle{font-size:22px;line-height:1.25}
 .row.sticky{position:sticky;top:0;background:#fff;padding:8px 0;z-index:2;gap:8px}.row.sticky .btn{padding:0 14px}
 .lq{border:0;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.lq legend{font-weight:600;font-size:16px;line-height:1.35;padding:0;margin-bottom:8px}
@@ -1501,6 +1514,7 @@ const I18N = {
     lText: 'Hörverstehen', lTextD: 'Du hörst einen Text wie im DELF B1 und beantwortest Fragen dazu.', lTextHint: 'Lies zuerst die Fragen. Hör den Text dann zweimal an und wähle die Antworten.',
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
     answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
+    today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: '{a} Tage in Folge',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1541,6 +1555,7 @@ const I18N = {
     lText: 'Listening comprehension', lTextD: 'You hear a text as in the DELF B1 and answer questions about it.', lTextHint: 'Read the questions first. Then listen to the text twice and choose the answers.',
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
     answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
+    today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: '{a} days in a row',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1581,6 +1596,7 @@ const I18N = {
     lText: 'Comprensione orale', lTextD: 'Ascolti un testo come nel DELF B1 e rispondi alle domande.', lTextHint: 'Leggi prima le domande. Poi ascolta il testo due volte e scegli le risposte.',
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
     answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
+    today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: '{a} giorni di fila',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1621,6 +1637,7 @@ const I18N = {
     lText: 'Compréhension de l’oral', lTextD: 'Tu écoutes un document comme au DELF B1 et tu réponds aux questions.', lTextHint: 'Lis d’abord les questions. Écoute ensuite le document deux fois et choisis les réponses.',
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
     answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
+    today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: '{a} jours de suite',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1736,7 +1753,8 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.1';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.2';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
 const CH_SECONDS = 60;  // Dauer der Challenge
@@ -1746,7 +1764,7 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {}, llevel: 'B1' };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {}, llevel: 'B1', hist: {} };
 }
 function loadState() {
   const d = defaults();
@@ -1769,7 +1787,7 @@ function readBackup(txt) {
   const nums = (src, max) => { const r = {}; if (isObj(src)) for (const k in src) if (str(k) && Number.isFinite(src[k])) r[k] = Math.max(0, Math.min(max, Math.round(src[k]))); return r; };
   if (I18N[d.lang]) out.lang = d.lang;
   if (isObj(d.box)) for (const T of TENSES) if (isObj(d.box[T.k])) out.box[T.k] = nums(d.box[T.k], 3);
-  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999); out.ltext = nums(d.ltext, 20); if (['A2', 'B1', 'B2'].includes(d.llevel)) out.llevel = d.llevel;
+  out.err = nums(d.err, 999); out.vbox = nums(d.vbox, 3); out.heard = nums(d.heard, 99999); out.ltext = nums(d.ltext, 20); { const h = nums(d.hist, 9999); for (const k in h) if (/^\d{4}-\d{2}-\d{2}$/.test(k)) out.hist[k] = h[k]; } if (['A2', 'B1', 'B2'].includes(d.llevel)) out.llevel = d.llevel;
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
@@ -1810,11 +1828,17 @@ function persons(v, k) { const f = forms(v, k); const out = []; if (f) f.forEach
 const boxOf = (k, v) => (S.box[k] || {})[v.fr] || 0;
 function sure(k) { const b = S.box[k] || {}; let n = 0; for (const v of verbs()) if (b[v.fr] >= 2) n++; return n; }
 function level() { let n = 0; while (n < TENSES.length - 1 && sure(TENSES[n].k) >= GOAL) n++; return n; }
-function markDay() {
-  const d = new Date(), today = d.toISOString().slice(0, 10);
-  if (S.day === today) return;
-  const y = new Date(d.getTime() - 864e5).toISOString().slice(0, 10);
-  S.days = S.day === y ? (S.days || 0) + 1 : 1; S.day = today;
+const localDay = d => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+/** Nach jeder beantworteten Aufgabe: Lerntage in Folge und Tageszähler nachführen */
+function markDay(n) {
+  const now = new Date(), today = localDay(now);
+  if (S.day !== today) { S.days = S.day === localDay(new Date(now.getTime() - 864e5)) ? (S.days || 0) + 1 : 1; S.day = today; }
+  S.hist = S.hist || {}; S.hist[today] = (S.hist[today] || 0) + (n || 1);
+  const keys = Object.keys(S.hist).sort(); while (keys.length > 35) delete S.hist[keys.shift()];
+}
+function streak() {
+  const now = new Date();
+  return S.day === localDay(now) || S.day === localDay(new Date(now.getTime() - 864e5)) ? (S.days || 0) : 0;
 }
 
 /* ---------- Icons ---------- */
@@ -2221,7 +2245,7 @@ function ltEval() {
     if (oi === 0) b.classList.add('yes'); else if (TX.pick[qi] === oi) b.classList.add('no');
   });
   x.qs.forEach((q, qi) => { if (TX.pick[qi] === 0) right++; });
-  S.ltext[x.id] = Math.max(S.ltext[x.id] || 0, right); markDay(); save();
+  S.ltext[x.id] = Math.max(S.ltext[x.id] || 0, right); markDay(x.qs.length); save();
   $('#lres').innerHTML = `<p class="note${right === x.qs.length ? '' : ' warn'}"><b>${t('score', { a: right, b: x.qs.length })}</b></p>`;
   const tr = $('#ltrans'); tr.hidden = false; tr.open = true;
   $('#go').textContent = t('nextText');
@@ -2271,24 +2295,49 @@ function vLSum() {
 
 /* --- Fortschritt --- */
 function vProgress() {
-  const N = verbs().length, lv = level();
-  const counts = TENSES.map(T => sure(T.k)), total = counts.reduce((a, b) => a + b, 0), max = N * TENSES.length;
-  const pct = Math.round(100 * total / max), circ = 2 * Math.PI * 50;
-  const vs = vocSets(), vAll = vs.reduce((a, x) => a + x.items.length, 0) || 1, vOk = vs.reduce((a, x) => a + vocSure(x), 0);
+  const N = verbs().length, lv = level(), now = new Date();
+  const counts = TENSES.map(T => sure(T.k));
   const hard = verbs().filter(v => S.err[v.fr] > 0).sort((a, b) => S.err[b.fr] - S.err[a.fr]).slice(0, 10);
+  // Tagesziel
+  const done = (S.hist || {})[localDay(now)] || 0, frac = Math.min(1, done / DAILY_GOAL), circ = 2 * Math.PI * 70;
+  const week = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(now.getTime() - (6 - i) * 864e5), n = (S.hist || {})[localDay(d)] || 0;
+    let wd = ''; try { wd = d.toLocaleDateString(S.lang, { weekday: 'narrow' }); } catch (e) { wd = ''; }
+    return `<span class="wd${n >= DAILY_GOAL ? ' on' : n > 0 ? ' part' : ''}${i === 6 ? ' now' : ''}"><i></i><small>${esc(wd)}</small></span>`;
+  }).join('');
+  // Stand pro Bereich
+  const vs = vocSets(), vAll = vs.reduce((a, x) => a + x.items.length, 0), vOk = vs.reduce((a, x) => a + vocSure(x), 0);
+  const gAll = GRAMMAR.reduce((a, m) => a + m.items.length, 0), gOk = GRAMMAR.reduce((a, m) => a + Object.keys(S.gram[m.id] || {}).length, 0);
+  const tAll = TEXTS.reduce((a, x) => a + x.qs.length, 0), tOk = TEXTS.reduce((a, x) => a + Math.min(x.qs.length, S.ltext[x.id] || 0), 0);
+  const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+  const areas = [
+    [t('verbs'), Math.round(100 * (lv + Math.min(1, counts[lv] / GOAL)) / TENSES.length), t('levelOf', { a: lv + 1, b: TENSES.length })],
+    [t('vocab'), pct(vOk, vAll), vOk + ' / ' + vAll],
+    [t('grammar'), pct(gOk, gAll), gOk + ' / ' + gAll],
+    [t('listen'), pct(tOk, tAll), tOk + ' / ' + tAll]
+  ];
+  const bm = bmsg();
   return `<header class="head"><h1>${t('progress')}</h1></header>
-    <section class="hero"><div class="ring"><svg role="img" aria-label="${pct} %" width="120" height="120" viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r="50" fill="none" stroke="#fff" stroke-width="12"/>
-      ${total ? `<circle cx="60" cy="60" r="50" fill="none" stroke="#2F7D5B" stroke-width="12" stroke-linecap="round" stroke-dasharray="${Math.max(1, circ * total / max).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 60 60)"/>` : ''}</svg><b>${pct} %</b></div>
-      <div><p class="strong">${t('overallSure', { a: total, b: max })}</p><p class="accent">${t('days', { a: S.days || 0 })}</p><p class="muted">${t('record')} ${t('challenge')}: ${S.hi}</p></div></section>
-    <section class="block"><h2>${t('vocab')}</h2><div class="trow"><div><span>${t('wCount', { a: vAll })}</span><span>${vOk} / ${vAll}</span></div><div class="bar"><i style="width:${100 * vOk / vAll}%"></i></div></div></section>
-    <section class="block"><h2>${t('byTense')}</h2>${TENSES.map((T, i) => `<div class="trow${i > lv ? ' off' : ''}"><div><span>${T.n}</span><span>${i > lv ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`).join('')}</section>
-    <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>
-    <section class="card form"><h2>${t('backup')}</h2><p class="muted">${t('backupDesc')}</p>
+    <section class="goal">
+      <div class="gring"><svg role="img" aria-label="${done} / ${DAILY_GOAL}" width="180" height="180" viewBox="0 0 180 180">
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#F1F7F3" stroke-width="14"/>
+        ${frac ? `<circle cx="90" cy="90" r="70" fill="none" stroke="#2F7D5B" stroke-width="14" stroke-linecap="round" stroke-dasharray="${Math.max(1, circ * frac).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 90 90)"/>` : ''}</svg>
+        <div><b>${done}</b><span>/ ${DAILY_GOAL}</span><small>${t('today')}</small></div></div>
+      <p class="strong">${done >= DAILY_GOAL ? t('goalDone') : t('goalLeft', { a: DAILY_GOAL - done })}</p>
+      <div class="week">${week}</div>
+      <p class="muted">${t('daysRow', { a: streak() })}</p>
+    </section>
+    <section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}</small></div>`).join('')}</section>
+    <details class="card fold"><summary>${t('details')}</summary>
+      <section class="block"><h2>${t('byTense')}</h2>${TENSES.map((T, i) => `<div class="trow${i > lv ? ' off' : ''}"><div><span>${T.n}</span><span>${i > lv ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`).join('')}</section>
+      <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>
+      <section class="block"><h2>${t('challenge')}</h2><p class="muted">${t('record')}: ${S.hi} · ${t('sneaksN', { a: S.sneaks || 0 })}</p></section>
+    </details>
+    <details class="card fold"${bm ? ' open' : ''}><summary>${t('backup')}</summary><div class="form"><p class="muted">${t('backupDesc')}</p>
       <button type="button" class="btn" data-a="bexport">${t('exportFile')}</button><button type="button" class="btn ghost" data-a="bcopy">${t('exportCopy')}</button>
       <label for="bfile">${t('importTitle')}</label><input id="bfile" type="file" accept=".json,application/json,text/plain" data-c="bfile">
       <label for="btext" class="sr">${t('importPh')}</label><textarea id="btext" rows="3" spellcheck="false" placeholder="${t('importPh')}"></textarea>
-      <button type="button" class="btn ghost" data-a="bcheck">${t('importBtn')}</button><div id="bmsg" aria-live="polite">${bmsg()}</div></section>
+      <button type="button" class="btn ghost" data-a="bcheck">${t('importBtn')}</button><div id="bmsg" aria-live="polite">${bm}</div></div></details>
     <p class="hint">Version ${APP_VERSION}</p>`;
 }
 

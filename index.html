@@ -2485,6 +2485,7 @@ function teChange(el) {
   else {
     const s = new Set(TE[g]); if (el.checked) s.add(el.value); else s.delete(el.value); TE[g] = [...s];
     const c = $('#cnt_' + g); if (c) c.textContent = t('chosen', { a: TE[g].length });
+    const w = g === 'vs' && $('[data-n="tewords"] small'); if (w) w.textContent = t('teOf', { a: teWordTotal() - teWordOff(), b: teWordTotal() });
   }
   saveTE();
 }
@@ -3450,7 +3451,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.4';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde

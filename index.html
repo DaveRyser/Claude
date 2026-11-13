@@ -187,8 +187,8 @@ button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 .keys button:active{transform:scale(.92)}
 #nav button.on svg{animation:bounce .35s cubic-bezier(.3,1.4,.5,1) both}
 .opts button.yes,.lq button.yes{animation:pop .25s ease-out both}
-#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translate(-50%,-140%);background:var(--g);color:#fff;font-weight:600;font-size:15px;padding:12px 20px;border-radius:24px;box-shadow:0 6px 20px rgba(28,43,36,.18);transition:transform .35s cubic-bezier(.3,1.3,.5,1);z-index:20;pointer-events:none;white-space:nowrap}
-#toast.show{transform:translate(-50%,0)}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translate(-50%,-250%);background:var(--g);color:#fff;font-weight:600;font-size:15px;padding:12px 20px;border-radius:24px;box-shadow:0 6px 20px rgba(28,43,36,.18);opacity:0;visibility:hidden;transition:transform .35s cubic-bezier(.3,1.3,.5,1),opacity .25s ease,visibility 0s linear .35s;z-index:20;pointer-events:none;white-space:nowrap}
+#toast.show{transform:translate(-50%,0);opacity:1;visibility:visible;transition-delay:0s}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:19;overflow:hidden}
 .confetti i{position:absolute;top:8%;width:9px;height:9px;border-radius:2px;animation:fall 1.4s cubic-bezier(.3,.6,.6,1) both}
 .confetti i:nth-child(3n){border-radius:50%}
@@ -1544,7 +1544,7 @@ const I18N = {
     lText: 'Hörverstehen', lTextD: 'Du hörst einen Text wie im DELF B1 und beantwortest Fragen dazu.', lTextHint: 'Lies zuerst die Fragen. Hör den Text dann zweimal an und wähle die Antworten.',
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
     answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
-    today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: '{a} Tage in Folge',
+    today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: 'Tage in Folge: {a}',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1585,7 +1585,7 @@ const I18N = {
     lText: 'Listening comprehension', lTextD: 'You hear a text as in the DELF B1 and answer questions about it.', lTextHint: 'Read the questions first. Then listen to the text twice and choose the answers.',
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
     answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
-    today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: '{a} days in a row',
+    today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: 'Days in a row: {a}',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1626,7 +1626,7 @@ const I18N = {
     lText: 'Comprensione orale', lTextD: 'Ascolti un testo come nel DELF B1 e rispondi alle domande.', lTextHint: 'Leggi prima le domande. Poi ascolta il testo due volte e scegli le risposte.',
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
     answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
-    today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: '{a} giorni di fila',
+    today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: 'Giorni di fila: {a}',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1667,7 +1667,7 @@ const I18N = {
     lText: 'Compréhension de l’oral', lTextD: 'Tu écoutes un document comme au DELF B1 et tu réponds aux questions.', lTextHint: 'Lis d’abord les questions. Écoute ensuite le document deux fois et choisis les réponses.',
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
     answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
-    today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: '{a} jours de suite',
+    today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: 'Jours de suite : {a}',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1783,7 +1783,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '2.6';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde

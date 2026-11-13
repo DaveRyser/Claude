@@ -131,6 +131,10 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .chks{display:flex;flex-direction:column}
 .chk{display:flex;align-items:center;gap:12px;min-height:44px;font-size:15px;cursor:pointer}
 .chk input{width:22px;height:22px;flex:none;accent-color:var(--g);margin:0}
+.chk span{display:flex;flex-direction:column;min-width:0}.chk b{font-weight:500;overflow-wrap:anywhere}.chk small{font-size:12px;color:var(--mute);overflow-wrap:anywhere}
+.chk[hidden]{display:none}.picks .chk{border-bottom:1px solid var(--line);min-height:52px;padding:4px 0}
+.btn.pick{display:flex;flex-direction:column;gap:2px;height:auto;min-height:52px;padding:8px 14px;margin-top:10px;width:100%}.btn.pick small{font-size:12px;font-weight:400;color:var(--mute)}
+.search{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line2);border-radius:12px;background:#fff}.search:focus{outline:2px solid var(--g);outline-offset:1px}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow-wrap:anywhere;word-break:break-all;resize:none}
 .qr{width:100%;max-width:300px;align-self:center;margin:8px auto;display:block}
 .ltitle{font-size:22px;line-height:1.25}
@@ -2263,8 +2267,14 @@ const T_IDS = () => TENSES.map(T => T.k);
 const V_IDS = () => VOCAB_SETS.map(s => s.id);
 const toMask = (ids, reg) => (ids || []).reduce((m, id) => { const i = reg.indexOf(id); return i < 0 ? m : m + Math.pow(2, i); }, 0);
 const fromMask = (m, reg) => reg.filter((_, i) => Math.floor(m / Math.pow(2, i)) % 2 === 1);
+/* Abgewählte Verben und Wörter reisen als Bit-Liste mit (Position in der Liste = Bit) */
+function idxToB64(idxs, n) { const b = new Uint8Array(Math.ceil(n / 8)); for (const i of idxs) if (i >= 0 && i < n) b[i >> 3] |= 1 << (i & 7); return b64u(b); }
+function b64ToIdx(s, n) { const out = []; try { const b = unb64u(s); for (let i = 0; i < n && (i >> 3) < b.length; i++) if (b[i >> 3] & (1 << (i & 7))) out.push(i); } catch (e) { return []; } return out; }
 function cfgPack(c) {
-  return { n: c.n || '', t: toMask(c.t, T_IDS()), g: toMask(c.g, G_IDS), s: toMask(c.vs, V_IDS()), f: toMask(c.lv, LV_IDS) + (c.d ? 8 : 0) + (c.c ? 16 : 0), v: c.v || [] };
+  const p = { n: c.n || '', t: toMask(c.t, T_IDS()), g: toMask(c.g, G_IDS), s: toMask(c.vs, V_IDS()), f: toMask(c.lv, LV_IDS) + (c.d ? 8 : 0) + (c.c ? 16 : 0), v: c.v || [] };
+  if (c.xv && c.xv.length && (c.t || []).length) p.xv = idxToB64(c.xv, BUILTIN.length);
+  for (const s of VOCAB_SETS) if ((c.vs || []).includes(s.id) && c.xw && c.xw[s.id] && c.xw[s.id].length) (p.xw = p.xw || {})[s.id] = idxToB64(c.xw[s.id], s.items.length);
+  return p;
 }
 function cfgUnpack(p) {
   const num = x => Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0;
@@ -2276,8 +2286,11 @@ function cfgUnpack(p) {
     g: fromMask(num(p.g), G_IDS).filter(id => GRAMMAR.some(m => m.id === id)),
     vs: fromMask(num(p.s), V_IDS()),
     lv: fromMask(f % 8, LV_IDS), d: Math.floor(f / 8) % 2 === 1, c: Math.floor(f / 16) % 2 === 1,
-    v: (Array.isArray(p.v) ? p.v : []).filter(x => Array.isArray(x) && ok(x[0]) && ok(x[1])).slice(0, 800).map(x => [x[0], x[1]])
+    v: (Array.isArray(p.v) ? p.v : []).filter(x => Array.isArray(x) && ok(x[0]) && ok(x[1])).slice(0, 800).map(x => [x[0], x[1]]),
+    xv: typeof p.xv === 'string' ? b64ToIdx(p.xv, BUILTIN.length) : [], xw: {}
   };
+  if (c.xv.length > BUILTIN.length - 5) c.xv = [];   // nie (fast) alle Verben ausblenden
+  if (p.xw && typeof p.xw === 'object') for (const s of VOCAB_SETS) if (c.vs.includes(s.id) && typeof p.xw[s.id] === 'string') c.xw[s.id] = b64ToIdx(p.xw[s.id], s.items.length);
   return c.t.length || c.g.length || c.vs.length || c.lv.length || c.v.length || c.d ? c : null;
 }
 function b64u(bytes) { let s = ''; for (let i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
@@ -2285,7 +2298,7 @@ function unb64u(s) { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/')); co
 async function pipeBytes(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
 async function encodeCfg(c) {
   const p = cfgPack(c);
-  if (!p.n && !p.v.length) return 'K1-' + [p.t, p.g, p.s, p.f].map(x => x.toString(36).toUpperCase()).join('-');
+  if (!p.n && !p.v.length && !p.xv && !p.xw) return 'K1-' + [p.t, p.g, p.s, p.f].map(x => x.toString(36).toUpperCase()).join('-');
   const raw = new TextEncoder().encode(JSON.stringify(p));
   try {
     if (typeof CompressionStream !== 'undefined') { const z = await pipeBytes(raw, new CompressionStream('deflate-raw')); if (z.length < raw.length) return 'K3.' + b64u(z); }
@@ -2305,8 +2318,8 @@ async function decodeCfg(code) {
   return null;
 }
 function cfgSummary(c) {
-  const p = [], words = c.v.length + VOCAB_SETS.filter(s => c.vs.includes(s.id)).reduce((a, s) => a + s.items.length, 0);
-  if (c.t.length) p.push(t('sumT', { a: c.t.length }));
+  const p = [], words = c.v.length + VOCAB_SETS.filter(s => c.vs.includes(s.id)).reduce((a, s) => a + s.items.length - ((c.xw || {})[s.id] || []).length, 0);
+  if (c.t.length) p.push(t('sumT', { a: c.t.length }) + ((c.xv || []).length ? ' (' + t('sumVb', { a: BUILTIN.length - c.xv.length }) + ')' : ''));
   if (words) p.push(t('sumV', { a: words }));
   if (c.g.length) p.push(t('sumG', { a: c.g.length }));
   if (c.lv.length) p.push(t('sumL', { a: c.lv.join(', ') }));
@@ -2316,6 +2329,8 @@ function cfgSummary(c) {
 }
 
 /* ---------- Was ist im aktuellen Modus sichtbar? ---------- */
+function classVerbs() { const x = new Set(cfg().xv || []); return BUILTIN.filter((_, i) => !x.has(i)); }
+function classSetItems(s) { const x = new Set((cfg().xw || {})[s.id] || []); return s.items.filter((_, i) => !x.has(i)).map(w => ({ fr: w[0], m: w[1] })); }
 const openTenseKeys = () => CL() ? cfg().t : TENSES.slice(0, level() + 1).map(T => T.k);
 const gramList = () => CL() ? GRAMMAR.filter(m => cfg().g.includes(m.id)) : GRAMMAR;
 const listenLevels = () => CL() ? LEVELS.filter(l => cfg().lv.includes(l)) : LEVELS;
@@ -2398,13 +2413,16 @@ function colorDots() {
 
 /* ---------- Lehrermaske ---------- */
 function loadTE() {
-  const d = { n: '', t: [], g: [], vs: [], lv: [], d: false, c: true, vt: '' };
+  const d = { n: '', t: [], g: [], vs: [], lv: [], d: false, c: true, vt: '', xv: [], xw: {} };
   try { const r = localStorage.getItem(TE_KEY); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
-  for (const k of ['t', 'g', 'vs', 'lv']) if (!Array.isArray(d[k])) d[k] = [];
+  for (const k of ['t', 'g', 'vs', 'lv', 'xv']) if (!Array.isArray(d[k])) d[k] = [];
+  if (!d.xw || typeof d.xw !== 'object' || Array.isArray(d.xw)) d.xw = {};
   return d;
 }
 let TE = loadTE(), TECODE = '';
 function saveTE() { try { localStorage.setItem(TE_KEY, JSON.stringify(TE)); } catch (e) { /* ohne Speicher weiter */ } }
+const teWordTotal = () => VOCAB_SETS.filter(s => TE.vs.includes(s.id)).reduce((a, s) => a + s.items.length, 0);
+const teWordOff = () => VOCAB_SETS.filter(s => TE.vs.includes(s.id)).reduce((a, s) => a + (TE.xw[s.id] || []).length, 0);
 function teSection(key, title, items, extra) {
   return `<details class="card fold"><summary>${title}<small id="cnt_${key}">${t('chosen', { a: TE[key].length })}</small></summary>
     <div class="row"><button type="button" class="link" data-a="teall" data-g="${key}" data-v="1">${t('all')}</button><button type="button" class="link" data-a="teall" data-g="${key}" data-v="0">${t('none')}</button></div>
@@ -2413,9 +2431,11 @@ function teSection(key, title, items, extra) {
 function vTeacher() {
   return `<header class="head"><h1>${t('teacher')}</h1></header><p class="muted">${t('teacherDesc')}</p>
     <section class="card form"><label for="te_n">${t('teTitle')}</label><input id="te_n" data-i="te" type="text" maxlength="60" value="${esc(TE.n)}" placeholder="${t('teTitlePh')}" autocomplete="off"></section>
-    ${teSection('t', t('verbs'), TENSES.map(T => [T.k, T.n]))}
+    ${teSection('t', t('verbs'), TENSES.map(T => [T.k, T.n]),
+      `<button type="button" class="btn line pick" data-a="tepick" data-n="teverbs">${t('teVerbsPick')}<small>${t('teOf', { a: BUILTIN.length - TE.xv.length, b: BUILTIN.length })}</small></button>`)}
     ${teSection('vs', t('vocab'), VOCAB_SETS.map(s => [s.id, s.title + ' (' + s.items.length + ')']),
-      `<div class="form"><label for="te_v">${t('ownVocab')}</label><textarea id="te_v" data-i="te" rows="5" spellcheck="false" placeholder="la maison;das Haus&#10;le chien;der Hund">${esc(TE.vt)}</textarea></div>`)}
+      `<button type="button" class="btn line pick" data-a="tepick" data-n="tewords">${t('teWordsPick')}<small>${t('teOf', { a: teWordTotal() - teWordOff(), b: teWordTotal() })}</small></button>
+      <div class="form"><label for="te_v">${t('ownVocab')}</label><textarea id="te_v" data-i="te" rows="5" spellcheck="false" placeholder="la maison;das Haus&#10;le chien;der Hund">${esc(TE.vt)}</textarea></div>`)}
     ${teSection('g', t('grammar'), GRAMMAR.map(m => [m.id, L(m.title)]))}
     ${teSection('lv', t('listen'), LEVELS.map(l => [l, t('lText') + ' ' + l]),
       `<div class="chks"><label class="chk"><input type="checkbox" data-c="te" data-g="d"${TE.d ? ' checked' : ''}><span>${t('dictation')}</span></label></div>`)}
@@ -2423,6 +2443,41 @@ function vTeacher() {
     <button type="button" class="btn big" data-a="temake">${t('teMake')}</button><p class="hint">${t('teShort')}</p>
     <div id="teout" aria-live="polite"></div>
     <button type="button" class="btn ghost" data-a="tehide">${t('teHide')}</button>`;
+}
+/* Listen-Seiten: alles angekreuzt, Abgewähltes erscheint bei der Klasse nicht */
+function tePickHead(title, on, all) {
+  return `<header class="top"><button type="button" class="icon" data-a="teback" aria-label="${t('back')}">${IC.x}</button><b class="grow">${title}</b><span class="muted" id="tecount">${t('teOf', { a: on, b: all })}</span></header>
+    <p class="muted">${t('tePickHint')}</p>
+    <label class="sr" for="tesearch">${t('search')}</label><input id="tesearch" class="search" data-i="tesearch" type="search" placeholder="${t('search')}" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button type="button" class="link" data-a="texall" data-v="1">${t('all')}</button><button type="button" class="link" data-a="texall" data-v="0">${t('none')}</button></div>`;
+}
+const teRow = (kind, set, i, fr, m, on) => `<label class="chk" data-q="${esc(flat((fr + ' ' + m).toLowerCase()))}"><input type="checkbox" data-c="tex" data-k="${kind}" data-s="${set}" value="${i}"${on ? ' checked' : ''}><span><b>${esc(fr)}</b><small>${esc(m)}</small></span></label>`;
+function vTeVerbs() {
+  const off = new Set(TE.xv);
+  return tePickHead(t('verbs'), BUILTIN.length - TE.xv.length, BUILTIN.length) +
+    `<div class="chks picks">${BUILTIN.map((v, i) => teRow('v', '', i, v.fr, meaning(v), !off.has(i))).join('')}</div>
+    <button type="button" class="btn big" data-a="teback">${t('next')}</button>`;
+}
+function vTeWords() {
+  const sets = VOCAB_SETS.filter(s => TE.vs.includes(s.id));
+  if (!sets.length) return tePickHead(t('vocab'), 0, 0) + `<p class="note warn">${t('teNoSets')}</p><button type="button" class="btn big" data-a="teback">${t('back')}</button>`;
+  return tePickHead(t('vocab'), teWordTotal() - teWordOff(), teWordTotal()) +
+    sets.map(s => { const off = new Set(TE.xw[s.id] || []); return `<h2 class="grp">${esc(s.title)}<small>${s.items.length}</small></h2><div class="chks picks">${s.items.map((w, i) => teRow('w', s.id, i, w[0], w[1], !off.has(i))).join('')}</div>`; }).join('') +
+    `<button type="button" class="btn big" data-a="teback">${t('next')}</button>`;
+}
+function texCount() {
+  const el = $('#tecount'); if (!el) return;
+  el.textContent = V.name === 'teverbs' ? t('teOf', { a: BUILTIN.length - TE.xv.length, b: BUILTIN.length }) : t('teOf', { a: teWordTotal() - teWordOff(), b: teWordTotal() });
+}
+function texSet(el, on) {
+  const i = +el.value;
+  if (el.dataset.k === 'v') { const s = new Set(TE.xv); if (on) s.delete(i); else s.add(i); TE.xv = [...s]; }
+  else { const id = el.dataset.s, s = new Set(TE.xw[id] || []); if (on) s.delete(i); else s.add(i); TE.xw[id] = [...s]; }
+}
+function texChange(el) { texSet(el, el.checked); saveTE(); texCount(); }
+function texSearch(q) {
+  q = flat(String(q || '').toLowerCase().trim());
+  document.querySelectorAll('.picks .chk').forEach(r => { r.hidden = !!q && !r.dataset.q.includes(q); });
 }
 function teChange(el) {
   const g = el.dataset.g;
@@ -2444,8 +2499,9 @@ function qrSvg(m) {
 }
 async function teMake() {
   const out = $('#teout');
-  const c = { n: TE.n.trim().slice(0, 60), t: T_IDS().filter(k => TE.t.includes(k)), g: TE.g, vs: TE.vs, lv: TE.lv, d: !!TE.d, c: !!TE.c, v: parsePairs(TE.vt) };
+  const c = { n: TE.n.trim().slice(0, 60), t: T_IDS().filter(k => TE.t.includes(k)), g: TE.g, vs: TE.vs, lv: TE.lv, d: !!TE.d, c: !!TE.c, v: parsePairs(TE.vt), xv: TE.xv, xw: TE.xw };
   if (!cfgUnpack(cfgPack(c))) { out.innerHTML = `<p class="note warn">${t('teEmpty')}</p>`; return; }
+  if (c.t.length && BUILTIN.length - c.xv.length < 10) { out.innerHTML = `<p class="note warn">${t('teMinVerbs')}</p>`; return; }
   const code = await encodeCfg(c), link = location.href.split('#')[0] + '#k=' + code;
   const m = link.length <= 1800 && typeof qrMatrix === 'function' ? qrMatrix(link) : null;
   TECODE = code;
@@ -2472,6 +2528,13 @@ const KACT = {
     document.querySelectorAll(`input[data-c="te"][data-g="${g}"]`).forEach(b => { b.checked = on; });
     TE[g] = on ? [...document.querySelectorAll(`input[data-c="te"][data-g="${g}"]`)].map(b => b.value) : [];
     const c = $('#cnt_' + g); if (c) c.textContent = t('chosen', { a: TE[g].length }); saveTE();
+  },
+  tepick: el => go(el.dataset.n),
+  teback: () => go('teacher'),
+  texall: el => {
+    const on = el.dataset.v === '1';   // gilt für alle gerade sichtbaren Zeilen (Suche beachten)
+    document.querySelectorAll('.picks .chk:not([hidden]) input').forEach(b => { b.checked = on; texSet(b, on); });
+    saveTE(); texCount();
   },
   temake: teMake,
   tecopy: el => {
@@ -3101,6 +3164,8 @@ const I18N = {
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
     answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
     today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: 'Tage in Folge: {a}',
+    teVerbsPick: 'Verben ansehen und auswählen', teWordsPick: 'Vokabeln ansehen und auswählen', teOf: '{a} von {b} gewählt', search: 'Suchen', back: 'Zurück',
+    teNoSets: 'Wähle zuerst mindestens eine Lektion aus.', teMinVerbs: 'Wähle mindestens 10 Verben aus.', sumVb: '{a} Verben', tePickHint: 'Alles ist angekreuzt. Was du abwählst, erscheint bei der Klasse nicht.',
     sureOf: 'sicher / geübt',
     classCode: 'Klassencode', codePh: 'Code oder Link einfügen', codeBtn: 'Code einlösen', codeBad: 'Dieser Code ist ungültig.', codeDesc: 'Hast du von deiner Lehrperson einen Code bekommen? Gib ihn hier ein.',
     classMode: 'Lernmodus Klasse', classNav: 'Klasse', classOn: 'Lernmodus gestartet', classStart: 'Lernmodus starten', classLeave: 'Zurück zu «Privat»', classBack: 'Zurück in den Lernmodus',
@@ -3152,6 +3217,8 @@ const I18N = {
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
     answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
     today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: 'Days in a row: {a}',
+    teVerbsPick: 'View and select verbs', teWordsPick: 'View and select vocabulary', teOf: '{a} of {b} selected', search: 'Search', back: 'Back',
+    teNoSets: 'Select at least one lesson first.', teMinVerbs: 'Select at least 10 verbs.', sumVb: '{a} verbs', tePickHint: 'Everything is ticked. Whatever you untick will not appear for the class.',
     sureOf: 'mastered / practised',
     classCode: 'Class code', codePh: 'Paste code or link', codeBtn: 'Redeem code', codeBad: 'This code is not valid.', codeDesc: 'Did your teacher give you a code? Enter it here.',
     classMode: 'Class mode', classNav: 'Class', classOn: 'Class mode started', classStart: 'Start class mode', classLeave: 'Back to «Private»', classBack: 'Back to class mode',
@@ -3203,6 +3270,8 @@ const I18N = {
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
     answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
     today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: 'Giorni di fila: {a}',
+    teVerbsPick: 'Vedi e scegli i verbi', teWordsPick: 'Vedi e scegli i vocaboli', teOf: '{a} di {b} selezionati', search: 'Cerca', back: 'Indietro',
+    teNoSets: 'Seleziona prima almeno una lezione.', teMinVerbs: 'Seleziona almeno 10 verbi.', sumVb: '{a} verbi', tePickHint: 'Tutto è selezionato. Ciò che deselezioni non appare per la classe.',
     sureOf: 'sicuri / esercitati',
     classCode: 'Codice classe', codePh: 'Incolla codice o link', codeBtn: 'Usa il codice', codeBad: 'Questo codice non è valido.', codeDesc: 'Hai ricevuto un codice dal tuo insegnante? Inseriscilo qui.',
     classMode: 'Modalità classe', classNav: 'Classe', classOn: 'Modalità classe avviata', classStart: 'Avvia la modalità classe', classLeave: 'Torna a «Privato»', classBack: 'Torna alla modalità classe',
@@ -3254,6 +3323,8 @@ const I18N = {
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
     answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
     today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: 'Jours de suite : {a}',
+    teVerbsPick: 'Voir et choisir les verbes', teWordsPick: 'Voir et choisir le vocabulaire', teOf: '{a} sur {b} sélectionnés', search: 'Rechercher', back: 'Retour',
+    teNoSets: 'Sélectionne d’abord au moins une leçon.', teMinVerbs: 'Sélectionne au moins 10 verbes.', sumVb: '{a} verbes', tePickHint: 'Tout est coché. Ce que tu décoches n’apparaît pas pour la classe.',
     sureOf: 'maîtrisés / exercés',
     classCode: 'Code de classe', codePh: 'Colle le code ou le lien', codeBtn: 'Utiliser le code', codeBad: 'Ce code n’est pas valide.', codeDesc: 'Ton enseignant t’a donné un code ? Saisis-le ici.',
     classMode: 'Mode classe', classNav: 'Classe', classOn: 'Mode classe activé', classStart: 'Démarrer le mode classe', classLeave: 'Retour à «Privé»', classBack: 'Retour au mode classe',
@@ -3379,7 +3450,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.3';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.4';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -3443,7 +3514,7 @@ const L = (o) => typeof o === 'string' ? o : (o[S.lang] || o.de);
 
 let _verbs = null;
 function verbs() {
-  if (!_verbs) _verbs = S.custom.map(c => makeVerb(c.fr, c.m, c.tag, true)).concat(BUILTIN);
+  if (!_verbs) _verbs = CL() ? classVerbs() : S.custom.map(c => makeVerb(c.fr, c.m, c.tag, true)).concat(BUILTIN);
   return _verbs;
 }
 const meaning = v => typeof v.m === 'string' ? v.m : (v.m[S.lang] || v.m.en);
@@ -3529,7 +3600,7 @@ function render() {
   $('#nav').classList.toggle('six', navItems().length > 5);
   $('#nav').innerHTML = navItems().map(([n, ic, label]) =>
     `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${label}</span></button>`).join('');
-  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum, ltext: vLText, join: vJoin, teacher: vTeacher };
+  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum, ltext: vLText, join: vJoin, teacher: vTeacher, teverbs: vTeVerbs, tewords: vTeWords };
   // Tastatur offen halten, während die nächste Aufgabe aufgebaut wird (sonst springt der Bildschirm auf dem Handy)
   const keep = $('#kbkeep'), hadFocus = document.activeElement && document.activeElement.id === 'ans';
   if (hadFocus && keep) keep.focus({ preventScroll: true });
@@ -3552,7 +3623,7 @@ function fitViewport() {
 if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
 window.addEventListener('resize', fitViewport);
 function navActive(n) {
-  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && ['lsum', 'ltext'].includes(V.name)) || (n === 'verbs' && V.name === 'join');
+  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && ['lsum', 'ltext'].includes(V.name)) || (n === 'verbs' && V.name === 'join') || (n === 'teacher' && ['teverbs', 'tewords'].includes(V.name));
 }
 
 /* --- Lernen --- */
@@ -3679,7 +3750,7 @@ function vSummary() {
 
 /* --- Vokabeln --- */
 function vocSets() {
-  if (CL()) return [{ id: 'klass', title: t('classVocab'), items: cfg().v.map(x => ({ fr: x[0], m: x[1] })) }].concat(VOCAB_SETS.filter(s => cfg().vs.includes(s.id)).map(s => ({ id: s.id, title: s.title, items: s.items.map(x => ({ fr: x[0], m: x[1] })) })));
+  if (CL()) return [{ id: 'klass', title: t('classVocab'), items: cfg().v.map(x => ({ fr: x[0], m: x[1] })) }].concat(VOCAB_SETS.filter(s => cfg().vs.includes(s.id)).map(s => ({ id: s.id, title: s.title, items: classSetItems(s) })));
   return [{ id: 'own', title: t('myWords'), items: S.vocab }].concat(VOCAB_SETS.map(s => ({ id: s.id, title: s.title, items: s.items.map(x => ({ fr: x[0], m: x[1] })) })));
 }
 const vocSure = set => set.items.filter(w => S.vbox[w.fr] >= 2).length;
@@ -3759,8 +3830,9 @@ function chQuestion() {
   const ks = openTenseKeys();
   const seen = new Set(); for (const k in S.box) for (const f in S.box[k]) seen.add(f);
   const all = verbs(); let pool = all.filter(v => v.custom || seen.has(v.fr));
-  if (pool.length < 30) pool = pool.concat(BUILTIN.slice(0, 60));
+  if (pool.length < 30) pool = pool.concat(all.filter(v => !v.custom).slice(0, 60));
   for (let n = 0; n < 50; n++) { const v = pick(pool), k = pick(ks); if (persons(v, k).length) return makeQ(v, k); }
+  for (const v of all) for (const k of ks) if (persons(v, k).length) return makeQ(v, k);
   return makeQ(BUILTIN[0], 'pr');
 }
 function chStart() {
@@ -3854,7 +3926,7 @@ const LISTEN = [
       // nur je, tu, nous, vous – «il» und «ils» klingen meist gleich. Kein Impératif (klingt wie Présent).
       const ks = openTenseKeys().filter(k => k !== 'imp' && k !== 'ipa'); if (!ks.length) ks.push('pr');
       for (let n = 0; n < 80; n++) {
-        const v = pick(BUILTIN.slice(0, 120).concat(verbs().filter(x => x.custom))), k = pick(ks), f = forms(v, k);
+        const av = verbs(), v = pick(av.filter(x => !x.custom).slice(0, 120).concat(av.filter(x => x.custom))), k = pick(ks), f = forms(v, k);
         const is = [0, 1, 3, 4].filter(i => f && f[i]); if (!is.length) continue;
         const i = pick(is), text = phrase(i, k, f[i][0]);
         return { say: text, show: text, sub: v.fr + ' · ' + TMAP[k].n, check: val => grade(val, f[i]) };
@@ -4273,12 +4345,14 @@ document.addEventListener('input', e => {
   const k = e.target.dataset.i;
   if (k === 'prev') preview();
   else if (k === 'stud') { S.student = e.target.value.slice(0, 40); save(); }
+  else if (k === 'tesearch') texSearch(e.target.value);
   else if (k === 'te') { if (e.target.id === 'te_n') TE.n = e.target.value; else TE.vt = e.target.value; saveTE(); }
 });
 document.addEventListener('change', e => {
   if (e.target.dataset.c === 'lang') { S.lang = e.target.value; save(); render(); }
   else if (e.target.dataset.c === 'prev') preview();
   else if (e.target.dataset.c === 'te') teChange(e.target);
+  else if (e.target.dataset.c === 'tex') texChange(e.target);
   else if (e.target.dataset.c === 'bfile' && e.target.files[0]) {
     const fr = new FileReader();
     fr.onload = () => { $('#btext').value = String(fr.result); backupCheck(); };

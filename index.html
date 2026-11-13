@@ -149,6 +149,7 @@ details.card summary{min-height:44px;display:flex;align-items:center;font-weight
 .lvl small{display:block}button.lvl:disabled{opacity:.5;cursor:default}
 .field input::placeholder{color:#8A968F;font-weight:400;font-size:16px}
 .grp{display:flex;align-items:baseline;justify-content:space-between;font-size:15px;font-weight:600;margin:14px 2px 0}.grp small{font-size:13px;font-weight:400;color:var(--mute)}
+.gback{align-self:flex-start;padding:6px 2px;margin-bottom:-8px}.chkh{grid-column:1/-1;margin:12px 0 2px;font-size:13px;font-weight:600;color:var(--mute)}.chkh:first-child{margin-top:0}
 .gcard{display:flex;flex-direction:column;gap:10px}.gcard h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}.gcard .bar{background:var(--soft)}
 .btn.line{background:#fff;color:var(--g);border:1.5px solid var(--g);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;box-sizing:border-box}
 .opts button{height:auto;min-height:52px;padding:8px 6px;overflow-wrap:anywhere}
@@ -281,10 +282,10 @@ const GRAMMAR_MORE = [
   {
     id: 'proche', o: 1, g: 1, yt: 'passé récent futur proche présent continu', title: 'Passé récent, présent continu, futur proche',
     intro: {
-      de: 'venir de + Infinitiv = gerade etwas getan haben. être en train de + Infinitiv = gerade dabei sein. aller + Infinitiv = gleich oder bald etwas tun.',
-      en: 'venir de + infinitive = to have just done. être en train de + infinitive = to be doing right now. aller + infinitive = to be going to do.',
-      it: 'venir de + infinito = avere appena fatto. être en train de + infinito = stare facendo. aller + infinito = stare per fare.',
-      fr: 'venir de + infinitif = action qui vient de se terminer. être en train de + infinitif = action en cours. aller + infinitif = action proche dans le futur.'
+      de: 'venir de + Infinitiv = gerade etwas getan haben. être en train de + Infinitiv = gerade dabei sein. aller + Infinitiv = gleich oder bald etwas tun. être sur le point de + Infinitiv = kurz davor sein.',
+      en: 'venir de + infinitive = to have just done. être en train de + infinitive = to be doing right now. aller + infinitive = to be going to do. être sur le point de + infinitive = to be about to do.',
+      it: 'venir de + infinito = avere appena fatto. être en train de + infinito = stare facendo. aller + infinito = stare per fare. être sur le point de + infinito = essere sul punto di fare.',
+      fr: 'venir de + infinitif = action qui vient de se terminer. être en train de + infinitif = action en cours. aller + infinitif = action proche dans le futur. être sur le point de + infinitif = action imminente.'
     },
     task: TASK_FILL,
     items: [
@@ -297,7 +298,8 @@ const GRAMMAR_MORE = [
       Q('Elle est fatiguée : elle [___] courir dix kilomètres.', ['vient de', 'est en train de', 'va'], 'vient de', 'Elle est fatiguée : elle vient de courir dix kilomètres.', 'passé récent'),
       Q('Ce soir, je [___] téléphoner à ma mère.', ['viens de', 'suis en train de', 'vais'], 'vais', 'Ce soir, je vais téléphoner à ma mère.', 'futur proche'),
       Q('Regarde, il [___] pleuvoir : le ciel est tout noir.', ['vient de', 'est en train de', 'va'], 'va', 'Regarde, il va pleuvoir : le ciel est tout noir.', 'futur proche'),
-      Q("Elle ne peut pas répondre, elle [___] conduire.", ['vient de', 'est en train de', 'va'], 'est en train de', 'Elle ne peut pas répondre, elle est en train de conduire.', 'présent continu')
+      Q("Elle ne peut pas répondre, elle [___] conduire.", ['vient de', 'est en train de', 'va'], 'est en train de', 'Elle ne peut pas répondre, elle est en train de conduire.', 'présent continu'),
+      Q('Dépêche-toi, le film [___] commencer !', ['est sur le point de', 'vient de', 'est en train de'], 'est sur le point de', 'Dépêche-toi, le film est sur le point de commencer !', 'être sur le point de')
     ]
   },
   {
@@ -761,6 +763,686 @@ const GRAMMAR_MORE = [
       Q('Il nous apporte [les cafés]. → Il [___] apporte.', ['nous les', 'les nous', 'nous le'], 'nous les', 'Il nous les apporte.', 'me, te, nous, vous avant le, la, les'),
       Q("Elle emmène [les enfants à l'école].", ['les y', 'y les', 'leur y'], 'les y', 'Elle les y emmène.', 'y après le, la, les'),
       Q('Donne [le livre à Paul] ! → Donne-[___] !', ['le-lui', 'lui-le', 'le-leur'], 'le-lui', 'Donne-le-lui !', 'impératif : verbe-le-lui')
+    ]
+  }
+];
+
+/* ============================================================
+   Grammatik – neue Module, Teil 1 (Blöcke 1, 2, 3 und 5)
+   Aufbau wie in grammar_more.js: Q(Satz mit [Lücke], Auswahl, richtige Antwort, Lösungssatz, Etikett)
+   Die Zuordnung zu den Blöcken steht in ui.js (GRAM_BLOCK_OF).
+   ============================================================ */
+const IN4 = (de, en, it, fr) => ({ de, en, it, fr });
+
+const GRAMMAR_NEW1 = [
+  /* ---------- Block 1: Grundlagen ---------- */
+  {
+    id: 'etre', yt: 'verbe être présent', title: 'Le verbe être',
+    intro: IN4('être im Präsens: je suis, tu es, il / elle est, nous sommes, vous êtes, ils / elles sont. Man braucht es für Beruf, Nationalität, Eigenschaften und Ort.',
+      'être in the present: je suis, tu es, il / elle est, nous sommes, vous êtes, ils / elles sont. Used for jobs, nationality, qualities and place.',
+      'être al presente: je suis, tu es, il / elle est, nous sommes, vous êtes, ils / elles sont. Serve per professione, nazionalità, qualità e luogo.',
+      'être au présent : je suis, tu es, il / elle est, nous sommes, vous êtes, ils / elles sont. On l’emploie pour la profession, la nationalité, les qualités et le lieu.'),
+    task: TASK_FILL,
+    items: [
+      Q('Je [___] étudiant.', ['suis', 'es', 'est'], 'suis', 'Je suis étudiant.'),
+      Q('Tu [___] suisse ?', ['es', 'est', 'êtes'], 'es', 'Tu es suisse ?'),
+      Q('Elle [___] médecin.', ['est', 'es', 'sont'], 'est', 'Elle est médecin.'),
+      Q('Nous [___] en retard.', ['sommes', 'sont', 'êtes'], 'sommes', 'Nous sommes en retard.'),
+      Q('Vous [___] de Berne ?', ['êtes', 'sommes', 'est'], 'êtes', 'Vous êtes de Berne ?'),
+      Q('Ils [___] contents.', ['sont', 'sommes', 'est'], 'sont', 'Ils sont contents.'),
+      Q('Paul et moi, nous [___] amis.', ['sommes', 'sont', 'êtes'], 'sommes', 'Paul et moi, nous sommes amis.'),
+      Q('Les clés [___] sur la table.', ['sont', 'est', 'es'], 'sont', 'Les clés sont sur la table.'),
+      Q("C'[___] ma sœur.", ['est', 'es', 'suis'], 'est', "C'est ma sœur."),
+      Q('Marie et toi, vous [___] prêtes ?', ['êtes', 'sont', 'sommes'], 'êtes', 'Marie et toi, vous êtes prêtes ?')
+    ]
+  },
+  {
+    id: 'avoir', yt: 'verbe avoir présent expressions avoir faim', title: 'Le verbe avoir',
+    intro: IN4('avoir: j’ai, tu as, il a, nous avons, vous avez, ils ont. Das Alter und viele Ausdrücke stehen mit avoir: avoir faim, soif, froid, chaud, peur, besoin de, envie de. Nach der Verneinung: pas de.',
+      'avoir: j’ai, tu as, il a, nous avons, vous avez, ils ont. Age and many expressions take avoir: avoir faim, soif, froid, chaud, peur, besoin de, envie de. After a negation: pas de.',
+      'avoir: j’ai, tu as, il a, nous avons, vous avez, ils ont. L’età e molte espressioni vogliono avoir: avoir faim, soif, froid, chaud, peur, besoin de, envie de. Dopo la negazione: pas de.',
+      'avoir : j’ai, tu as, il a, nous avons, vous avez, ils ont. L’âge et beaucoup d’expressions se construisent avec avoir : avoir faim, soif, froid, chaud, peur, besoin de, envie de. Après la négation : pas de.'),
+    task: TASK_FILL,
+    items: [
+      Q("J'[___] vingt ans.", ['ai', 'suis', 'as'], 'ai', "J'ai vingt ans.", "l'âge avec avoir"),
+      Q('Tu [___] faim ?', ['as', 'es', 'a'], 'as', 'Tu as faim ?', 'avoir faim'),
+      Q('Nous [___] froid.', ['avons', 'sommes', 'ont'], 'avons', 'Nous avons froid.', 'avoir froid'),
+      Q('Elle [___] les yeux bleus.', ['a', 'est', 'as'], 'a', 'Elle a les yeux bleus.'),
+      Q('Ils [___] peur des chiens.', ['ont', 'sont', 'avons'], 'ont', 'Ils ont peur des chiens.', 'avoir peur de'),
+      Q("Je n'ai pas [___] voiture.", ['de', 'une', 'la'], 'de', "Je n'ai pas de voiture.", 'pas de'),
+      Q("Vous [___] le temps de m'aider ?", ['avez', 'êtes', 'ont'], 'avez', "Vous avez le temps de m'aider ?"),
+      Q("J'ai besoin [___] repos.", ['de', 'à', 'du'], 'de', "J'ai besoin de repos.", 'avoir besoin de'),
+      Q('Quel âge [___]-tu ?', ['as', 'es', 'a'], 'as', 'Quel âge as-tu ?'),
+      Q("Il [___] l'habitude de se lever tôt.", ['a', 'est', 'as'], 'a', "Il a l'habitude de se lever tôt.", "avoir l'habitude de")
+    ]
+  },
+  {
+    id: 'cestilest', yt: "c'est il est différence", title: 'C’est ou il est ?',
+    intro: IN4('c’est + Artikel, Name oder Possessiv + Nomen (C’est un médecin. C’est Paul.). il / elle est + Adjektiv oder Beruf ohne Artikel (Il est médecin. Elle est grande.). Plural: ce sont / ils sont.',
+      'c’est + article, name or possessive + noun (C’est un médecin. C’est Paul.). il / elle est + adjective or job without article (Il est médecin. Elle est grande.). Plural: ce sont / ils sont.',
+      'c’est + articolo, nome o possessivo + nome (C’est un médecin. C’est Paul.). il / elle est + aggettivo o professione senza articolo (Il est médecin. Elle est grande.). Plurale: ce sont / ils sont.',
+      'c’est + article, nom propre ou possessif + nom (C’est un médecin. C’est Paul.). il / elle est + adjectif ou profession sans article (Il est médecin. Elle est grande.). Pluriel : ce sont / ils sont.'),
+    task: TASK_FILL,
+    items: [
+      Q('[___] un bon professeur.', ["C'est", 'Il est'], "C'est", "C'est un bon professeur.", 'article + nom'),
+      Q('[___] professeur.', ['Il est', "C'est"], 'Il est', 'Il est professeur.', 'profession sans article'),
+      Q('[___] ma sœur Julie.', ["C'est", 'Elle est'], "C'est", "C'est ma sœur Julie.", 'possessif + nom'),
+      Q('Julie ? [___] très sympathique.', ['Elle est', "C'est une"], 'Elle est', 'Elle est très sympathique.', 'adjectif'),
+      Q('Regarde ce tableau : [___] un Picasso.', ["c'est", 'il est'], "c'est", "Regarde ce tableau : c'est un Picasso."),
+      Q('Mon père ? [___] ingénieur.', ['Il est', "C'est"], 'Il est', 'Il est ingénieur.', 'profession sans article'),
+      Q('[___] des amis de Lyon.', ['Ce sont', 'Ils sont'], 'Ce sont', 'Ce sont des amis de Lyon.', 'article + nom au pluriel'),
+      Q('Léa et Marie ? [___] françaises.', ['Elles sont', 'Ce sont des'], 'Elles sont', 'Elles sont françaises.', 'adjectif'),
+      Q('Qui est-ce ? – [___] Paul.', ["C'est", 'Il est'], "C'est", "C'est Paul.", 'nom propre'),
+      Q('[___] une étudiante suisse.', ["C'est", 'Elle est'], "C'est", "C'est une étudiante suisse.", 'article + nom')
+    ]
+  },
+  {
+    id: 'ilya', yt: "il y a c'est", title: 'Il y a et c’est',
+    intro: IN4('il y a = es gibt, da ist; es bleibt im Singular und Plural gleich. c’est / ce sont stellt etwas vor oder identifiziert es. Verneinung: il n’y a pas de.',
+      'il y a = there is / there are; it never changes. c’est / ce sont presents or identifies something. Negation: il n’y a pas de.',
+      'il y a = c’è / ci sono; resta invariato. c’est / ce sont presenta o identifica qualcosa. Negazione: il n’y a pas de.',
+      'il y a exprime l’existence et reste invariable. c’est / ce sont présente ou identifie. Négation : il n’y a pas de.'),
+    task: TASK_FILL,
+    items: [
+      Q('Dans ma rue, [___] une boulangerie.', ['il y a', "c'est", 'il est'], 'il y a', 'Dans ma rue, il y a une boulangerie.'),
+      Q('Regarde ! [___] la boulangerie de mon oncle.', ["C'est", 'Il y a', 'Il est'], "C'est", "Regarde ! C'est la boulangerie de mon oncle."),
+      Q('[___] trois chaises dans la cuisine.', ['Il y a', 'Ce sont', 'Ils sont'], 'Il y a', 'Il y a trois chaises dans la cuisine.'),
+      Q("Il n'y a pas [___] lait dans le frigo.", ['de', 'du', 'un'], 'de', "Il n'y a pas de lait dans le frigo.", 'pas de'),
+      Q("Qu'est-ce qu'[___] dans ton sac ?", ['il y a', "c'est", 'il est'], 'il y a', "Qu'est-ce qu'il y a dans ton sac ?"),
+      Q('[___] mes parents sur la photo.', ['Ce sont', 'Il y a', 'Ils ont'], 'Ce sont', 'Ce sont mes parents sur la photo.'),
+      Q('Sur la table, [___] un livre et deux stylos.', ['il y a', "c'est", 'ils sont'], 'il y a', 'Sur la table, il y a un livre et deux stylos.'),
+      Q("Dans cette ville, il n'y a pas [___] cinéma.", ['de', 'un', 'le'], 'de', "Dans cette ville, il n'y a pas de cinéma.", 'pas de'),
+      Q("[___] combien d'élèves dans ta classe ?", ['Il y a', "C'est", 'Ce sont'], 'Il y a', "Il y a combien d'élèves dans ta classe ?"),
+      Q('Qui est-ce ? – [___] le nouveau directeur.', ["C'est", 'Il y a', 'Il a'], "C'est", "C'est le nouveau directeur.")
+    ]
+  },
+  {
+    id: 'negq1', yt: 'négation ne pas question est-ce que', title: 'Négation et question simples',
+    intro: IN4('ne … pas umschliesst das Verb (vor Vokal n’). Frage: mit Satzmelodie, mit est-ce que oder mit Inversion. Auf eine verneinte Frage antwortet man mit «si» statt «oui».',
+      'ne … pas goes around the verb (n’ before a vowel). Questions: intonation, est-ce que or inversion. A negative question is answered with «si» instead of «oui».',
+      'ne … pas circonda il verbo (n’ davanti a vocale). Domanda: intonazione, est-ce que o inversione. A una domanda negativa si risponde con «si» invece di «oui».',
+      'ne … pas encadre le verbe (n’ devant voyelle). Question : intonation, est-ce que ou inversion. À une question négative, on répond «si» au lieu de «oui».'),
+    task: TASK_FILL,
+    items: [
+      Q('Je [___] parle pas anglais.', ['ne', "n'", 'non'], 'ne', 'Je ne parle pas anglais.'),
+      Q('Elle [___]habite pas ici.', ["n'", 'ne ', 'non '], "n'", "Elle n'habite pas ici.", "n' devant voyelle ou h muet"),
+      Q('[___] tu parles français ?', ['Est-ce que', "Qu'est-ce que", 'Est-ce'], 'Est-ce que', 'Est-ce que tu parles français ?'),
+      Q("Tu n'es pas fatigué ? – [___], je suis très fatigué.", ['Si', 'Oui', 'Non'], 'Si', 'Si, je suis très fatigué.', 'si après une question négative'),
+      Q('Vous êtes suisse ? – [___], je suis suisse.', ['Oui', 'Si', 'Non'], 'Oui', 'Oui, je suis suisse.'),
+      Q('Nous ne sommes [___] prêts.', ['pas', 'non', 'ne'], 'pas', 'Nous ne sommes pas prêts.'),
+      Q('Où se place [ne … pas] ?', ['Il ne travaille pas.', 'Il travaille ne pas.', 'Il ne pas travaille.'], 'Il ne travaille pas.', 'Il ne travaille pas.'),
+      Q('[___]-vous français ?', ['Parlez', 'Parle', 'Parlons'], 'Parlez', 'Parlez-vous français ?', 'inversion'),
+      Q("Tu n'aimes pas le café ? – [___], je n'aime pas ça.", ['Non', 'Si', 'Oui'], 'Non', "Non, je n'aime pas ça."),
+      Q("Ce n'est [___] difficile.", ['pas', 'ne', 'non'], 'pas', "Ce n'est pas difficile.")
+    ]
+  },
+  {
+    id: 'nombres', nodict: true, yt: 'nombres chiffres 70 80 90', title: 'Les nombres',
+    intro: IN4('70 = soixante-dix, 80 = quatre-vingts, 90 = quatre-vingt-dix. 21, 31, 41 … mit «et un». Ordnungszahlen auf -ième: deuxième, troisième – aber premier / première.',
+      '70 = soixante-dix, 80 = quatre-vingts, 90 = quatre-vingt-dix. 21, 31, 41 … with «et un». Ordinals end in -ième: deuxième, troisième – but premier / première.',
+      '70 = soixante-dix, 80 = quatre-vingts, 90 = quatre-vingt-dix. 21, 31, 41 … con «et un». Gli ordinali finiscono in -ième: deuxième, troisième – ma premier / première.',
+      '70 = soixante-dix, 80 = quatre-vingts, 90 = quatre-vingt-dix. 21, 31, 41 … avec «et un». Les ordinaux se terminent par -ième : deuxième, troisième – mais premier / première.'),
+    task: TASK_FILL,
+    items: [
+      Q('soixante-quinze = [___]', ['75', '65', '615'], '75', 'soixante-quinze = 75'),
+      Q('quatre-vingt-douze = [___]', ['92', '82', '412'], '92', 'quatre-vingt-douze = 92'),
+      Q('quatre-vingts = [___]', ['80', '24', '420'], '80', 'quatre-vingts = 80'),
+      Q('soixante et onze = [___]', ['71', '61', '611'], '71', 'soixante et onze = 71'),
+      Q('91 = [___]', ['quatre-vingt-onze', 'quatre-vingt-dix-un', 'neuf-dix-un'], 'quatre-vingt-onze', '91 = quatre-vingt-onze'),
+      Q('21 = [___]', ['vingt et un', 'vingt-un', 'deux-un'], 'vingt et un', '21 = vingt et un'),
+      Q('1000 = [___]', ['mille', 'un mille', 'milles'], 'mille', '1000 = mille'),
+      Q('cent quinze = [___]', ['115', '150', '1015'], '115', 'cent quinze = 115'),
+      Q('Le [___] jour de la semaine est lundi.', ['premier', 'première', 'un'], 'premier', 'Le premier jour de la semaine est lundi.'),
+      Q("C'est la [___] fois que je viens ici.", ['deuxième', 'deux', 'deuxièmement'], 'deuxième', "C'est la deuxième fois que je viens ici.")
+    ]
+  },
+
+  /* ---------- Block 2: Nomen und Begleiter ---------- */
+  {
+    id: 'articles', yt: 'articles définis indéfinis le la un une', title: 'Noms et articles',
+    intro: IN4('Bestimmt: le, la, l’, les. Unbestimmt: un, une, des. à + le = au, à + les = aux, de + le = du, de + les = des. Plural meist mit -s; -eau → -eaux, -al → -aux.',
+      'Definite: le, la, l’, les. Indefinite: un, une, des. à + le = au, à + les = aux, de + le = du, de + les = des. Plural usually -s; -eau → -eaux, -al → -aux.',
+      'Determinativi: le, la, l’, les. Indeterminativi: un, une, des. à + le = au, à + les = aux, de + le = du, de + les = des. Plurale di solito -s; -eau → -eaux, -al → -aux.',
+      'Définis : le, la, l’, les. Indéfinis : un, une, des. à + le = au, à + les = aux, de + le = du, de + les = des. Pluriel en -s ; -eau → -eaux, -al → -aux.'),
+    task: TASK_FILL,
+    items: [
+      Q("J'ai [___] sœur et deux frères.", ['une', 'un', 'des'], 'une', "J'ai une sœur et deux frères."),
+      Q('[___] soleil brille.', ['Le', 'La', 'Les'], 'Le', 'Le soleil brille.'),
+      Q("J'adore [___] musique classique.", ['la', 'une', 'de'], 'la', "J'adore la musique classique.", 'goût → article défini'),
+      Q("C'est [___] hôtel très cher.", ['un', 'une', 'le'], 'un', "C'est un hôtel très cher."),
+      Q('Je vais [___] cinéma.', ['au', 'à le', 'à la'], 'au', 'Je vais au cinéma.', 'à + le = au'),
+      Q('Il parle [___] enfants.', ['aux', 'à les', 'au'], 'aux', 'Il parle aux enfants.', 'à + les = aux'),
+      Q("C'est le livre [___] professeur.", ['du', 'de le', 'de la'], 'du', "C'est le livre du professeur.", 'de + le = du'),
+      Q('Le pluriel de « un journal » : des [___].', ['journaux', 'journals', 'journales'], 'journaux', 'un journal → des journaux', '-al → -aux'),
+      Q('Le pluriel de « un bateau » : des [___].', ['bateaux', 'bateaus', 'bateau'], 'bateaux', 'un bateau → des bateaux', '-eau → -eaux'),
+      Q("[___]école est fermée aujourd'hui.", ["L'", 'La ', 'Le '], "L'", "L'école est fermée aujourd'hui.", "l' devant voyelle"),
+      Q('Le féminin de « un acteur » : une [___].', ['actrice', 'acteuse', 'acteure'], 'actrice', 'un acteur → une actrice')
+    ]
+  },
+  {
+    id: 'possessifs', yt: 'adjectifs possessifs mon ma mes', title: 'Les possessifs',
+    intro: IN4('mon, ma, mes / ton, ta, tes / son, sa, ses / notre, nos / votre, vos / leur, leurs. Die Form richtet sich nach dem Besitz, nicht nach dem Besitzer. Vor Vokal: mon amie. Pronomen: le mien, la mienne, le tien …',
+      'mon, ma, mes / ton, ta, tes / son, sa, ses / notre, nos / votre, vos / leur, leurs. The form follows the thing owned, not the owner. Before a vowel: mon amie. Pronouns: le mien, la mienne, le tien …',
+      'mon, ma, mes / ton, ta, tes / son, sa, ses / notre, nos / votre, vos / leur, leurs. La forma dipende dalla cosa posseduta, non dal possessore. Davanti a vocale: mon amie. Pronomi: le mien, la mienne, le tien …',
+      'mon, ma, mes / ton, ta, tes / son, sa, ses / notre, nos / votre, vos / leur, leurs. La forme dépend de l’objet possédé, pas du possesseur. Devant voyelle : mon amie. Pronoms : le mien, la mienne, le tien …'),
+    task: TASK_FILL,
+    items: [
+      Q("C'est [___] frère. (je)", ['mon', 'ma', 'mes'], 'mon', "C'est mon frère."),
+      Q('Voilà [___] amie Sophie. (je)', ['mon', 'ma', 'mes'], 'mon', 'Voilà mon amie Sophie.', 'ma → mon devant voyelle'),
+      Q('Paul aime [___] parents.', ['ses', 'son', 'leurs'], 'ses', 'Paul aime ses parents.'),
+      Q('Les enfants jouent avec [___] chien.', ['leur', 'son', 'leurs'], 'leur', 'Les enfants jouent avec leur chien.', 'un chien, plusieurs possesseurs'),
+      Q('Nous prenons [___] voiture.', ['notre', 'nos', 'votre'], 'notre', 'Nous prenons notre voiture.'),
+      Q('Marie cherche [___] clés.', ['ses', 'sa', 'leurs'], 'ses', 'Marie cherche ses clés.'),
+      Q("C'est ton stylo ? – Oui, c'est [___].", ['le mien', 'la mienne', 'le tien'], 'le mien', "Oui, c'est le mien."),
+      Q('Vous avez [___] billets ?', ['vos', 'votre', 'nos'], 'vos', 'Vous avez vos billets ?'),
+      Q('Ils rangent [___] affaires.', ['leurs', 'leur', 'ses'], 'leurs', 'Ils rangent leurs affaires.'),
+      Q('Ma voiture est rouge. Et [___] ? (tu)', ['la tienne', 'le tien', 'la mienne'], 'la tienne', 'Ma voiture est rouge. Et la tienne ?')
+    ]
+  },
+  {
+    id: 'demonstratifs', yt: 'adjectifs démonstratifs ce cet cette ces', title: 'Les démonstratifs',
+    intro: IN4('ce (maskulin), cet (maskulin vor Vokal oder stummem h), cette (feminin), ces (Plural). Pronomen: celui, celle, ceux, celles – mit -ci / -là, mit de oder mit qui / que.',
+      'ce (masculine), cet (masculine before a vowel or silent h), cette (feminine), ces (plural). Pronouns: celui, celle, ceux, celles – with -ci / -là, with de or with qui / que.',
+      'ce (maschile), cet (maschile davanti a vocale o h muta), cette (femminile), ces (plurale). Pronomi: celui, celle, ceux, celles – con -ci / -là, con de o con qui / que.',
+      'ce (masculin), cet (masculin devant voyelle ou h muet), cette (féminin), ces (pluriel). Pronoms : celui, celle, ceux, celles – avec -ci / -là, avec de ou avec qui / que.'),
+    task: TASK_FILL,
+    items: [
+      Q('[___] livre est intéressant.', ['Ce', 'Cet', 'Cette'], 'Ce', 'Ce livre est intéressant.'),
+      Q('[___] hôtel est très cher.', ['Cet', 'Ce', 'Cette'], 'Cet', 'Cet hôtel est très cher.', 'cet devant h muet'),
+      Q('[___] maison est grande.', ['Cette', 'Ce', 'Cet'], 'Cette', 'Cette maison est grande.'),
+      Q('[___] enfants sont sages.', ['Ces', 'Ce', 'Cette'], 'Ces', 'Ces enfants sont sages.'),
+      Q('[___] homme est mon voisin.', ['Cet', 'Ce', 'Cette'], 'Cet', 'Cet homme est mon voisin.', 'cet devant h muet'),
+      Q('Quel pull préfères-tu ? – [___] qui est bleu.', ['Celui', 'Celle', 'Ceux'], 'Celui', 'Celui qui est bleu.'),
+      Q('Quelle robe veux-tu ? – [___]-ci.', ['Celle', 'Celui', 'Celles'], 'Celle', 'Celle-ci.'),
+      Q('Ces chaussures sont trop petites. Je prends [___]-là.', ['celles', 'ceux', 'celle'], 'celles', 'Je prends celles-là.'),
+      Q('[___] année, je vais en Italie.', ['Cette', 'Cet', 'Ce'], 'Cette', 'Cette année, je vais en Italie.'),
+      Q("Ce n'est pas mon vélo, c'est [___] de mon frère.", ['celui', 'celle', 'ce'], 'celui', "Ce n'est pas mon vélo, c'est celui de mon frère.")
+    ]
+  },
+  {
+    id: 'indefinis', yt: 'adjectifs pronoms indéfinis quelques chaque tout', title: 'Les indéfinis',
+    intro: IN4('quelques (einige), plusieurs (mehrere), chaque (jeder, mit Singular), tout le / toute la / tous les / toutes les. Pronomen: quelqu’un, quelque chose, quelque part – verneint: personne, rien, nulle part.',
+      'quelques (a few), plusieurs (several), chaque (each, with singular), tout le / toute la / tous les / toutes les. Pronouns: quelqu’un, quelque chose, quelque part – negative: personne, rien, nulle part.',
+      'quelques (alcuni), plusieurs (parecchi), chaque (ogni, con il singolare), tout le / toute la / tous les / toutes les. Pronomi: quelqu’un, quelque chose, quelque part – negativi: personne, rien, nulle part.',
+      'quelques, plusieurs, chaque (+ singulier), tout le / toute la / tous les / toutes les. Pronoms : quelqu’un, quelque chose, quelque part – à la forme négative : personne, rien, nulle part.'),
+    task: TASK_FILL,
+    items: [
+      Q("J'ai [___] amis à Paris.", ['quelques', 'quelque', 'chaque'], 'quelques', "J'ai quelques amis à Paris."),
+      Q('[___] élève a un livre.', ['Chaque', 'Chacun', 'Tous'], 'Chaque', 'Chaque élève a un livre.', 'chaque + singulier'),
+      Q('Il travaille [___] la journée.', ['toute', 'tout', 'tous'], 'toute', 'Il travaille toute la journée.'),
+      Q('[___] les enfants aiment jouer.', ['Tous', 'Tout', 'Toutes'], 'Tous', 'Tous les enfants aiment jouer.'),
+      Q('Il y a [___] à la porte.', ["quelqu'un", 'quelque chose', 'quelque part'], "quelqu'un", "Il y a quelqu'un à la porte."),
+      Q('Tu veux manger [___] ?', ['quelque chose', "quelqu'un", 'quelques'], 'quelque chose', 'Tu veux manger quelque chose ?'),
+      Q("J'ai lu [___] livres cet été.", ['plusieurs', 'chaque', 'tout'], 'plusieurs', "J'ai lu plusieurs livres cet été."),
+      Q('[___] les filles sont là.', ['Toutes', 'Tous', 'Toute'], 'Toutes', 'Toutes les filles sont là.'),
+      Q("J'ai déjà vu cet homme [___].", ['quelque part', "quelqu'un", 'quelque chose'], 'quelque part', "J'ai déjà vu cet homme quelque part."),
+      Q('Il a mangé [___] le gâteau.', ['tout', 'toute', 'tous'], 'tout', 'Il a mangé tout le gâteau.')
+    ]
+  },
+  {
+    id: 'quantite', yt: 'articles partitifs du de la quantité beaucoup de', title: 'La quantité',
+    intro: IN4('Unbestimmte Menge: du, de la, de l’, des. Nach Mengenangaben und nach der Verneinung steht nur «de»: beaucoup de, un peu de, trop de, assez de, un kilo de, pas de.',
+      'Unspecified quantity: du, de la, de l’, des. After expressions of quantity and after a negation only «de»: beaucoup de, un peu de, trop de, assez de, un kilo de, pas de.',
+      'Quantità indeterminata: du, de la, de l’, des. Dopo le espressioni di quantità e dopo la negazione solo «de»: beaucoup de, un peu de, trop de, assez de, un kilo de, pas de.',
+      'Quantité indéterminée : du, de la, de l’, des. Après une expression de quantité et après la négation, seulement «de» : beaucoup de, un peu de, trop de, assez de, un kilo de, pas de.'),
+    task: TASK_FILL,
+    items: [
+      Q('Je bois [___] café le matin.', ['du', 'de', 'un peu'], 'du', 'Je bois du café le matin.', 'partitif'),
+      Q('Elle mange [___] salade.', ['de la', 'de', 'du'], 'de la', 'Elle mange de la salade.', 'partitif'),
+      Q('Tu veux [___]eau ?', ["de l'", 'de la ', 'du '], "de l'", "Tu veux de l'eau ?", 'partitif devant voyelle'),
+      Q('Il y a beaucoup [___] monde.', ['de', 'du', 'des'], 'de', 'Il y a beaucoup de monde.', 'beaucoup de'),
+      Q('Je ne mange pas [___] viande.', ['de', 'de la', 'la'], 'de', 'Je ne mange pas de viande.', 'pas de'),
+      Q("J'achète un kilo [___] pommes.", ['de', 'des', 'du'], 'de', "J'achète un kilo de pommes.", 'un kilo de'),
+      Q('Nous avons [___] amis à Rome.', ['des', 'de', 'du'], 'des', 'Nous avons des amis à Rome.'),
+      Q('Il a trop [___] travail.', ['de', 'du', 'des'], 'de', 'Il a trop de travail.', 'trop de'),
+      Q('Tu as assez [___]argent ?', ["d'", "de l'", 'du '], "d'", "Tu as assez d'argent ?", 'assez de'),
+      Q('Il ne boit jamais [___]alcool.', ["d'", "de l'", 'du '], "d'", "Il ne boit jamais d'alcool.", 'ne … jamais de'),
+      Q('Je voudrais une bouteille [___]eau.', ["d'", "de l'", 'de la '], "d'", "Je voudrais une bouteille d'eau.", 'une bouteille de')
+    ]
+  },
+  {
+    id: 'famille', yt: 'la famille vocabulaire français', title: 'La famille et les groupes',
+    intro: IN4('Familie: les parents, les grands-parents, l’oncle, la tante, le cousin, la cousine, le neveu, la nièce, les beaux-parents. Gruppen: tout le monde und la famille stehen mit Singular, les gens mit Plural.',
+      'Family: les parents, les grands-parents, l’oncle, la tante, le cousin, la cousine, le neveu, la nièce, les beaux-parents. Groups: tout le monde and la famille take the singular, les gens the plural.',
+      'Famiglia: les parents, les grands-parents, l’oncle, la tante, le cousin, la cousine, le neveu, la nièce, les beaux-parents. Gruppi: tout le monde e la famille vogliono il singolare, les gens il plurale.',
+      'La famille : les parents, les grands-parents, l’oncle, la tante, le cousin, la cousine, le neveu, la nièce, les beaux-parents. Groupes : tout le monde et la famille + singulier, les gens + pluriel.'),
+    task: TASK_FILL,
+    items: [
+      Q('Le frère de ma mère est mon [___].', ['oncle', 'cousin', 'neveu'], 'oncle', 'Le frère de ma mère est mon oncle.'),
+      Q('La fille de ma tante est ma [___].', ['cousine', 'nièce', 'sœur'], 'cousine', 'La fille de ma tante est ma cousine.'),
+      Q('Le père de mon père est mon [___].', ['grand-père', 'oncle', 'beau-père'], 'grand-père', 'Le père de mon père est mon grand-père.'),
+      Q('Le fils de ma sœur est mon [___].', ['neveu', 'cousin', 'petit-fils'], 'neveu', 'Le fils de ma sœur est mon neveu.'),
+      Q('La mère de mon mari est ma [___].', ['belle-mère', 'grand-mère', 'tante'], 'belle-mère', 'La mère de mon mari est ma belle-mère.'),
+      Q('La fille de mon frère est ma [___].', ['nièce', 'cousine', 'tante'], 'nièce', 'La fille de mon frère est ma nièce.'),
+      Q('Les parents de ma femme sont mes [___].', ['beaux-parents', 'grands-parents', 'parents'], 'beaux-parents', 'Les parents de ma femme sont mes beaux-parents.'),
+      Q('Tout le monde [___] content.', ['est', 'sont', 'êtes'], 'est', 'Tout le monde est content.', 'tout le monde + singulier'),
+      Q('Les gens [___] sympathiques ici.', ['sont', 'est', 'es'], 'sont', 'Les gens sont sympathiques ici.', 'les gens + pluriel'),
+      Q('Ma famille [___] à Genève.', ['habite', 'habitent', 'habitons'], 'habite', 'Ma famille habite à Genève.', 'la famille + singulier')
+    ]
+  },
+
+  /* ---------- Block 3: Adjektiv und Adverb ---------- */
+  {
+    id: 'adjforme', yt: 'accord adjectif féminin pluriel', title: 'L’adjectif : féminin et pluriel',
+    intro: IN4('Feminin meist + e, Plural + s. Besonderheiten: -eux → -euse, -if → -ive, -er → -ère, -en → -enne; beau → belle, nouveau → nouvelle, vieux → vieille, blanc → blanche, long → longue. Plural -al → -aux.',
+      'Feminine usually + e, plural + s. Special cases: -eux → -euse, -if → -ive, -er → -ère, -en → -enne; beau → belle, nouveau → nouvelle, vieux → vieille, blanc → blanche, long → longue. Plural -al → -aux.',
+      'Femminile di solito + e, plurale + s. Casi particolari: -eux → -euse, -if → -ive, -er → -ère, -en → -enne; beau → belle, nouveau → nouvelle, vieux → vieille, blanc → blanche, long → longue. Plurale -al → -aux.',
+      'Féminin en général + e, pluriel + s. Cas particuliers : -eux → -euse, -if → -ive, -er → -ère, -en → -enne ; beau → belle, nouveau → nouvelle, vieux → vieille, blanc → blanche, long → longue. Pluriel -al → -aux.'),
+    task: TASK_FILL,
+    items: [
+      Q('Elle est [___]. (content)', ['contente', 'content', 'contents'], 'contente', 'Elle est contente.'),
+      Q('Ma sœur est très [___]. (sportif)', ['sportive', 'sportife', 'sportif'], 'sportive', 'Ma sœur est très sportive.', '-if → -ive'),
+      Q('Une fille [___]. (heureux)', ['heureuse', 'heureuxe', 'heureux'], 'heureuse', 'Une fille heureuse.', '-eux → -euse'),
+      Q("C'est une [___] voiture. (nouveau)", ['nouvelle', 'nouveau', 'nouvele'], 'nouvelle', "C'est une nouvelle voiture."),
+      Q('Mes amis sont [___]. (gentil)', ['gentils', 'gentil', 'gentilles'], 'gentils', 'Mes amis sont gentils.'),
+      Q('Elle porte une robe [___]. (blanc)', ['blanche', 'blance', 'blanc'], 'blanche', 'Elle porte une robe blanche.'),
+      Q('Ces exercices sont [___]. (normal)', ['normaux', 'normals', 'normales'], 'normaux', 'Ces exercices sont normaux.', '-al → -aux'),
+      Q('Ma grand-mère est [___]. (vieux)', ['vieille', 'vieuse', 'vieux'], 'vieille', 'Ma grand-mère est vieille.'),
+      Q('Elle est [___]. (italien)', ['italienne', 'italiene', 'italien'], 'italienne', 'Elle est italienne.', '-en → -enne'),
+      Q('Les filles sont [___]. (fatigué)', ['fatiguées', 'fatigués', 'fatiguée'], 'fatiguées', 'Les filles sont fatiguées.'),
+      Q("C'est une histoire [___]. (long)", ['longue', 'longe', 'long'], 'longue', "C'est une histoire longue."),
+      Q('Elle est arrivée la [___]. (premier)', ['première', 'premiere', 'premier'], 'première', 'Elle est arrivée la première.', '-er → -ère')
+    ]
+  },
+
+  /* ---------- Block 5: Ort und Zeit ---------- */
+  {
+    id: 'lieu1', yt: 'prépositions villes pays à en au aux', title: 'Le lieu (1) : villes, pays, position',
+    intro: IN4('Stadt: à. Land feminin (meist auf -e) oder mit Vokal am Anfang: en. Land maskulin: au. Plural: aux. Bei Personen: chez. Lage: dans, sur, sous, devant, derrière, à côté de.',
+      'City: à. Feminine country (usually ending in -e) or starting with a vowel: en. Masculine country: au. Plural: aux. With people: chez. Position: dans, sur, sous, devant, derrière, à côté de.',
+      'Città: à. Paese femminile (di solito in -e) o che inizia per vocale: en. Paese maschile: au. Plurale: aux. Con le persone: chez. Posizione: dans, sur, sous, devant, derrière, à côté de.',
+      'Ville : à. Pays féminin (souvent en -e) ou commençant par une voyelle : en. Pays masculin : au. Pluriel : aux. Chez + personne. Position : dans, sur, sous, devant, derrière, à côté de.'),
+    task: TASK_FILL,
+    items: [
+      Q("J'habite [___] Genève.", ['à', 'en', 'au'], 'à', "J'habite à Genève.", 'ville → à'),
+      Q('Elle travaille [___] France.', ['en', 'au', 'à'], 'en', 'Elle travaille en France.', 'pays féminin → en'),
+      Q('Nous allons [___] Portugal.', ['au', 'en', 'à'], 'au', 'Nous allons au Portugal.', 'pays masculin → au'),
+      Q('Ils vivent [___] États-Unis.', ['aux', 'au', 'en'], 'aux', 'Ils vivent aux États-Unis.', 'pluriel → aux'),
+      Q('Je vais [___] Italie cet été.', ['en', 'au', 'à'], 'en', 'Je vais en Italie cet été.', 'pays féminin → en'),
+      Q('Ce soir, je dors [___] ma grand-mère.', ['chez', 'à', 'dans'], 'chez', 'Ce soir, je dors chez ma grand-mère.', 'personne → chez'),
+      Q('Le chat dort [___] le lit, on ne le voit pas.', ['sous', 'sur', 'devant'], 'sous', 'Le chat dort sous le lit, on ne le voit pas.'),
+      Q('Les clés sont [___] mon sac.', ['dans', 'sur', 'chez'], 'dans', 'Les clés sont dans mon sac.'),
+      Q('Il habite [___] Canada.', ['au', 'en', 'à'], 'au', 'Il habite au Canada.', 'pays masculin → au'),
+      Q('La pharmacie est [___] la banque.', ['à côté de', 'à côté', 'chez'], 'à côté de', 'La pharmacie est à côté de la banque.'),
+      Q('Je suis né [___] Suisse.', ['en', 'au', 'à la'], 'en', 'Je suis né en Suisse.', 'pays féminin → en')
+    ]
+  },
+  {
+    id: 'lieu2', yt: 'venir de du des prépositions pays origine', title: 'Le lieu (2) : d’où ?',
+    intro: IN4('Herkunft: de vor Städten und femininen Ländern (de Lausanne, de France, d’Italie), du vor maskulinen Ländern (du Canada), des im Plural (des États-Unis). Von einer Person: de chez.',
+      'Origin: de before cities and feminine countries (de Lausanne, de France, d’Italie), du before masculine countries (du Canada), des in the plural (des États-Unis). From a person’s place: de chez.',
+      'Provenienza: de davanti a città e paesi femminili (de Lausanne, de France, d’Italie), du davanti a paesi maschili (du Canada), des al plurale (des États-Unis). Da una persona: de chez.',
+      'Origine : de devant une ville ou un pays féminin (de Lausanne, de France, d’Italie), du devant un pays masculin (du Canada), des au pluriel (des États-Unis). De chez + personne.'),
+    task: TASK_FILL,
+    items: [
+      Q('Il vient [___] Canada.', ['du', 'de', 'au'], 'du', 'Il vient du Canada.', 'pays masculin → du'),
+      Q('Elle vient [___]Italie.', ["d'", "de l'", 'du '], "d'", "Elle vient d'Italie.", "pays féminin → de / d'"),
+      Q('Nous revenons [___] États-Unis.', ['des', 'aux', 'de'], 'des', 'Nous revenons des États-Unis.', 'pluriel → des'),
+      Q('Je viens [___] Lausanne.', ['de', 'du', 'à'], 'de', 'Je viens de Lausanne.', 'ville → de'),
+      Q('Ce fromage vient [___] France.', ['de', 'du', 'en'], 'de', 'Ce fromage vient de France.', 'pays féminin → de'),
+      Q('Je reviens [___] le médecin.', ['de chez', 'chez', 'du'], 'de chez', 'Je reviens de chez le médecin.', 'personne → de chez'),
+      Q('Ils habitent [___] Japon.', ['au', 'du', 'en'], 'au', 'Ils habitent au Japon.', 'où ? → au'),
+      Q('Mes cousins arrivent [___] Portugal ce soir.', ['du', 'au', 'de'], 'du', 'Mes cousins arrivent du Portugal ce soir.', "d'où ? → du"),
+      Q('Elle va [___] le coiffeur.', ['chez', 'au', 'à'], 'chez', 'Elle va chez le coiffeur.', 'personne → chez'),
+      Q('Ces oranges viennent [___]Espagne.', ["d'", "de l'", 'des '], "d'", "Ces oranges viennent d'Espagne.", "pays féminin → de / d'")
+    ]
+  },
+  {
+    id: 'lieutemps3', yt: "prépositions de lieu et de temps jusqu'à à partir de entre", title: 'Lieu et temps (3) : limites et repères',
+    intro: IN4('de … à (von … bis), jusqu’à (bis), à partir de (ab), entre (zwischen), vers (gegen), avant / après (vor / nach), près de / loin de (nah / weit), en face de (gegenüber).',
+      'de … à (from … to), jusqu’à (until, as far as), à partir de (from … on), entre (between), vers (around), avant / après (before / after), près de / loin de (near / far), en face de (opposite).',
+      'de … à (da … a), jusqu’à (fino a), à partir de (a partire da), entre (tra), vers (verso), avant / après (prima / dopo), près de / loin de (vicino / lontano), en face de (di fronte a).',
+      'de … à, jusqu’à, à partir de, entre, vers (approximation), avant / après, près de / loin de, en face de.'),
+    task: TASK_FILL,
+    items: [
+      Q('Le magasin est ouvert [___] 9 heures à 18 heures.', ['de', 'à partir', 'depuis'], 'de', 'Le magasin est ouvert de 9 heures à 18 heures.'),
+      Q('Je travaille [___] 17 heures.', ["jusqu'à", 'jusque', 'à partir'], "jusqu'à", "Je travaille jusqu'à 17 heures."),
+      Q('[___] demain, je fais du sport tous les jours.', ['À partir de', "Jusqu'à", 'Entre'], 'À partir de', 'À partir de demain, je fais du sport tous les jours.'),
+      Q("J'arriverai [___] midi, pas exactement à midi.", ['vers', 'entre', "jusqu'à"], 'vers', "J'arriverai vers midi, pas exactement à midi."),
+      Q('Viens [___] 14 heures et 15 heures.', ['entre', 'vers', 'de'], 'entre', 'Viens entre 14 heures et 15 heures.'),
+      Q("La gare est [___] l'hôtel, de l'autre côté de la rue.", ['en face de', 'loin de', 'entre'], 'en face de', "La gare est en face de l'hôtel, de l'autre côté de la rue."),
+      Q('Lave-toi les mains [___] le repas.', ['avant', 'devant', 'avant de'], 'avant', 'Lave-toi les mains avant le repas.', 'avant + nom'),
+      Q("J'habite [___] la gare, à deux minutes à pied.", ['près de', 'loin de', 'en face'], 'près de', "J'habite près de la gare, à deux minutes à pied."),
+      Q('Continuez tout droit [___] feu rouge.', ["jusqu'au", "jusqu'à le", 'vers de'], "jusqu'au", "Continuez tout droit jusqu'au feu rouge.", "jusqu'à + le = jusqu'au"),
+      Q('[___] le film, nous irons au restaurant.', ['Après', 'Avant de', 'Derrière'], 'Après', 'Après le film, nous irons au restaurant.')
+    ]
+  },
+  {
+    id: 'date', yt: 'date heure météo en français', title: 'Le temps (1) : date, heure, météo',
+    intro: IN4('le lundi = jeden Montag, lundi = diesen Montag. en mars, en 2026, en été, en automne, en hiver – aber au printemps. Datum: le 3 mai. Uhrzeit: à huit heures. Wetter: il fait beau, il fait froid, il pleut, il neige, il y a du vent.',
+      'le lundi = every Monday, lundi = this Monday. en mars, en 2026, en été, en automne, en hiver – but au printemps. Date: le 3 mai. Time: à huit heures. Weather: il fait beau, il fait froid, il pleut, il neige, il y a du vent.',
+      'le lundi = ogni lunedì, lundi = questo lunedì. en mars, en 2026, en été, en automne, en hiver – ma au printemps. Data: le 3 mai. Ora: à huit heures. Tempo: il fait beau, il fait froid, il pleut, il neige, il y a du vent.',
+      'le lundi = chaque lundi, lundi = ce lundi. en mars, en 2026, en été, en automne, en hiver – mais au printemps. Date : le 3 mai. Heure : à huit heures. Météo : il fait beau, il fait froid, il pleut, il neige, il y a du vent.'),
+    task: TASK_FILL,
+    items: [
+      Q('Mon anniversaire est [___] 3 mai.', ['le', 'au', 'en'], 'le', 'Mon anniversaire est le 3 mai.', 'date → le'),
+      Q('Nous partons [___] août.', ['en', 'au', 'à'], 'en', 'Nous partons en août.', 'mois → en'),
+      Q('Le cours commence [___] huit heures.', ['à', 'en', 'le'], 'à', 'Le cours commence à huit heures.', 'heure → à'),
+      Q('[___] printemps, les arbres fleurissent.', ['Au', 'En', 'À'], 'Au', 'Au printemps, les arbres fleurissent.', 'au printemps'),
+      Q('[___] hiver, il neige souvent.', ['En', 'Au', 'À'], 'En', 'En hiver, il neige souvent.', 'en été, en automne, en hiver'),
+      Q('Je fais du sport [___] samedi, chaque semaine.', ['le', 'au', 'en'], 'le', 'Je fais du sport le samedi, chaque semaine.', 'le samedi = chaque samedi'),
+      Q("Aujourd'hui, il [___] beau.", ['fait', 'est', 'a'], 'fait', "Aujourd'hui, il fait beau."),
+      Q('Il [___] du vent ce matin.', ['y a', 'fait de', 'est'], 'y a', 'Il y a du vent ce matin.'),
+      Q('Il est né [___] 2008.', ['en', 'au', 'le'], 'en', 'Il est né en 2008.', 'année → en'),
+      Q('Il est huit heures [___] quart.', ['et', 'un', 'à'], 'et', 'Il est huit heures et quart.'),
+      Q('Regarde par la fenêtre : il [___].', ['pleut', 'pleure', 'fait pluie'], 'pleut', 'Regarde par la fenêtre : il pleut.')
+    ]
+  },
+  {
+    id: 'duree', yt: 'depuis il y a pendant pour en dans', title: 'Le temps (2) : la durée',
+    intro: IN4('depuis = seit (dauert noch an, mit Présent). il y a = vor (abgeschlossen). pendant = während, … lang. pour = für eine geplante Dauer. en = innerhalb von. dans = in (von jetzt an).',
+      'depuis = since / for (still going on, with the present). il y a = ago. pendant = during / for. pour = for a planned period. en = within. dans = in (from now).',
+      'depuis = da (dura ancora, con il presente). il y a = fa. pendant = durante / per. pour = per una durata prevista. en = in (tempo impiegato). dans = tra (a partire da ora).',
+      'depuis (l’action continue, avec le présent), il y a (moment passé), pendant (durée), pour (durée prévue), en (temps nécessaire), dans (à partir de maintenant).'),
+    task: TASK_FILL,
+    items: [
+      Q("J'habite ici [___] cinq ans.", ['depuis', 'il y a', 'pendant'], 'depuis', "J'habite ici depuis cinq ans.", "l'action continue"),
+      Q('Je suis arrivé [___] deux heures.', ['il y a', 'depuis', 'dans'], 'il y a', 'Je suis arrivé il y a deux heures.', 'moment passé'),
+      Q("Hier, j'ai travaillé [___] huit heures.", ['pendant', 'depuis', 'dans'], 'pendant', "Hier, j'ai travaillé pendant huit heures.", 'durée'),
+      Q('Le train part [___] dix minutes.', ['dans', 'il y a', 'depuis'], 'dans', 'Le train part dans dix minutes.', 'à partir de maintenant'),
+      Q("J'ai lu ce livre [___] deux jours.", ['en', 'dans', 'depuis'], 'en', "J'ai lu ce livre en deux jours.", 'temps nécessaire'),
+      Q('Elle part en Espagne [___] trois semaines, puis elle revient.', ['pour', 'depuis', 'il y a'], 'pour', 'Elle part en Espagne pour trois semaines, puis elle revient.', 'durée prévue'),
+      Q('Il apprend le français [___] 2023.', ['depuis', 'il y a', 'pendant'], 'depuis', 'Il apprend le français depuis 2023.', "l'action continue"),
+      Q('Nous nous sommes rencontrés [___] dix ans.', ['il y a', 'depuis', 'dans'], 'il y a', 'Nous nous sommes rencontrés il y a dix ans.', 'moment passé'),
+      Q('Je reviens [___] une heure.', ['dans', 'il y a', 'pendant'], 'dans', 'Je reviens dans une heure.', 'à partir de maintenant'),
+      Q('[___] les vacances, je me suis reposé.', ['Pendant', 'Depuis', 'Dans'], 'Pendant', 'Pendant les vacances, je me suis reposé.', 'durée')
+    ]
+  },
+  {
+    id: 'temps4', yt: "avant de après avoir d'abord ensuite enfin", title: 'Le temps (4) : début, durée, ordre',
+    intro: IN4('Reihenfolge: d’abord, ensuite / puis, enfin. avant de + Infinitiv; après avoir / après être + Partizip. Beginn: dès, à partir de. Dauer bis jetzt: ça fait … que, il y a … que.',
+      'Sequence: d’abord, ensuite / puis, enfin. avant de + infinitive; après avoir / après être + past participle. Start: dès, à partir de. Duration up to now: ça fait … que, il y a … que.',
+      'Ordine: d’abord, ensuite / puis, enfin. avant de + infinito; après avoir / après être + participio. Inizio: dès, à partir de. Durata fino a ora: ça fait … que, il y a … que.',
+      'Ordre : d’abord, ensuite / puis, enfin. avant de + infinitif ; après avoir / après être + participe passé. Début : dès, à partir de. Durée jusqu’à maintenant : ça fait … que, il y a … que.'),
+    task: TASK_FILL,
+    items: [
+      Q('[___], je me lève. Ensuite, je prends une douche.', ["D'abord", 'Enfin', 'Après'], "D'abord", "D'abord, je me lève. Ensuite, je prends une douche."),
+      Q('Je me brosse les dents [___] me coucher.', ['avant de', 'avant', 'après'], 'avant de', 'Je me brosse les dents avant de me coucher.', 'avant de + infinitif'),
+      Q('[___] mangé, il est sorti.', ['Après avoir', 'Après', "Avant d'avoir"], 'Après avoir', 'Après avoir mangé, il est sorti.', 'après avoir + participe'),
+      Q('[___] rentrée, elle a téléphoné à sa mère.', ['Après être', 'Après avoir', "Avant d'"], 'Après être', 'Après être rentrée, elle a téléphoné à sa mère.', 'après être + participe'),
+      Q("[___] deux ans que j'apprends le français.", ['Ça fait', 'Depuis', 'Pendant'], 'Ça fait', "Ça fait deux ans que j'apprends le français."),
+      Q('Nous avons mangé, [___] nous sommes allés au cinéma.', ['puis', "d'abord", 'avant'], 'puis', 'Nous avons mangé, puis nous sommes allés au cinéma.'),
+      Q('[___], après trois heures de route, nous sommes arrivés.', ['Enfin', "D'abord", 'Avant'], 'Enfin', 'Enfin, après trois heures de route, nous sommes arrivés.'),
+      Q('[___] son arrivée, il a commencé à travailler.', ['Dès', 'Pendant', "Jusqu'à"], 'Dès', 'Dès son arrivée, il a commencé à travailler.'),
+      Q('Réfléchis [___] parler !', ['avant de', 'après', 'avant'], 'avant de', 'Réfléchis avant de parler !', 'avant de + infinitif'),
+      Q("Il y a longtemps [___] je ne l'ai pas vu.", ['que', 'depuis', 'où'], 'que', "Il y a longtemps que je ne l'ai pas vu.")
+    ]
+  }
+];
+
+/* ============================================================
+   Grammatik – neue Module, Teil 2 (Blöcke 4, 6, 7 und 8)
+   ============================================================ */
+const GRAMMAR_NEW2 = [
+  /* ---------- Block 4: Pronomen ---------- */
+  {
+    id: 'toniques', yt: 'pronoms toniques moi toi lui eux', title: 'Les pronoms toniques',
+    intro: IN4('moi, toi, lui, elle, nous, vous, eux, elles. Sie stehen nach Präpositionen (avec moi, chez eux), zur Betonung (Moi, je …), allein als Antwort (Qui ? – Moi !), nach c’est und nach que im Vergleich.',
+      'moi, toi, lui, elle, nous, vous, eux, elles. Used after prepositions (avec moi, chez eux), for emphasis (Moi, je …), alone as an answer (Qui ? – Moi !), after c’est and after que in comparisons.',
+      'moi, toi, lui, elle, nous, vous, eux, elles. Si usano dopo le preposizioni (avec moi, chez eux), per enfasi (Moi, je …), da soli (Qui ? – Moi !), dopo c’est e dopo que nei paragoni.',
+      'moi, toi, lui, elle, nous, vous, eux, elles. Après une préposition (avec moi, chez eux), pour insister (Moi, je …), seuls (Qui ? – Moi !), après c’est et après que dans la comparaison.'),
+    task: TASK_FILL,
+    items: [
+      Q('Tu viens avec [___] ? (je)', ['moi', 'me', 'je'], 'moi', 'Tu viens avec moi ?', 'après une préposition'),
+      Q('[___], je préfère le thé.', ['Moi', 'Je', 'Me'], 'Moi', 'Moi, je préfère le thé.', 'insistance'),
+      Q('Ce cadeau est pour [___]. (tu)', ['toi', 'te', 'tu'], 'toi', 'Ce cadeau est pour toi.', 'après une préposition'),
+      Q('Je vais chez [___]. (Paul)', ['lui', 'le', 'il'], 'lui', 'Je vais chez lui.', 'après une préposition'),
+      Q('Elle part sans [___]. (ses parents)', ['eux', 'leur', 'ils'], 'eux', 'Elle part sans eux.', 'après une préposition'),
+      Q('Qui veut du gâteau ? – [___] !', ['Moi', 'Je', 'Me'], 'Moi', 'Moi !', 'pronom seul'),
+      Q("C'est [___] qui a raison. (Marie)", ['elle', 'la', 'lui'], 'elle', "C'est elle qui a raison.", "après c'est"),
+      Q('Nous dînons chez [___]. (Marie et Julie)', ['elles', 'eux', 'leur'], 'elles', 'Nous dînons chez elles.', 'après une préposition'),
+      Q('Paul est plus grand que [___]. (je)', ['moi', 'je', 'me'], 'moi', 'Paul est plus grand que moi.', 'comparaison'),
+      Q('[___], il ne dit jamais rien.', ['Lui', 'Il', 'Le'], 'Lui', 'Lui, il ne dit jamais rien.', 'insistance')
+    ]
+  },
+  {
+    id: 'relatifs2', yt: 'ce qui ce que mise en relief pronoms relatifs composés lequel', title: 'Ce qui, ce que, mise en relief, lequel',
+    intro: IN4('ce qui (Subjekt) und ce que (Objekt) = das, was. Hervorhebung: c’est … qui (Subjekt), c’est … que (alles andere). Nach Präposition: lequel, laquelle, lesquels, lesquelles; à + lequel = auquel, de + lequel = duquel.',
+      'ce qui (subject) and ce que (object) = what. Emphasis: c’est … qui (subject), c’est … que (everything else). After a preposition: lequel, laquelle, lesquels, lesquelles; à + lequel = auquel, de + lequel = duquel.',
+      'ce qui (soggetto) e ce que (oggetto) = ciò che. Messa in rilievo: c’est … qui (soggetto), c’est … que (il resto). Dopo preposizione: lequel, laquelle, lesquels, lesquelles; à + lequel = auquel, de + lequel = duquel.',
+      'ce qui (sujet) et ce que (objet). Mise en relief : c’est … qui (sujet), c’est … que (le reste). Après une préposition : lequel, laquelle, lesquels, lesquelles ; à + lequel = auquel, de + lequel = duquel.'),
+    task: TASK_FILL,
+    items: [
+      Q("[___] me plaît, c'est la musique.", ['Ce qui', 'Ce que', 'Qui'], 'Ce qui', "Ce qui me plaît, c'est la musique.", 'sujet'),
+      Q("[___] je préfère, c'est le chocolat.", ['Ce que', 'Ce qui', 'Que'], 'Ce que', "Ce que je préfère, c'est le chocolat.", 'objet'),
+      Q("C'est Paul [___] a téléphoné.", ['qui', 'que', 'dont'], 'qui', "C'est Paul qui a téléphoné.", "c'est … qui (sujet)"),
+      Q("C'est ce livre [___] je veux.", ['que', 'qui', 'dont'], 'que', "C'est ce livre que je veux.", "c'est … que"),
+      Q('Voilà la raison pour [___] je suis parti.', ['laquelle', 'lequel', 'que'], 'laquelle', 'Voilà la raison pour laquelle je suis parti.'),
+      Q("C'est le stylo avec [___] j'écris.", ['lequel', 'laquelle', 'qui'], 'lequel', "C'est le stylo avec lequel j'écris."),
+      Q("C'est un projet [___] je pense souvent.", ['auquel', 'duquel', 'que'], 'auquel', "C'est un projet auquel je pense souvent.", 'penser à → auquel'),
+      Q('Je ne comprends pas [___] tu dis.', ['ce que', 'ce qui', 'que'], 'ce que', 'Je ne comprends pas ce que tu dis.', 'objet'),
+      Q('Les amis avec [___] je voyage sont suisses.', ['lesquels', 'lesquelles', 'lequel'], 'lesquels', 'Les amis avec lesquels je voyage sont suisses.'),
+      Q("Dis-moi [___] s'est passé.", ['ce qui', 'ce que', 'qui'], 'ce qui', "Dis-moi ce qui s'est passé.", 'sujet')
+    ]
+  },
+
+  /* ---------- Block 6: Verben im Präsens ---------- */
+  {
+    id: 'er', yt: 'verbes en -er présent', title: 'Les verbes en -er au présent',
+    intro: IN4('Endungen: -e, -es, -e, -ons, -ez, -ent. Besonderheiten in der Schreibung: nous mangeons, nous commençons, j’achète, j’appelle, je préfère, j’envoie.',
+      'Endings: -e, -es, -e, -ons, -ez, -ent. Spelling changes: nous mangeons, nous commençons, j’achète, j’appelle, je préfère, j’envoie.',
+      'Desinenze: -e, -es, -e, -ons, -ez, -ent. Particolarità ortografiche: nous mangeons, nous commençons, j’achète, j’appelle, je préfère, j’envoie.',
+      'Terminaisons : -e, -es, -e, -ons, -ez, -ent. Particularités : nous mangeons, nous commençons, j’achète, j’appelle, je préfère, j’envoie.'),
+    task: TASK_FILL,
+    items: [
+      Q('Je [___] français. (parler)', ['parle', 'parles', 'parlent'], 'parle', 'Je parle français.'),
+      Q('Nous [___] à midi. (manger)', ['mangeons', 'mangons', 'mangez'], 'mangeons', 'Nous mangeons à midi.', '-ger → -geons'),
+      Q('Ils [___] au tennis. (jouer)', ['jouent', 'joue', 'jouons'], 'jouent', 'Ils jouent au tennis.'),
+      Q('Tu [___] le pain ? (acheter)', ['achètes', 'achetes', 'achète'], 'achètes', 'Tu achètes le pain ?', 'e → è'),
+      Q('Nous [___] à huit heures. (commencer)', ['commençons', 'commencons', 'commencez'], 'commençons', 'Nous commençons à huit heures.', '-cer → -çons'),
+      Q("Je m'[___] Julie. (appeler)", ['appelle', 'appele', 'appelles'], 'appelle', "Je m'appelle Julie.", 'l → ll'),
+      Q('Elle [___] le thé. (préférer)', ['préfère', 'préfére', 'préfères'], 'préfère', 'Elle préfère le thé.', 'é → è'),
+      Q('Vous [___] où ? (habiter)', ['habitez', 'habitent', 'habitons'], 'habitez', 'Vous habitez où ?'),
+      Q("J'[___] un message. (envoyer)", ['envoie', 'envoye', 'envoies'], 'envoie', "J'envoie un message.", 'y → i'),
+      Q('Nous [___] en été. (voyager)', ['voyageons', 'voyagons', 'voyagent'], 'voyageons', 'Nous voyageons en été.', '-ger → -geons')
+    ]
+  },
+  {
+    id: 'irreoir', yt: 'verbes en -ir -re -oir présent', title: 'Les verbes en -ir, -re et -oir',
+    intro: IN4('-ir wie finir: je finis, nous finissons. -ir wie partir: je pars, nous partons. -re wie attendre: j’attends, il attend. Unregelmässig: prendre (nous prenons, ils prennent), mettre, faire (vous faites), pouvoir, vouloir, devoir, savoir, connaître.',
+      '-ir like finir: je finis, nous finissons. -ir like partir: je pars, nous partons. -re like attendre: j’attends, il attend. Irregular: prendre (nous prenons, ils prennent), mettre, faire (vous faites), pouvoir, vouloir, devoir, savoir, connaître.',
+      '-ir come finir: je finis, nous finissons. -ir come partir: je pars, nous partons. -re come attendre: j’attends, il attend. Irregolari: prendre (nous prenons, ils prennent), mettre, faire (vous faites), pouvoir, vouloir, devoir, savoir, connaître.',
+      '-ir comme finir : je finis, nous finissons. -ir comme partir : je pars, nous partons. -re comme attendre : j’attends, il attend. Irréguliers : prendre (nous prenons, ils prennent), mettre, faire (vous faites), pouvoir, vouloir, devoir, savoir, connaître.'),
+    task: TASK_FILL,
+    items: [
+      Q('Nous [___] le travail à cinq heures. (finir)', ['finissons', 'finons', 'finissez'], 'finissons', 'Nous finissons le travail à cinq heures.'),
+      Q('Je [___] demain matin. (partir)', ['pars', 'part', 'partis'], 'pars', 'Je pars demain matin.'),
+      Q('Il [___] le bus. (attendre)', ['attend', 'attends', 'attendt'], 'attend', 'Il attend le bus.'),
+      Q('Ils [___] le train. (prendre)', ['prennent', 'prendent', 'prenent'], 'prennent', 'Ils prennent le train.'),
+      Q('Vous [___] quoi ce soir ? (faire)', ['faites', 'faisez', 'font'], 'faites', 'Vous faites quoi ce soir ?'),
+      Q('Je ne [___] pas venir. (pouvoir)', ['peux', 'peut', 'pouvons'], 'peux', 'Je ne peux pas venir.'),
+      Q('Elles [___] partir. (vouloir)', ['veulent', 'voulent', 'veut'], 'veulent', 'Elles veulent partir.'),
+      Q('Tu [___] travailler plus. (devoir)', ['dois', 'doit', 'devez'], 'dois', 'Tu dois travailler plus.'),
+      Q('Nous ne [___] pas la réponse. (savoir)', ['savons', 'savez', 'sachons'], 'savons', 'Nous ne savons pas la réponse.'),
+      Q('Je [___] mon manteau. (mettre)', ['mets', 'met', 'mettes'], 'mets', 'Je mets mon manteau.'),
+      Q('Vous [___] ce monsieur ? (connaître)', ['connaissez', 'connaîtez', 'connaissent'], 'connaissez', 'Vous connaissez ce monsieur ?'),
+      Q('Ils [___] un livre. (choisir)', ['choisissent', 'choisent', 'choisit'], 'choisissent', 'Ils choisissent un livre.')
+    ]
+  },
+  {
+    id: 'aller', yt: 'verbe aller présent moyens de transport', title: 'Le verbe aller',
+    intro: IN4('aller: je vais, tu vas, il va, nous allons, vous allez, ils vont. Ziel: aller à, au, en, chez. Verkehrsmittel: en train, en avion, en voiture, en bus – aber à pied, à vélo.',
+      'aller: je vais, tu vas, il va, nous allons, vous allez, ils vont. Destination: aller à, au, en, chez. Transport: en train, en avion, en voiture, en bus – but à pied, à vélo.',
+      'aller: je vais, tu vas, il va, nous allons, vous allez, ils vont. Destinazione: aller à, au, en, chez. Mezzi: en train, en avion, en voiture, en bus – ma à pied, à vélo.',
+      'aller : je vais, tu vas, il va, nous allons, vous allez, ils vont. Destination : aller à, au, en, chez. Transports : en train, en avion, en voiture, en bus – mais à pied, à vélo.'),
+    task: TASK_FILL,
+    items: [
+      Q('Je [___] au cinéma.', ['vais', 'vas', 'va'], 'vais', 'Je vais au cinéma.'),
+      Q('Tu [___] où ?', ['vas', 'va', 'vais'], 'vas', 'Tu vas où ?'),
+      Q('Nous [___] à la plage.', ['allons', 'allez', 'vont'], 'allons', 'Nous allons à la plage.'),
+      Q('Ils [___] chez leurs amis.', ['vont', 'allons', 'va'], 'vont', 'Ils vont chez leurs amis.'),
+      Q('Je vais au travail [___] train.', ['en', 'à', 'par'], 'en', 'Je vais au travail en train.', 'en train, en bus, en voiture'),
+      Q("Elle va à l'école [___] pied.", ['à', 'en', 'par'], 'à', "Elle va à l'école à pied.", 'à pied, à vélo'),
+      Q('Vous [___] à Paris en avion ?', ['allez', 'allons', 'vont'], 'allez', 'Vous allez à Paris en avion ?'),
+      Q('Il va au bureau [___] vélo.', ['à', 'en', 'sur'], 'à', 'Il va au bureau à vélo.', 'à pied, à vélo'),
+      Q('Comment [___]-vous ? – Très bien, merci.', ['allez', 'êtes', 'avez'], 'allez', 'Comment allez-vous ?'),
+      Q('On [___] au restaurant ce soir ?', ['va', 'vas', 'vont'], 'va', 'On va au restaurant ce soir ?')
+    ]
+  },
+  {
+    id: 'reflexifs', yt: 'verbes pronominaux réfléchis se lever', title: 'Les verbes pronominaux',
+    intro: IN4('Reflexivpronomen: me, te, se, nous, vous, se – vor Vokal m’, t’, s’. Verneinung: je ne me lève pas. Mit Infinitiv: je vais me coucher. Imperativ: lève-toi !',
+      'Reflexive pronouns: me, te, se, nous, vous, se – before a vowel m’, t’, s’. Negation: je ne me lève pas. With an infinitive: je vais me coucher. Imperative: lève-toi !',
+      'Pronomi riflessivi: me, te, se, nous, vous, se – davanti a vocale m’, t’, s’. Negazione: je ne me lève pas. Con l’infinito: je vais me coucher. Imperativo: lève-toi !',
+      'Pronoms réfléchis : me, te, se, nous, vous, se – devant voyelle m’, t’, s’. Négation : je ne me lève pas. Avec un infinitif : je vais me coucher. Impératif : lève-toi !'),
+    task: TASK_FILL,
+    items: [
+      Q('Je [___] lève à sept heures.', ['me', 'se', 'te'], 'me', 'Je me lève à sept heures.'),
+      Q('Tu [___]appelles comment ?', ["t'", 'te ', "s'"], "t'", "Tu t'appelles comment ?", "t' devant voyelle"),
+      Q('Elle [___] couche tard.', ['se', 'me', 'te'], 'se', 'Elle se couche tard.'),
+      Q('Nous [___] promenons au parc.', ['nous', 'se', 'vous'], 'nous', 'Nous nous promenons au parc.'),
+      Q('Ils [___]amusent bien.', ["s'", 'se ', 'ils '], "s'", "Ils s'amusent bien.", "s' devant voyelle"),
+      Q('Je ne [___] souviens pas.', ['me', 'se', 'te'], 'me', 'Je ne me souviens pas.'),
+      Q('Vous [___] dépêchez ?', ['vous', 'se', 'nous'], 'vous', 'Vous vous dépêchez ?'),
+      Q('Je vais [___] coucher.', ['me', 'se', 'te'], 'me', 'Je vais me coucher.', 'devant l’infinitif'),
+      Q('Où se place la négation avec [se lever] ?', ['Il ne se lève pas tôt.', 'Il se ne lève pas tôt.', 'Il ne lève se pas tôt.'], 'Il ne se lève pas tôt.', 'Il ne se lève pas tôt.'),
+      Q('[___] ! Il est tard. (se dépêcher, tu)', ['Dépêche-toi', 'Te dépêche', 'Dépêches-tu'], 'Dépêche-toi', 'Dépêche-toi ! Il est tard.', 'impératif')
+    ]
+  },
+  {
+    id: 'imperatif', yt: 'impératif français', title: 'L’impératif',
+    intro: IN4('Drei Formen ohne Subjekt: tu, nous, vous. Verben auf -er verlieren in der tu-Form das -s (parle !). Unregelmässig: sois, aie, sache, va. Bejaht stehen Pronomen hinter dem Verb (donne-le-moi), verneint davor (ne le donne pas).',
+      'Three forms without subject: tu, nous, vous. Verbs in -er drop the -s in the tu form (parle !). Irregular: sois, aie, sache, va. In the affirmative, pronouns follow the verb (donne-le-moi); in the negative they come before it (ne le donne pas).',
+      'Tre forme senza soggetto: tu, nous, vous. I verbi in -er perdono la -s alla forma tu (parle !). Irregolari: sois, aie, sache, va. All’affermativo i pronomi seguono il verbo (donne-le-moi), al negativo lo precedono (ne le donne pas).',
+      'Trois formes sans sujet : tu, nous, vous. Les verbes en -er perdent le -s à la forme tu (parle !). Irréguliers : sois, aie, sache, va. À l’affirmatif, les pronoms suivent le verbe (donne-le-moi) ; au négatif, ils le précèdent (ne le donne pas).'),
+    task: TASK_FILL,
+    items: [
+      Q('[___] plus fort ! (parler, tu)', ['Parle', 'Parles', 'Parlez'], 'Parle', 'Parle plus fort !', '-er : pas de -s'),
+      Q("[___] la porte, s'il vous plaît ! (fermer, vous)", ['Fermez', 'Ferme', 'Fermons'], 'Fermez', "Fermez la porte, s'il vous plaît !"),
+      Q('[___] au cinéma ! (aller, nous)', ['Allons', 'Allez', 'Va'], 'Allons', 'Allons au cinéma !'),
+      Q('[___] sage ! (être, tu)', ['Sois', 'Es', 'Soyez'], 'Sois', 'Sois sage !'),
+      Q("N'[___] pas peur ! (avoir, vous)", ['ayez', 'avez', 'aie'], 'ayez', "N'ayez pas peur !"),
+      Q('Ce livre est super. [___] ! (lire, tu)', ['Lis-le', 'Le lis', 'Lis-lui'], 'Lis-le', 'Ce livre est super. Lis-le !', 'pronom après le verbe'),
+      Q('Ne [___] touche pas !', ['le', 'lui', 'il'], 'le', 'Ne le touche pas !', 'négatif : pronom avant le verbe'),
+      Q('[___] à la maison ! (rentrer, tu)', ['Rentre', 'Rentres', 'Rentrer'], 'Rentre', 'Rentre à la maison !', '-er : pas de -s'),
+      Q("[___]-moi ton stylo, s'il te plaît. (donner)", ['Donne', 'Donnes', 'Donner'], 'Donne', "Donne-moi ton stylo, s'il te plaît."),
+      Q('[___] à la boulangerie ! (aller, tu)', ['Va', 'Vas', 'Allez'], 'Va', 'Va à la boulangerie !'),
+      Q('[___] tes devoirs ! (faire, tu)', ['Fais', 'Fait', 'Faites'], 'Fais', 'Fais tes devoirs !')
+    ]
+  },
+  {
+    id: 'prepverbes', yt: 'verbes avec prépositions à de infinitif', title: 'Les verbes avec à et de',
+    intro: IN4('Mit à: commencer à, apprendre à, réussir à, penser à, s’intéresser à. Mit de: décider de, essayer de, oublier de, arrêter de, avoir envie de, rêver de. Ohne Präposition: aimer, vouloir, pouvoir, devoir + Infinitiv. Der Strich (–) steht für «keine Präposition».',
+      'With à: commencer à, apprendre à, réussir à, penser à, s’intéresser à. With de: décider de, essayer de, oublier de, arrêter de, avoir envie de, rêver de. No preposition: aimer, vouloir, pouvoir, devoir + infinitive. The dash (–) means «no preposition».',
+      'Con à: commencer à, apprendre à, réussir à, penser à, s’intéresser à. Con de: décider de, essayer de, oublier de, arrêter de, avoir envie de, rêver de. Senza preposizione: aimer, vouloir, pouvoir, devoir + infinito. Il trattino (–) significa «nessuna preposizione».',
+      'Avec à : commencer à, apprendre à, réussir à, penser à, s’intéresser à. Avec de : décider de, essayer de, oublier de, arrêter de, avoir envie de, rêver de. Sans préposition : aimer, vouloir, pouvoir, devoir + infinitif. Le tiret (–) signifie «pas de préposition».'),
+    task: TASK_FILL,
+    items: [
+      Q('Il commence [___] pleuvoir.', ['à', 'de', '–'], 'à', 'Il commence à pleuvoir.', 'commencer à'),
+      Q("J'ai décidé [___] partir.", ['de', 'à', '–'], 'de', "J'ai décidé de partir.", 'décider de'),
+      Q('Elle apprend [___] nager.', ['à', 'de', '–'], 'à', 'Elle apprend à nager.', 'apprendre à'),
+      Q("N'oublie pas [___] fermer la porte.", ['de', 'à', '–'], 'de', "N'oublie pas de fermer la porte.", 'oublier de'),
+      Q("J'aime [___] lire.", ['–', 'à', 'de'], '–', "J'aime lire.", 'aimer + infinitif'),
+      Q('Il essaie [___] comprendre.', ['de', 'à', '–'], 'de', 'Il essaie de comprendre.', 'essayer de'),
+      Q('Tu penses [___] tes vacances ?', ['à', 'de', 'sur'], 'à', 'Tu penses à tes vacances ?', 'penser à'),
+      Q('Nous avons envie [___] sortir.', ['de', 'à', '–'], 'de', 'Nous avons envie de sortir.', 'avoir envie de'),
+      Q('Il a arrêté [___] fumer.', ['de', 'à', '–'], 'de', 'Il a arrêté de fumer.', 'arrêter de'),
+      Q("Je n'ai pas réussi [___] dormir.", ['à', 'de', '–'], 'à', "Je n'ai pas réussi à dormir.", 'réussir à'),
+      Q("Elle s'intéresse [___] la musique.", ['à', 'de', 'pour'], 'à', "Elle s'intéresse à la musique.", "s'intéresser à"),
+      Q('Je rêve [___] voyager.', ['de', 'à', '–'], 'de', 'Je rêve de voyager.', 'rêver de')
+    ]
+  },
+  {
+    id: 'mouvement', yt: 'verbes de mouvement aller venir partir arriver', title: 'Les verbes de mouvement',
+    intro: IN4('aller (hin) und venir (her); partir, arriver, entrer, sortir, monter, descendre, rentrer, retourner – im Passé composé mit être und angeglichenem Partizip. Personen besucht man mit aller voir, Orte mit visiter.',
+      'aller (go there) and venir (come here); partir, arriver, entrer, sortir, monter, descendre, rentrer, retourner – in the passé composé with être and agreement. You visit people with aller voir, places with visiter.',
+      'aller (andare) e venir (venire); partir, arriver, entrer, sortir, monter, descendre, rentrer, retourner – al passé composé con être e accordo. Le persone: aller voir; i luoghi: visiter.',
+      'aller et venir ; partir, arriver, entrer, sortir, monter, descendre, rentrer, retourner – au passé composé avec être et accord du participe. On va voir une personne, on visite un lieu.'),
+    task: TASK_FILL,
+    items: [
+      Q('Ce soir, je vais [___] ma grand-mère.', ['voir', 'visiter', 'regarder'], 'voir', 'Ce soir, je vais voir ma grand-mère.', 'personne → aller voir'),
+      Q('Nous avons [___] le Louvre.', ['visité', 'rendu visite', 'allé'], 'visité', 'Nous avons visité le Louvre.', 'lieu → visiter'),
+      Q('Tu [___] chez moi ce soir ?', ['viens', 'vas', 'pars'], 'viens', 'Tu viens chez moi ce soir ?', 'vers la personne qui parle → venir'),
+      Q('Hier, elle [___] partie à huit heures.', ['est', 'a', 'as'], 'est', 'Hier, elle est partie à huit heures.', 'partir → être'),
+      Q('Je [___] de la maison à sept heures.', ['sors', 'entre', 'monte'], 'sors', 'Je sors de la maison à sept heures.'),
+      Q('Il [___] dans le bus.', ['monte', 'descend', 'sort'], 'monte', 'Il monte dans le bus.'),
+      Q('Demain, nous [___] à Paris.', ['allons', 'venons', 'sortons'], 'allons', 'Demain, nous allons à Paris.'),
+      Q('Elle est [___] à la maison à minuit.', ['rentrée', 'rentré', 'rentrer'], 'rentrée', 'Elle est rentrée à la maison à minuit.', 'accord avec le sujet'),
+      Q('Ils sont [___] du train à Lausanne.', ['descendus', 'descendu', 'descendues'], 'descendus', 'Ils sont descendus du train à Lausanne.', 'accord avec le sujet'),
+      Q('[___] ! La porte est ouverte.', ['Entrez', 'Sortez', 'Montez'], 'Entrez', 'Entrez ! La porte est ouverte.')
+    ]
+  },
+
+  /* ---------- Block 7: Vergangenheit und Zukunft ---------- */
+  {
+    id: 'pcaux', yt: 'passé composé avoir ou être participe passé', title: 'Le passé composé : avoir ou être ?',
+    intro: IN4('Die meisten Verben bilden das Passé composé mit avoir. Mit être: aller, venir, partir, arriver, entrer, sortir, monter, descendre, rester, tomber, naître, mourir und alle reflexiven Verben. Partizipien: -er → -é, -ir → -i; viele sind unregelmässig (fait, pris, vu, eu, été, mis, reçu).',
+      'Most verbs form the passé composé with avoir. With être: aller, venir, partir, arriver, entrer, sortir, monter, descendre, rester, tomber, naître, mourir and all reflexive verbs. Participles: -er → -é, -ir → -i; many are irregular (fait, pris, vu, eu, été, mis, reçu).',
+      'La maggior parte dei verbi forma il passé composé con avoir. Con être: aller, venir, partir, arriver, entrer, sortir, monter, descendre, rester, tomber, naître, mourir e tutti i verbi riflessivi. Participi: -er → -é, -ir → -i; molti sono irregolari (fait, pris, vu, eu, été, mis, reçu).',
+      'La plupart des verbes se conjuguent avec avoir. Avec être : aller, venir, partir, arriver, entrer, sortir, monter, descendre, rester, tomber, naître, mourir et tous les verbes pronominaux. Participes : -er → -é, -ir → -i ; beaucoup sont irréguliers (fait, pris, vu, eu, été, mis, reçu).'),
+    task: TASK_FILL,
+    items: [
+      Q("J'[___] mangé une pizza.", ['ai', 'suis', 'as'], 'ai', "J'ai mangé une pizza."),
+      Q('Elle [___] allée au cinéma.', ['est', 'a', 'es'], 'est', 'Elle est allée au cinéma.', 'aller → être'),
+      Q('Nous [___] pris le train.', ['avons', 'sommes', 'ont'], 'avons', 'Nous avons pris le train.'),
+      Q('Ils [___] arrivés hier.', ['sont', 'ont', 'sommes'], 'sont', 'Ils sont arrivés hier.', 'arriver → être'),
+      Q('Je me [___] levé tôt.', ['suis', 'ai', 'es'], 'suis', 'Je me suis levé tôt.', 'verbe pronominal → être'),
+      Q('Tu as [___] tes devoirs ? (faire)', ['fait', 'fais', 'faire'], 'fait', 'Tu as fait tes devoirs ?'),
+      Q('Il a [___] un bon film. (voir)', ['vu', 'vi', 'voir'], 'vu', 'Il a vu un bon film.'),
+      Q('Nous avons [___] très contents. (être)', ['été', 'étés', 'eu'], 'été', 'Nous avons été très contents.'),
+      Q('Elle a [___] un cadeau. (recevoir)', ['reçu', 'recevu', 'reçue'], 'reçu', 'Elle a reçu un cadeau.'),
+      Q('Vous [___] restés à la maison ?', ['êtes', 'avez', 'sont'], 'êtes', 'Vous êtes restés à la maison ?', 'rester → être'),
+      Q("J'ai [___] le livre sur la table. (mettre)", ['mis', 'mit', 'mettu'], 'mis', "J'ai mis le livre sur la table."),
+      Q("Il n'[___] pas venu.", ['est', 'a', 'as'], 'est', "Il n'est pas venu.", 'venir → être')
+    ]
+  },
+  {
+    id: 'futur', yt: 'futur simple français', title: 'Le futur simple',
+    intro: IN4('Infinitiv + -ai, -as, -a, -ons, -ez, -ont. Unregelmässige Stämme: être → ser-, avoir → aur-, aller → ir-, faire → fer-, venir → viendr-, pouvoir → pourr-, voir → verr-. Nach quand steht für Zukünftiges das Futur.',
+      'Infinitive + -ai, -as, -a, -ons, -ez, -ont. Irregular stems: être → ser-, avoir → aur-, aller → ir-, faire → fer-, venir → viendr-, pouvoir → pourr-, voir → verr-. After quand, use the future for future events.',
+      'Infinito + -ai, -as, -a, -ons, -ez, -ont. Radici irregolari: être → ser-, avoir → aur-, aller → ir-, faire → fer-, venir → viendr-, pouvoir → pourr-, voir → verr-. Dopo quand si usa il futuro per azioni future.',
+      'Infinitif + -ai, -as, -a, -ons, -ez, -ont. Radicaux irréguliers : être → ser-, avoir → aur-, aller → ir-, faire → fer-, venir → viendr-, pouvoir → pourr-, voir → verr-. Après quand, on emploie le futur pour une action future.'),
+    task: TASK_FILL,
+    items: [
+      Q("Demain, j'[___] à Paris. (aller)", ['irai', 'allerai', 'irais'], 'irai', "Demain, j'irai à Paris."),
+      Q('Nous [___] en vacances en juillet. (être)', ['serons', 'êtrons', 'serions'], 'serons', 'Nous serons en vacances en juillet.'),
+      Q('Tu [___] le temps demain ? (avoir)', ['auras', 'avras', 'aurais'], 'auras', 'Tu auras le temps demain ?'),
+      Q('Il [___] beau demain. (faire)', ['fera', 'faira', 'ferait'], 'fera', 'Il fera beau demain.'),
+      Q('Quand je [___] grand, je serai médecin.', ['serai', 'suis', 'serais'], 'serai', 'Quand je serai grand, je serai médecin.', 'quand + futur'),
+      Q('Ils [___] nous voir samedi. (venir)', ['viendront', 'veniront', 'viendraient'], 'viendront', 'Ils viendront nous voir samedi.'),
+      Q("Vous [___] m'aider demain ? (pouvoir)", ['pourrez', 'pouvrez', 'pourriez'], 'pourrez', "Vous pourrez m'aider demain ?"),
+      Q('Je te [___] demain. (téléphoner)', ['téléphonerai', 'téléphonera', 'téléphonerais'], 'téléphonerai', 'Je te téléphonerai demain.'),
+      Q('On [___] bien ! (voir)', ['verra', 'voira', 'verrait'], 'verra', 'On verra bien !'),
+      Q("Elle [___] ses études l'année prochaine. (finir)", ['finira', 'finirait', 'finissa'], 'finira', "Elle finira ses études l'année prochaine.")
+    ]
+  },
+  {
+    id: 'futant', yt: 'futur antérieur', title: 'Le futur antérieur',
+    intro: IN4('avoir oder être im Futur simple + Partizip. Es drückt aus, was in der Zukunft vor etwas anderem abgeschlossen sein wird: Quand j’aurai fini, je sortirai.',
+      'avoir or être in the futur simple + past participle. It expresses what will be completed before something else in the future: Quand j’aurai fini, je sortirai.',
+      'avoir o être al futur simple + participio. Esprime ciò che sarà concluso prima di un’altra azione futura: Quand j’aurai fini, je sortirai.',
+      'avoir ou être au futur simple + participe passé. Il exprime une action qui sera terminée avant une autre action future : Quand j’aurai fini, je sortirai.'),
+    task: TASK_FILL,
+    items: [
+      Q("Quand j'[___] fini, je t'appellerai.", ['aurai', 'aurais', 'ai'], 'aurai', "Quand j'aurai fini, je t'appellerai."),
+      Q("Dès qu'elle [___] arrivée, nous mangerons.", ['sera', 'serait', 'est'], 'sera', "Dès qu'elle sera arrivée, nous mangerons.", 'arriver → être'),
+      Q('Dans un an, nous [___] terminé nos études.', ['aurons', 'avons', 'aurions'], 'aurons', 'Dans un an, nous aurons terminé nos études.'),
+      Q('Quand tu [___] lu ce livre, prête-le-moi.', ['auras', 'aurais', 'avais'], 'auras', 'Quand tu auras lu ce livre, prête-le-moi.'),
+      Q('Ils [___] partis avant midi.', ['seront', 'seraient', 'auront'], 'seront', 'Ils seront partis avant midi.', 'partir → être'),
+      Q("Je viendrai quand j'aurai [___] mes devoirs.", ['fait', 'faire', 'ferai'], 'fait', "Je viendrai quand j'aurai fait mes devoirs."),
+      Q('Dès que vous [___] mangé, nous partirons.', ['aurez', 'auriez', 'avez'], 'aurez', 'Dès que vous aurez mangé, nous partirons.'),
+      Q('À huit heures, elle [___] déjà rentrée.', ['sera', 'aura', 'serait'], 'sera', 'À huit heures, elle sera déjà rentrée.', 'rentrer → être')
+    ]
+  },
+
+  /* ---------- Block 8: Bedingung und Subjonctif ---------- */
+  {
+    id: 'politesse', yt: 'conditionnel présent politesse conseil', title: 'Le conditionnel : politesse, souhait, conseil',
+    intro: IN4('Futur-Stamm + -ais, -ais, -ait, -ions, -iez, -aient. Gebrauch: Höflichkeit (je voudrais, pourriez-vous), Wunsch (j’aimerais), Rat (tu devrais, à ta place je …).',
+      'Future stem + -ais, -ais, -ait, -ions, -iez, -aient. Use: politeness (je voudrais, pourriez-vous), wishes (j’aimerais), advice (tu devrais, à ta place je …).',
+      'Radice del futuro + -ais, -ais, -ait, -ions, -iez, -aient. Uso: cortesia (je voudrais, pourriez-vous), desiderio (j’aimerais), consiglio (tu devrais, à ta place je …).',
+      'Radical du futur + -ais, -ais, -ait, -ions, -iez, -aient. Emploi : politesse (je voudrais, pourriez-vous), souhait (j’aimerais), conseil (tu devrais, à ta place je …).'),
+    task: TASK_FILL,
+    items: [
+      Q("Je [___] un café, s'il vous plaît. (vouloir)", ['voudrais', 'voudrai', 'voulais'], 'voudrais', "Je voudrais un café, s'il vous plaît.", 'politesse'),
+      Q("[___]-vous m'aider, s'il vous plaît ? (pouvoir)", ['Pourriez', 'Pourrez', 'Pouviez'], 'Pourriez', "Pourriez-vous m'aider, s'il vous plaît ?", 'politesse'),
+      Q('Tu [___] te reposer. (devoir)', ['devrais', 'devras', 'devais'], 'devrais', 'Tu devrais te reposer.', 'conseil'),
+      Q("J'[___] visiter le Japon. (aimer)", ['aimerais', 'aimerai', 'aimais'], 'aimerais', "J'aimerais visiter le Japon.", 'souhait'),
+      Q('Nous [___] une chambre pour deux nuits. (vouloir)', ['voudrions', 'voudrons', 'voulions'], 'voudrions', 'Nous voudrions une chambre pour deux nuits.', 'politesse'),
+      Q("À ta place, j'[___] chez le médecin. (aller)", ['irais', 'irai', 'allais'], 'irais', "À ta place, j'irais chez le médecin.", 'conseil'),
+      Q("Est-ce que vous [___] l'heure, s'il vous plaît ? (avoir)", ['auriez', 'aurez', 'aviez'], 'auriez', "Est-ce que vous auriez l'heure, s'il vous plaît ?", 'politesse'),
+      Q('Ça [___] bien de partir en vacances. (être)', ['serait', 'sera', 'était'], 'serait', 'Ça serait bien de partir en vacances.', 'souhait'),
+      Q('Vous [___] faire plus de sport. (devoir)', ['devriez', 'devrez', 'deviez'], 'devriez', 'Vous devriez faire plus de sport.', 'conseil')
     ]
   }
 ];
@@ -2247,6 +2929,10 @@ const THEMES = ['blue', 'magenta', 'senf', 'violet', 'teal', 'orange'];
 /* Feste Reihenfolge der Grammatik-Module für die kurzen Codes. Neue Module NUR hinten anhängen. */
 const G_IDS = ['proche', 'comparatif', 'cause', 'opposition', 'accord', 'imppc', 'relatifs', 'adverbes', 'subjonctif', 'sireel', 'cod', 'coi', 'codcoi',
   'siirreel', 'interrogation', 'negation', 'gerondif', 'recit', 'but', 'passif', 'adjectifs', 'yen', 'indirect', 'doubles'];
+/* Zweite Liste (ab Version 3.6), eigene Bitmaske «h» im Code. Ebenfalls NUR hinten anhängen. */
+const G2_IDS = ['etre', 'avoir', 'cestilest', 'ilya', 'negq1', 'nombres', 'articles', 'possessifs', 'demonstratifs', 'indefinis', 'quantite', 'famille', 'adjforme',
+  'lieu1', 'lieu2', 'lieutemps3', 'date', 'duree', 'temps4', 'toniques', 'relatifs2', 'er', 'irreoir', 'aller', 'reflexifs', 'imperatif', 'prepverbes', 'mouvement',
+  'pcaux', 'futur', 'futant', 'politesse'];
 const LV_IDS = ['A2', 'B1', 'B2'];
 
 function loadMeta() {
@@ -2271,7 +2957,7 @@ const fromMask = (m, reg) => reg.filter((_, i) => Math.floor(m / Math.pow(2, i))
 function idxToB64(idxs, n) { const b = new Uint8Array(Math.ceil(n / 8)); for (const i of idxs) if (i >= 0 && i < n) b[i >> 3] |= 1 << (i & 7); return b64u(b); }
 function b64ToIdx(s, n) { const out = []; try { const b = unb64u(s); for (let i = 0; i < n && (i >> 3) < b.length; i++) if (b[i >> 3] & (1 << (i & 7))) out.push(i); } catch (e) { return []; } return out; }
 function cfgPack(c) {
-  const p = { n: c.n || '', t: toMask(c.t, T_IDS()), g: toMask(c.g, G_IDS), s: toMask(c.vs, V_IDS()), f: toMask(c.lv, LV_IDS) + (c.d ? 8 : 0) + (c.c ? 16 : 0), v: c.v || [] };
+  const p = { n: c.n || '', t: toMask(c.t, T_IDS()), g: toMask(c.g, G_IDS), h: toMask(c.g, G2_IDS), s: toMask(c.vs, V_IDS()), f: toMask(c.lv, LV_IDS) + (c.d ? 8 : 0) + (c.c ? 16 : 0), v: c.v || [] };
   if (c.xv && c.xv.length && (c.t || []).length) p.xv = idxToB64(c.xv, BUILTIN.length);
   for (const s of VOCAB_SETS) if ((c.vs || []).includes(s.id) && c.xw && c.xw[s.id] && c.xw[s.id].length) (p.xw = p.xw || {})[s.id] = idxToB64(c.xw[s.id], s.items.length);
   return p;
@@ -2283,7 +2969,7 @@ function cfgUnpack(p) {
   const c = {
     n: typeof p.n === 'string' ? p.n.slice(0, 60) : '',
     t: fromMask(num(p.t), T_IDS()),
-    g: fromMask(num(p.g), G_IDS).filter(id => GRAMMAR.some(m => m.id === id)),
+    g: fromMask(num(p.g), G_IDS).concat(fromMask(num(p.h), G2_IDS)).filter(id => GRAMMAR.some(m => m.id === id)),
     vs: fromMask(num(p.s), V_IDS()),
     lv: fromMask(f % 8, LV_IDS), d: Math.floor(f / 8) % 2 === 1, c: Math.floor(f / 16) % 2 === 1,
     v: (Array.isArray(p.v) ? p.v : []).filter(x => Array.isArray(x) && ok(x[0]) && ok(x[1])).slice(0, 800).map(x => [x[0], x[1]]),
@@ -2298,7 +2984,7 @@ function unb64u(s) { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/')); co
 async function pipeBytes(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
 async function encodeCfg(c) {
   const p = cfgPack(c);
-  if (!p.n && !p.v.length && !p.xv && !p.xw) return 'K1-' + [p.t, p.g, p.s, p.f].map(x => x.toString(36).toUpperCase()).join('-');
+  if (!p.n && !p.v.length && !p.xv && !p.xw) return 'K1-' + (p.h ? [p.t, p.g, p.s, p.f, p.h] : [p.t, p.g, p.s, p.f]).map(x => x.toString(36).toUpperCase()).join('-');
   const raw = new TextEncoder().encode(JSON.stringify(p));
   try {
     if (typeof CompressionStream !== 'undefined') { const z = await pipeBytes(raw, new CompressionStream('deflate-raw')); if (z.length < raw.length) return 'K3.' + b64u(z); }
@@ -2309,8 +2995,8 @@ async function decodeCfg(code) {
   try {
     if (/^K1-/i.test(code)) {
       const a = code.slice(3).split('-').map(x => parseInt(x, 36));
-      if (a.length !== 4 || a.some(x => !Number.isFinite(x))) return null;
-      return cfgUnpack({ n: '', t: a[0], g: a[1], s: a[2], f: a[3], v: [] });
+      if ((a.length !== 4 && a.length !== 5) || a.some(x => !Number.isFinite(x))) return null;
+      return cfgUnpack({ n: '', t: a[0], g: a[1], s: a[2], f: a[3], h: a[4] || 0, v: [] });
     }
     if (/^K2\./.test(code)) return cfgUnpack(JSON.parse(new TextDecoder().decode(unb64u(code.slice(3)))));
     if (/^K3\./.test(code)) return cfgUnpack(JSON.parse(new TextDecoder().decode(await pipeBytes(unb64u(code.slice(3)), new DecompressionStream('deflate-raw')))));
@@ -2426,7 +3112,7 @@ const teWordOff = () => VOCAB_SETS.filter(s => TE.vs.includes(s.id)).reduce((a, 
 function teSection(key, title, items, extra) {
   return `<details class="card fold"><summary>${title}<small id="cnt_${key}">${t('chosen', { a: TE[key].length })}</small></summary>
     <div class="row"><button type="button" class="link" data-a="teall" data-g="${key}" data-v="1">${t('all')}</button><button type="button" class="link" data-a="teall" data-g="${key}" data-v="0">${t('none')}</button></div>
-    <div class="chks">${items.map(([id, label]) => `<label class="chk"><input type="checkbox" data-c="te" data-g="${key}" value="${esc(id)}"${TE[key].includes(id) ? ' checked' : ''}><span>${esc(label)}</span></label>`).join('')}</div>${extra || ''}</details>`;
+    <div class="chks">${items.map(([id, label]) => id === null ? `<h3 class="chkh">${esc(label)}</h3>` : `<label class="chk"><input type="checkbox" data-c="te" data-g="${key}" value="${esc(id)}"${TE[key].includes(id) ? ' checked' : ''}><span>${esc(label)}</span></label>`).join('')}</div>${extra || ''}</details>`;
 }
 function vTeacher() {
   return `<header class="head"><h1>${t('teacher')}</h1></header><p class="muted">${t('teacherDesc')}</p>
@@ -2436,7 +3122,7 @@ function vTeacher() {
     ${teSection('vs', t('vocab'), VOCAB_SETS.map(s => [s.id, s.title + ' (' + s.items.length + ')']),
       `<button type="button" class="btn line pick" data-a="tepick" data-n="tewords">${t('teWordsPick')}<small>${t('teOf', { a: teWordTotal() - teWordOff(), b: teWordTotal() })}</small></button>
       <div class="form"><label for="te_v">${t('ownVocab')}</label><textarea id="te_v" data-i="te" rows="5" spellcheck="false" placeholder="la maison;das Haus&#10;le chien;der Hund">${esc(TE.vt)}</textarea></div>`)}
-    ${teSection('g', t('grammar'), GRAMMAR.map(m => [m.id, L(m.title)]))}
+    ${teSection('g', t('grammar'), GBLOCKS.flatMap((B, i) => [[null, L(B.title)]].concat(GRAMMAR.filter(m => m.b === i).map(m => [m.id, L(m.title)]))))}
     ${teSection('lv', t('listen'), LEVELS.map(l => [l, t('lText') + ' ' + l]),
       `<div class="chks"><label class="chk"><input type="checkbox" data-c="te" data-g="d"${TE.d ? ' checked' : ''}><span>${t('dictation')}</span></label></div>`)}
     <section class="card"><label class="chk"><input type="checkbox" data-c="te" data-g="c"${TE.c ? ' checked' : ''}><span>${t('challenge')}</span></label></section>
@@ -3445,13 +4131,28 @@ const GRAMMAR = [
 ];
 
 if (typeof GRAMMAR_MORE !== 'undefined') GRAMMAR.push(...GRAMMAR_MORE);
-GRAMMAR.sort((a, b) => (a.o || 99) - (b.o || 99));
+if (typeof GRAMMAR_NEW1 !== 'undefined') GRAMMAR.push(...GRAMMAR_NEW1);
+if (typeof GRAMMAR_NEW2 !== 'undefined') GRAMMAR.push(...GRAMMAR_NEW2);
+/* Die Grammatik ist in 9 Blöcke gegliedert. Ein neues Modul hier in den passenden Block eintragen (Reihenfolge = Anzeige). */
+const GBLOCKS = [
+  { title: { de: 'Grundlagen', en: 'Basics', it: 'Le basi', fr: 'Les bases' }, ids: ['etre', 'avoir', 'cestilest', 'ilya', 'negq1', 'nombres'] },
+  { title: { de: 'Nomen und Begleiter', en: 'Nouns and determiners', it: 'Nomi e determinanti', fr: 'Noms et déterminants' }, ids: ['articles', 'possessifs', 'demonstratifs', 'indefinis', 'quantite', 'famille'] },
+  { title: { de: 'Adjektiv und Adverb', en: 'Adjectives and adverbs', it: 'Aggettivi e avverbi', fr: 'Adjectifs et adverbes' }, ids: ['adjforme', 'adjectifs', 'adverbes', 'comparatif'] },
+  { title: { de: 'Pronomen', en: 'Pronouns', it: 'Pronomi', fr: 'Pronoms' }, ids: ['toniques', 'cod', 'coi', 'codcoi', 'yen', 'doubles', 'relatifs', 'relatifs2'] },
+  { title: { de: 'Ort und Zeit', en: 'Place and time', it: 'Luogo e tempo', fr: 'Lieu et temps' }, ids: ['lieu1', 'lieu2', 'lieutemps3', 'date', 'duree', 'temps4'] },
+  { title: { de: 'Verben im Präsens', en: 'Verbs in the present', it: 'Verbi al presente', fr: 'Verbes au présent' }, ids: ['er', 'irreoir', 'aller', 'reflexifs', 'imperatif', 'prepverbes', 'mouvement'] },
+  { title: { de: 'Vergangenheit und Zukunft', en: 'Past and future', it: 'Passato e futuro', fr: 'Passé et futur' }, ids: ['pcaux', 'accord', 'imppc', 'recit', 'proche', 'futur', 'futant'] },
+  { title: { de: 'Bedingung und Subjonctif', en: 'Conditions and subjunctive', it: 'Condizione e congiuntivo', fr: 'Condition et subjonctif' }, ids: ['politesse', 'sireel', 'siirreel', 'subjonctif', 'cause', 'opposition', 'but'] },
+  { title: { de: 'Satzbau', en: 'Sentence structure', it: 'Costruzione della frase', fr: 'Construction de la phrase' }, ids: ['interrogation', 'negation', 'indirect', 'passif', 'gerondif'] }
+];
+for (const m of GRAMMAR) { m.b = GBLOCKS.findIndex(B => B.ids.includes(m.id)); if (m.b < 0) { m.b = GBLOCKS.length - 1; GBLOCKS[m.b].ids.push(m.id); } m.o = m.b * 100 + GBLOCKS[m.b].ids.indexOf(m.id); }
+GRAMMAR.sort((a, b) => a.o - b.o);
 /* Video zu einem Modul: öffnet die YouTube-Suche nach «Fit für Franze» + Thema (m.yt). Für einen festen Link: m.video = 'https://…' */
 const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.5';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.6';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -3645,16 +4346,25 @@ function vLearn() {
     }).join('') + (cl ? '' : `<button type="button" class="btn ghost" data-a="addwords">${t('addNow')}</button>`) + `</div>`;
   }
   if (V.tab === 'gram') {
-    let h = head + `<div class="list">`, grp = null; const gl = gramList();
-    for (const m of gl) {
-      if (m.g !== grp) { grp = m.g; h += `<h2 class="grp">${m.g ? t('semester', { a: m.g }) : t('grammar')}<small>${t('topics', { a: gl.filter(x => x.g === m.g).length })}</small></h2>`; }
+    const gl = gramList(), blocks = GBLOCKS.map((B, i) => ({ i, B, mods: gl.filter(m => m.b === i) })).filter(x => x.mods.length);
+    const solved = ms => ms.reduce((a, m) => a + Object.keys(S.gram[m.id] || {}).length, 0), all = ms => ms.reduce((a, m) => a + m.items.length, 0);
+    const open = blocks.length === 1 ? blocks[0] : blocks.find(x => x.i === V.gb);
+    if (!open) {
+      return head + `<div class="list">` + blocks.map((x, n) => {
+        const a = solved(x.mods), b = all(x.mods);
+        return `<button type="button" class="card lvl set" data-a="gblock" data-i="${x.i}"><span class="dot num">${n + 1}</span><span class="grow"><b>${esc(L(x.B.title))}</b><small>${t('topics', { a: x.mods.length })} · ${t('solved', { a, b })}</small><span class="bar"><i style="width:${Math.round(100 * a / b)}%"></i></span></span></button>`;
+      }).join('') + `</div>`;
+    }
+    let h = head + `<div class="list">` + (blocks.length > 1 ? `<button type="button" class="link gback" data-a="gblockback">‹ ${t('grammar')}</button>` : '') +
+      `<h2 class="grp">${esc(L(open.B.title))}<small>${t('solved', { a: solved(open.mods), b: all(open.mods) })}</small></h2>`;
+    for (const m of open.mods) {
       const n = Object.keys(S.gram[m.id] || {}).length;
       h += `<section class="card gcard"><h3>${esc(L(m.title))}</h3><p class="muted">${t('solved', { a: n, b: m.items.length })}</p>
         <div class="bar"><i style="width:${Math.round(100 * n / m.items.length)}%"></i></div>
         <div class="row"><button type="button" class="btn grow" data-a="gstart" data-id="${m.id}">${t('practise')}</button>
         <a class="btn line" href="${esc(videoUrl(m))}" target="_blank" rel="noopener">${IC.play}${t('video')}</a></div></section>`;
     }
-    return h + (cl ? '' : `<p class="hint">${t('gramMore')}</p>`) + `</div>`;
+    return h + `</div>`;
   }
   if (cl) {
     // Lernmodus: alle von der Lehrperson gewählten Zeiten sind offen
@@ -3942,7 +4652,7 @@ const LISTEN = [
       return { say: text, show: w.fr, sub: w.m, check: val => sameOrAccent(noArt(plain(val)), acc.map(x => noArt(plain(x)))) };
     } },
   { id: 'sent', title: 'lSent', desc: 'lSentD', keys: true, make() {
-      const m = pick(gramList().length ? gramList() : GRAMMAR), it = pick(m.items);
+      const ok = gramList().filter(x => !x.nodict), m = pick(ok.length ? ok : GRAMMAR.filter(x => !x.nodict)), it = pick(m.items);
       return { say: it.r, show: it.r, sub: L(m.title), check: val => sameOrAccent(plain(val), [plain(it.r)]) };
     } },
   { id: 'num', title: 'lNum', desc: 'lNumD', keys: false, numeric: true, make() {
@@ -4241,7 +4951,7 @@ function vGramSum() {
   return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${esc(L(G.mod.title))}</h1>
     <p class="bignum">${t('score', { a: G.right, b: G.order.length })}</p>
     <button type="button" class="btn big" data-a="gstart" data-id="${G.mod.id}">${t('again')}</button>
-    <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
+    <button type="button" class="btn ghost" data-a="gquit">${t('overview')}</button></div>`;
 }
 
 /* ---------- Ereignisse ---------- */
@@ -4303,7 +5013,9 @@ const ACT = {
   gstart: el => gStart(el.dataset.id),
   gopt: el => gAnswer(el.dataset.v, el),
   gnext: gNext,
-  gquit: () => go('learn', { tab: 'gram' }),
+  gquit: () => go('learn', { tab: 'gram', gb: G ? G.mod.b : undefined }),
+  gblock: el => { go('learn', { tab: 'gram', gb: +el.dataset.i }); window.scrollTo(0, 0); },
+  gblockback: () => go('learn', { tab: 'gram' }),
   llvl: el => { S.llevel = el.dataset.n; save(); render(); },
   ltopen: el => ltOpen(el.dataset.id),
   ltplay: () => sayLong(TX.tx.text),

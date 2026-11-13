@@ -121,7 +121,7 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .proof input{width:100%;height:44px;border:0;border-bottom:1.5px solid var(--line2);padding:0;font-size:18px;font-weight:600;background:transparent;border-radius:0}
 .proof input:focus{outline:0;border-bottom-color:var(--g)}
 .proof dl{margin:0;display:flex;flex-direction:column}.proof dl div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
-.proof dt{color:var(--mute)}.proof dd{margin:0;font-weight:600;text-align:right}.proof>small{font-size:11px;color:var(--mute)}
+.proof dt{color:var(--mute)}.proof dt small{display:block;font-size:11px}.proof dd{margin:0;font-weight:600;text-align:right}.proof>small{font-size:11px;color:var(--mute)}
 .colors{display:flex;gap:12px;flex-wrap:wrap}
 .cdot{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--line2);color:#fff;display:flex;align-items:center;justify-content:center;padding:0}
 .cdot.on{box-shadow:0 0 0 3px var(--ink)}.cdot:disabled{opacity:.35;cursor:default}
@@ -2388,7 +2388,7 @@ function proofCard(areas, done) {
   return `<section class="proof" aria-label="${t('proof')}"><div class="prow"><b>${esc(c.n || t('classMode'))}</b><span>${esc(date)}</span></div>
     <label class="sr" for="stud">${t('yourName')}</label><input id="stud" data-i="stud" type="text" value="${esc(S.student || '')}" placeholder="${t('yourName')}" autocomplete="off" maxlength="40">
     <dl><div><dt>${t('today')}</dt><dd>${done} / ${DAILY_GOAL}</dd></div><div><dt>${t('daysRow', { a: '' }).replace(/[\s:]+$/, '')}</dt><dd>${streak()}</dd></div>
-    ${areas.map(a => `<div><dt>${a[0]}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
+    ${areas.map(a => `<div><dt>${a[0]}${a[3] ? `<small>${a[3]}</small>` : ''}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
     ${c.c && c.t.length ? `<div><dt>${t('record')} ${t('challenge')}</dt><dd>${S.hi}</dd></div>` : ''}</dl>
     <small>VerbMaster · ${t('classCode')} ${hashStr(META.klass)}</small></section><p class="hint">${t('proofHint')}</p>`;
 }
@@ -3102,6 +3102,7 @@ const I18N = {
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
     answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
     today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: 'Tage in Folge: {a}',
+    sureOf: 'sicher / geübt',
     classCode: 'Klassencode', codePh: 'Code oder Link einfügen', codeBtn: 'Code einlösen', codeBad: 'Dieser Code ist ungültig.', codeDesc: 'Hast du von deiner Lehrperson einen Code bekommen? Gib ihn hier ein.',
     classMode: 'Lernmodus Klasse', classNav: 'Klasse', classOn: 'Lernmodus gestartet', classStart: 'Lernmodus starten', classLeave: 'Zurück zu «Privat»', classBack: 'Zurück in den Lernmodus',
     yourName: 'Dein Name', classVocab: 'Klassen-Vokabeln', contains: 'Inhalt', sumT: 'Zeiten: {a}', sumV: 'Vokabeln: {a}', sumG: 'Grammatik-Themen: {a}', sumL: 'Hören {a}',
@@ -3152,6 +3153,7 @@ const I18N = {
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
     answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
     today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: 'Days in a row: {a}',
+    sureOf: 'mastered / practised',
     classCode: 'Class code', codePh: 'Paste code or link', codeBtn: 'Redeem code', codeBad: 'This code is not valid.', codeDesc: 'Did your teacher give you a code? Enter it here.',
     classMode: 'Class mode', classNav: 'Class', classOn: 'Class mode started', classStart: 'Start class mode', classLeave: 'Back to «Private»', classBack: 'Back to class mode',
     yourName: 'Your name', classVocab: 'Class vocabulary', contains: 'Content', sumT: 'Tenses: {a}', sumV: 'Words: {a}', sumG: 'Grammar topics: {a}', sumL: 'Listening {a}',
@@ -3202,6 +3204,7 @@ const I18N = {
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
     answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
     today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: 'Giorni di fila: {a}',
+    sureOf: 'sicuri / esercitati',
     classCode: 'Codice classe', codePh: 'Incolla codice o link', codeBtn: 'Usa il codice', codeBad: 'Questo codice non è valido.', codeDesc: 'Hai ricevuto un codice dal tuo insegnante? Inseriscilo qui.',
     classMode: 'Modalità classe', classNav: 'Classe', classOn: 'Modalità classe avviata', classStart: 'Avvia la modalità classe', classLeave: 'Torna a «Privato»', classBack: 'Torna alla modalità classe',
     yourName: 'Il tuo nome', classVocab: 'Vocaboli della classe', contains: 'Contenuto', sumT: 'Tempi: {a}', sumV: 'Vocaboli: {a}', sumG: 'Temi di grammatica: {a}', sumL: 'Ascolto {a}',
@@ -3252,6 +3255,7 @@ const I18N = {
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
     answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
     today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: 'Jours de suite : {a}',
+    sureOf: 'maîtrisés / exercés',
     classCode: 'Code de classe', codePh: 'Colle le code ou le lien', codeBtn: 'Utiliser le code', codeBad: 'Ce code n’est pas valide.', codeDesc: 'Ton enseignant t’a donné un code ? Saisis-le ici.',
     classMode: 'Mode classe', classNav: 'Classe', classOn: 'Mode classe activé', classStart: 'Démarrer le mode classe', classLeave: 'Retour à «Privé»', classBack: 'Retour au mode classe',
     yourName: 'Ton nom', classVocab: 'Vocabulaire de la classe', contains: 'Contenu', sumT: 'Temps : {a}', sumV: 'Mots : {a}', sumG: 'Thèmes de grammaire : {a}', sumL: 'Écoute {a}',
@@ -3376,7 +3380,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.0';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.1';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -3985,10 +3989,14 @@ function vProgress() {
   const tAll = txs.reduce((a, x) => a + x.qs.length, 0), tOk = txs.reduce((a, x) => a + Math.min(x.qs.length, S.ltext[x.id] || 0), 0);
   const pairs = tk.reduce((a, k) => a + sure(k), 0);
   const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+  // Verben und Vokabeln: «sicher / geübt» statt der riesigen Gesamtzahl – so sieht man, was man von dem Geübten schon kann
+  const names = new Set(verbs().map(v => v.fr)), keys = cl ? tk : TENSES.map(T => T.k);
+  let vbDone = 0, vbSure = 0;
+  for (const k of keys) { const b = S.box[k] || {}; for (const f in b) if (names.has(f)) { vbDone++; if (b[f] >= 2) vbSure++; } }
+  const vcDone = vs.reduce((a, x) => a + x.items.filter(w => w.fr in S.vbox).length, 0);
   const areas = [];
-  if (!cl) areas.push([t('verbs'), Math.round(100 * (lv + Math.min(1, counts[lv] / GOAL)) / TENSES.length), t('levelOf', { a: lv + 1, b: TENSES.length })]);
-  else if (tk.length) areas.push([t('verbs'), pct(pairs, N * tk.length), pairs + ' / ' + N * tk.length]);
-  if (!cl || vAll) areas.push([t('vocab'), pct(vOk, vAll), vOk + ' / ' + vAll]);
+  if (!cl || tk.length) areas.push([t('verbs'), pct(vbSure, vbDone), vbSure + ' / ' + vbDone, t('sureOf')]);
+  if (!cl || vAll) areas.push([t('vocab'), pct(vOk, vcDone), vOk + ' / ' + vcDone, t('sureOf')]);
   if (!cl || gAll) areas.push([t('grammar'), pct(gOk, gAll), gOk + ' / ' + gAll]);
   if (!cl || tAll) areas.push([t('listen'), pct(tOk, tAll), tOk + ' / ' + tAll]);
   const shown = cl ? TENSES.filter(T => tk.includes(T.k)) : TENSES;
@@ -4004,7 +4012,7 @@ function vProgress() {
       <p class="muted">${t('daysRow', { a: streak() })}</p>
     </section>
     ${cl ? proofCard(areas, done) + colorDots() : ''}
-    <section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}</small></div>`).join('')}</section>
+    <section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}${a[3] ? ' · ' + a[3] : ''}</small></div>`).join('')}</section>
     <details class="card fold"><summary>${t('details')}</summary>
       <section class="block"><h2>${t('byTense')}</h2>${shown.map(T => { const i = TENSES.indexOf(T), off = !cl && i > lv; return `<div class="trow${off ? ' off' : ''}"><div><span>${T.n}</span><span>${off ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`; }).join('')}</section>
       <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>

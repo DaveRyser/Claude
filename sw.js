@@ -1,5 +1,5 @@
 /* VerbMaster – Offline-Modus. Bei jeder neuen Version VERSION erhöhen. */
-const VERSION = 'verbmaster-v16';
+const VERSION = 'verbmaster-v17';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {

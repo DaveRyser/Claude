@@ -9,7 +9,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
 <style>
-:root{--g:#2F7D5B;--gd:#1F5C42;--soft:#F1F7F3;--line:#E3ECE6;--line2:#D5E2DA;--ink:#1C2B24;--mute:#5C6B63;--grey:#F1F3F2;--bad:#A3392F;--badbg:#FBEFED}
+:root{--g:#2F7D5B;--gd:#1F5C42;--soft:#F1F7F3;--line:#E3ECE6;--line2:#D5E2DA;--mk:#DCEDE3;--c2:#5FA882;--c3:#CFE8DA;--ink:#1C2B24;--mute:#5C6B63;--grey:#F1F3F2;--bad:#A3392F;--badbg:#FBEFED}
+/* Farben im Lernmodus «Klasse» */
+html[data-theme=blue]{--g:#2563B8;--gd:#1A478A;--soft:#EEF4FC;--line:#DFE8F5;--line2:#CBD9EE;--mk:#D6E4F8;--c2:#6D9AD8;--c3:#C5D8F3}
+html[data-theme=magenta]{--g:#B8246E;--gd:#8A1851;--soft:#FCEEF5;--line:#F5DFEA;--line2:#EECBDC;--mk:#F8D6E6;--c2:#D86DA3;--c3:#F3C5DB}
+html[data-theme=senf]{--g:#8F6D00;--gd:#6B5200;--soft:#FBF6E1;--line:#F0E8C8;--line2:#E6DAAA;--mk:#F5E9B5;--c2:#C9A21A;--c3:#EFDF9C}
+html[data-theme=violet]{--g:#6B3FB8;--gd:#4F2C8C;--soft:#F3EEFC;--line:#E6DFF5;--line2:#D6CBEE;--mk:#E2D6F8;--c2:#9A77D6;--c3:#D5C5F3}
+html[data-theme=teal]{--g:#0F7C86;--gd:#0A5A62;--soft:#EAF6F7;--line:#D8ECEE;--line2:#C3E0E3;--mk:#CDE9EC;--c2:#4FA9B1;--c3:#BFE2E6}
+html[data-theme=orange]{--g:#B4501B;--gd:#873B12;--soft:#FCF2EC;--line:#F5E4DA;--line2:#EED3C3;--mk:#F8DFD0;--c2:#D98958;--c3:#F3D2BF}
 *{box-sizing:border-box}
 html,body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;font-size:16px;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -74,7 +81,7 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .field{display:flex;align-items:center;gap:12px;min-height:64px;padding:0 18px;border:1.5px solid var(--g);border-radius:16px}
 .field span{font-size:21px;font-weight:500;color:var(--mute);white-space:nowrap}
 .field input{flex:1;min-width:0;height:44px;border:0;outline:0;background:transparent;font-size:21px;font-weight:600}
-.field:focus-within{box-shadow:0 0 0 3px rgba(47,125,91,.18)}
+.field:focus-within{box-shadow:0 0 0 3px var(--c3)}
 .keys{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .keys button{height:44px;border:1px solid var(--line2);border-radius:10px;background:#fff;font-weight:500;font-size:17px}
 .keys button:active{background:var(--soft)}
@@ -106,6 +113,25 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .areas{gap:16px;margin-top:16px}.areas .trow>small{font-size:12px;color:var(--mute)}.areas .trow span:first-child{font-weight:500;font-size:15px}
 .fold{padding:4px 16px}.fold summary{font-weight:600;color:var(--ink)}.fold[open]{padding-bottom:16px}
 .fold .form{padding:0;border:0}.fold .block:first-of-type{margin-top:0}
+.ringbg{stroke:var(--soft)}.ringfill{stroke:var(--g)}
+.klass{display:flex;align-items:center;gap:8px;align-self:flex-start;padding:6px 14px 6px 10px;background:var(--g);color:#fff;border-radius:18px;font-size:13px;font-weight:600}
+.klass svg{width:16px;height:16px}
+.proof{border:2px solid var(--g);border-radius:20px;padding:18px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.prow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.prow b{font:700 18px 'Space Grotesk',sans-serif;color:var(--g);overflow-wrap:anywhere}.prow span{font-size:13px;color:var(--mute);white-space:nowrap}
+.proof input{width:100%;height:44px;border:0;border-bottom:1.5px solid var(--line2);padding:0;font-size:18px;font-weight:600;background:transparent;border-radius:0}
+.proof input:focus{outline:0;border-bottom-color:var(--g)}
+.proof dl{margin:0;display:flex;flex-direction:column}.proof dl div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.proof dt{color:var(--mute)}.proof dd{margin:0;font-weight:600;text-align:right}.proof>small{font-size:11px;color:var(--mute)}
+.colors{display:flex;gap:12px;flex-wrap:wrap}
+.cdot{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--line2);color:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+.cdot.on{box-shadow:0 0 0 3px var(--ink)}.cdot:disabled{opacity:.35;cursor:default}
+.cdot[data-th=blue]{background:#2563B8}.cdot[data-th=magenta]{background:#B8246E}.cdot[data-th=senf]{background:#C9A21A}.cdot[data-th=violet]{background:#6B3FB8}.cdot[data-th=teal]{background:#0F7C86}.cdot[data-th=orange]{background:#B4501B}
+.fold summary{display:flex;align-items:center;justify-content:space-between;gap:12px}.fold summary small{font-size:13px;font-weight:400;color:var(--mute)}
+.chks{display:flex;flex-direction:column}
+.chk{display:flex;align-items:center;gap:12px;min-height:44px;font-size:15px;cursor:pointer}
+.chk input{width:22px;height:22px;flex:none;accent-color:var(--g);margin:0}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow-wrap:anywhere;word-break:break-all;resize:none}
+.qr{width:100%;max-width:300px;align-self:center;margin:8px auto;display:block}
 .ltitle{font-size:22px;line-height:1.25}
 .row.sticky{position:sticky;top:0;background:#fff;padding:8px 0;z-index:2;gap:8px}.row.sticky .btn{padding:0 14px}
 .lq{border:0;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.lq legend{font-weight:600;font-size:16px;line-height:1.35;padding:0;margin-bottom:8px}
@@ -153,7 +179,7 @@ button.lvl.off{background:#fff}
 .vrow b{display:block;font-weight:500}.vrow small{font-size:13px;color:var(--mute)}
 .intro{padding:14px 16px;background:var(--soft);border-radius:14px;font-size:14px;line-height:1.5}
 .sentence{font-size:24px;font-weight:600;text-align:center;padding:12px 0;line-height:1.4}
-mark{background:#DCEDE3;color:var(--gd);padding:2px 6px;border-radius:6px}
+mark{background:var(--mk);color:var(--gd);padding:2px 6px;border-radius:6px}
 .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .opts button{height:52px;border:1.5px solid var(--line2);border-radius:14px;background:#fff;font-weight:600;font-size:18px;color:var(--ink)}
 .opts button.yes{border-color:var(--g);background:var(--soft);color:var(--gd)}
@@ -161,6 +187,7 @@ mark{background:#DCEDE3;color:var(--gd);padding:2px 6px;border-radius:6px}
 #nav{position:sticky;bottom:0;display:flex;border-top:1px solid var(--line);padding:8px 8px calc(10px + env(safe-area-inset-bottom));background:#fff}
 #nav[hidden]{display:none}
 #nav button{flex:1;min-width:0;padding:0;min-height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;color:var(--mute)}
+#nav.six button{font-size:9.5px;letter-spacing:-.1px}#nav.six{padding-left:2px;padding-right:2px}
 #nav button.on{color:var(--g);font-weight:600}
 button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
 /* ---------- Animationen (dezent) ---------- */
@@ -928,6 +955,1536 @@ const LISTEN_TEXTS = [
 ];
 
 /* ============================================================
+   QR-Code-Erzeugung (für den Klassen-Link in der Lehrermaske)
+   QRCode for JavaScript – Copyright (c) 2009 Kazuhiko Arase – http://www.d-project.com/
+   Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+   The word "QR Code" is registered trademark of DENSO WAVE INCORPORATED.
+   (Node-Fassung aus dem Paket qrcode-terminal, hier unverändert gebündelt.)
+   ============================================================ */
+const QRLib = (function () {
+  var defs = {}, mods = {};
+  function req(n) { n = n.replace('./', ''); if (!mods[n]) { var m = { exports: {} }; defs[n](m, m.exports, req); mods[n] = m.exports; } return mods[n]; }
+  defs['QR8bitByte'] = function (module, exports, require) {
+var QRMode = require('./QRMode');
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+  };
+  defs['QRBitBuffer'] = function (module, exports, require) {
+function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+  };
+  defs['QRErrorCorrectLevel'] = function (module, exports, require) {
+module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+  };
+  defs['QRMaskPattern'] = function (module, exports, require) {
+module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+  };
+  defs['QRMath'] = function (module, exports, require) {
+var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+  };
+  defs['QRMode'] = function (module, exports, require) {
+module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+  };
+  defs['QRPolynomial'] = function (module, exports, require) {
+var QRMath = require('./QRMath');
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+  };
+  defs['QRRSBlock'] = function (module, exports, require) {
+var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+  };
+  defs['QRUtil'] = function (module, exports, require) {
+var QRMode = require('./QRMode');
+var QRPolynomial = require('./QRPolynomial');
+var QRMath = require('./QRMath');
+var QRMaskPattern = require('./QRMaskPattern');
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+  };
+  defs['index'] = function (module, exports, require) {
+//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = require('./QR8bitByte');
+var QRUtil = require('./QRUtil');
+var QRPolynomial = require('./QRPolynomial');
+var QRRSBlock = require('./QRRSBlock');
+var QRBitBuffer = require('./QRBitBuffer');
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+  };
+  return { QRCode: req('index'), L: req('QRErrorCorrectLevel').L, M: req('QRErrorCorrectLevel').M };
+})();
+/** Text -> Matrix aus true/false, oder null wenn der Text zu lang ist */
+function qrMatrix(text) {
+  try { var q = new QRLib.QRCode(-1, QRLib.L); q.addData(text); q.make(); return q.modules; } catch (e) { return null; }
+}
+
+
+/* ============================================================
+   VerbMaster – Lernmodus «Klasse» und Lehrermaske
+   - Zwei getrennte Fortschritte: «Privat» und «Klasse» (pro Klassencode einer).
+   - Der Klassencode ENTHÄLT die Auswahl der Lehrperson (es gibt keinen Server).
+     K1-…  kurzer Code zum Abtippen (nur Häkchen)
+     K2./K3.  langer Code mit Titel und eigenen Vokabeln (K3 = komprimiert)
+   ============================================================ */
+const TEACHER_CODE = 'LEHRER2026';   // schaltet die Lehrermaske frei (steht offen im Code, kein echter Schutz)
+const META_KEY = 'verbmaster.meta';
+const TE_KEY = 'verbmaster.teacher';
+/* Farben im Lernmodus: Start Blau, jeder neue Challenge-Rekord schaltet die nächste frei */
+const THEMES = ['blue', 'magenta', 'senf', 'violet', 'teal', 'orange'];
+/* Feste Reihenfolge der Grammatik-Module für die kurzen Codes. Neue Module NUR hinten anhängen. */
+const G_IDS = ['proche', 'comparatif', 'cause', 'opposition', 'accord', 'imppc', 'relatifs', 'adverbes', 'subjonctif', 'sireel', 'cod', 'coi', 'codcoi',
+  'siirreel', 'interrogation', 'negation', 'gerondif', 'recit', 'but', 'passif', 'adjectifs', 'yen', 'indirect', 'doubles'];
+const LV_IDS = ['A2', 'B1', 'B2'];
+
+function loadMeta() {
+  const d = { mode: 'private', klass: '', cfg: null, teacher: false };
+  try { const r = localStorage.getItem(META_KEY); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
+  if (d.mode === 'class' && !d.cfg) d.mode = 'private';
+  return d;
+}
+let META = loadMeta();
+function saveMeta() { try { localStorage.setItem(META_KEY, JSON.stringify(META)); } catch (e) { /* ohne Speicher weiter */ } }
+const CL = () => META.mode === 'class' && !!META.cfg;
+const cfg = () => META.cfg;
+const hashStr = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h.toString(36).toUpperCase(); };
+const storeKey = () => CL() ? STORE + '.k.' + hashStr(META.klass) : STORE;
+
+/* ---------- Code erzeugen und lesen ---------- */
+const T_IDS = () => TENSES.map(T => T.k);
+const V_IDS = () => VOCAB_SETS.map(s => s.id);
+const toMask = (ids, reg) => (ids || []).reduce((m, id) => { const i = reg.indexOf(id); return i < 0 ? m : m + Math.pow(2, i); }, 0);
+const fromMask = (m, reg) => reg.filter((_, i) => Math.floor(m / Math.pow(2, i)) % 2 === 1);
+function cfgPack(c) {
+  return { n: c.n || '', t: toMask(c.t, T_IDS()), g: toMask(c.g, G_IDS), s: toMask(c.vs, V_IDS()), f: toMask(c.lv, LV_IDS) + (c.d ? 8 : 0) + (c.c ? 16 : 0), v: c.v || [] };
+}
+function cfgUnpack(p) {
+  const num = x => Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0;
+  if (!p || typeof p !== 'object') return null;
+  const f = num(p.f), ok = x => typeof x === 'string' && x.length > 0 && x.length < 200;
+  const c = {
+    n: typeof p.n === 'string' ? p.n.slice(0, 60) : '',
+    t: fromMask(num(p.t), T_IDS()),
+    g: fromMask(num(p.g), G_IDS).filter(id => GRAMMAR.some(m => m.id === id)),
+    vs: fromMask(num(p.s), V_IDS()),
+    lv: fromMask(f % 8, LV_IDS), d: Math.floor(f / 8) % 2 === 1, c: Math.floor(f / 16) % 2 === 1,
+    v: (Array.isArray(p.v) ? p.v : []).filter(x => Array.isArray(x) && ok(x[0]) && ok(x[1])).slice(0, 800).map(x => [x[0], x[1]])
+  };
+  return c.t.length || c.g.length || c.vs.length || c.lv.length || c.v.length || c.d ? c : null;
+}
+function b64u(bytes) { let s = ''; for (let i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function unb64u(s) { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/')); const out = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) out[i] = b.charCodeAt(i); return out; }
+async function pipeBytes(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
+async function encodeCfg(c) {
+  const p = cfgPack(c);
+  if (!p.n && !p.v.length) return 'K1-' + [p.t, p.g, p.s, p.f].map(x => x.toString(36).toUpperCase()).join('-');
+  const raw = new TextEncoder().encode(JSON.stringify(p));
+  try {
+    if (typeof CompressionStream !== 'undefined') { const z = await pipeBytes(raw, new CompressionStream('deflate-raw')); if (z.length < raw.length) return 'K3.' + b64u(z); }
+  } catch (e) { /* dann unkomprimiert */ }
+  return 'K2.' + b64u(raw);
+}
+async function decodeCfg(code) {
+  try {
+    if (/^K1-/i.test(code)) {
+      const a = code.slice(3).split('-').map(x => parseInt(x, 36));
+      if (a.length !== 4 || a.some(x => !Number.isFinite(x))) return null;
+      return cfgUnpack({ n: '', t: a[0], g: a[1], s: a[2], f: a[3], v: [] });
+    }
+    if (/^K2\./.test(code)) return cfgUnpack(JSON.parse(new TextDecoder().decode(unb64u(code.slice(3)))));
+    if (/^K3\./.test(code)) return cfgUnpack(JSON.parse(new TextDecoder().decode(await pipeBytes(unb64u(code.slice(3)), new DecompressionStream('deflate-raw')))));
+  } catch (e) { /* ungültig */ }
+  return null;
+}
+function cfgSummary(c) {
+  const p = [], words = c.v.length + VOCAB_SETS.filter(s => c.vs.includes(s.id)).reduce((a, s) => a + s.items.length, 0);
+  if (c.t.length) p.push(t('sumT', { a: c.t.length }));
+  if (words) p.push(t('sumV', { a: words }));
+  if (c.g.length) p.push(t('sumG', { a: c.g.length }));
+  if (c.lv.length) p.push(t('sumL', { a: c.lv.join(', ') }));
+  if (c.d) p.push(t('dictation'));
+  if (c.c && c.t.length) p.push(t('challenge'));
+  return p.join(' · ');
+}
+
+/* ---------- Was ist im aktuellen Modus sichtbar? ---------- */
+const openTenseKeys = () => CL() ? cfg().t : TENSES.slice(0, level() + 1).map(T => T.k);
+const gramList = () => CL() ? GRAMMAR.filter(m => cfg().g.includes(m.id)) : GRAMMAR;
+const listenLevels = () => CL() ? LEVELS.filter(l => cfg().lv.includes(l)) : LEVELS;
+function listenModes() {
+  if (!CL()) return LISTEN;
+  if (!cfg().d) return [];
+  return LISTEN.filter(m => m.id === 'num' || (m.id === 'verbs' && cfg().t.some(k => k !== 'imp' && k !== 'ipa')) ||
+    (m.id === 'vocab' && vocSets().some(s => s.items.length)) || (m.id === 'sent' && gramList().length));
+}
+function navItems() {
+  const a = [['learn', IC.book, t('learn')]];
+  if (!CL() || (cfg().c && cfg().t.length)) a.push(['challenge', IC.bolt, t('challenge')]);
+  if (!CL() || listenLevels().length || listenModes().length) a.push(['listen', IC.ear, t('listen')]);
+  a.push(['progress', IC.bars, t('progress')]);
+  a.push(['verbs', CL() ? IC.cap : IC.plus, CL() ? t('classNav') : t('add')]);
+  if (META.teacher && !CL()) a.push(['teacher', IC.cap, t('teacher')]);
+  return a;
+}
+
+/* ---------- Code einlösen, Lernmodus starten und verlassen ---------- */
+let JOIN = null;
+function codeCard() {
+  const back = !CL() && META.klass && META.cfg;
+  return `<section class="card form"><h2>${t('classCode')}</h2><p class="muted">${t('codeDesc')}</p>
+    <label class="sr" for="kcode">${t('classCode')}</label><input id="kcode" type="text" placeholder="${t('codePh')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button type="button" class="btn" data-a="redeem">${t('codeBtn')}</button>
+    ${back ? `<button type="button" class="btn ghost" data-a="rejoin">${t('classBack')}${META.cfg.n ? ': ' + esc(META.cfg.n) : ''}</button>` : ''}
+    <div id="kmsg" aria-live="polite"></div></section>`;
+}
+async function redeem(raw) {
+  let code = String(raw || '').replace(/\s+/g, '');
+  const m = code.match(/#k=(.+)$/); if (m) code = m[1];
+  if (!code) return;
+  if (code.toUpperCase() === TEACHER_CODE) { META.teacher = true; saveMeta(); go('teacher'); toast(t('teacherOn')); return; }
+  const c = await decodeCfg(code);
+  if (!c) { const el = $('#kmsg'); if (el) el.innerHTML = `<p class="note warn">${t('codeBad')}</p>`; else toast(t('codeBad')); return; }
+  JOIN = { code: /^K1-/i.test(code) ? code.toUpperCase() : code, cfg: c };
+  go('join');
+}
+function vJoin() {
+  if (!JOIN) return vVerbs();
+  return `<header class="head"><h1>${t('classMode')}</h1></header>
+    <section class="card form"><h2>${esc(JOIN.cfg.n || t('classMode'))}</h2><p class="muted">${t('contains')}: ${esc(cfgSummary(JOIN.cfg))}</p>
+    <label for="jname">${t('yourName')}</label><input id="jname" type="text" autocomplete="name" maxlength="40">
+    <button type="button" class="btn" data-a="joinok">${t('classStart')}</button><button type="button" class="btn ghost" data-a="joinno">${t('cancel')}</button></section>`;
+}
+function enterClass(code, c, name) {
+  const lang = S.lang; save();
+  META.mode = 'class'; META.klass = code; META.cfg = c; saveMeta();
+  S = loadState(); S.lang = lang; if (name) S.student = name; _verbs = null; save();
+  JOIN = null; go('learn', { tab: 'verbs' }); toast(t('classOn'));
+}
+function leaveClass() {
+  const lang = S.lang; save();
+  META.mode = 'private'; saveMeta();
+  S = loadState(); S.lang = lang; _verbs = null; save();
+  go('learn', { tab: 'verbs' });
+}
+function vKlass() {
+  const c = cfg();
+  return `<header class="head"><h1>${t('classNav')}</h1></header>
+    <section class="card act"><h2>${esc(c.n || t('classMode'))}</h2><p class="muted">${t('contains')}: ${esc(cfgSummary(c))}</p>
+      <button type="button" class="btn line" data-a="leave">${t('classLeave')}</button></section>
+    ${codeCard()}`;
+}
+
+/* ---------- Nachweis-Karte und Farben (Fortschritt im Lernmodus) ---------- */
+function proofCard(areas, done) {
+  const c = cfg(), d = new Date(); let date = '';
+  try { date = d.toLocaleDateString(S.lang, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { date = localDay(d); }
+  return `<section class="proof" aria-label="${t('proof')}"><div class="prow"><b>${esc(c.n || t('classMode'))}</b><span>${esc(date)}</span></div>
+    <label class="sr" for="stud">${t('yourName')}</label><input id="stud" data-i="stud" type="text" value="${esc(S.student || '')}" placeholder="${t('yourName')}" autocomplete="off" maxlength="40">
+    <dl><div><dt>${t('today')}</dt><dd>${done} / ${DAILY_GOAL}</dd></div><div><dt>${t('daysRow', { a: '' }).replace(/[\s:]+$/, '')}</dt><dd>${streak()}</dd></div>
+    ${areas.map(a => `<div><dt>${a[0]}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
+    ${c.c && c.t.length ? `<div><dt>${t('record')} ${t('challenge')}</dt><dd>${S.hi}</dd></div>` : ''}</dl>
+    <small>VerbMaster · ${t('classCode')} ${hashStr(META.klass)}</small></section><p class="hint">${t('proofHint')}</p>`;
+}
+function colorDots() {
+  const open = Math.min(S.sneaks || 0, THEMES.length - 1);
+  return `<section class="block"><h2>${t('colorsT')}</h2><div class="colors">${THEMES.map((th, i) => `<button type="button" class="cdot${(S.theme || 0) === i ? ' on' : ''}" data-th="${th}" data-a="theme" data-i="${i}"${i > open ? ' disabled' : ''} aria-label="${th}">${i > open ? IC.lock : ''}</button>`).join('')}</div><p class="muted">${t('colorInfo')}</p></section>`;
+}
+
+/* ---------- Lehrermaske ---------- */
+function loadTE() {
+  const d = { n: '', t: [], g: [], vs: [], lv: [], d: false, c: true, vt: '' };
+  try { const r = localStorage.getItem(TE_KEY); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
+  for (const k of ['t', 'g', 'vs', 'lv']) if (!Array.isArray(d[k])) d[k] = [];
+  return d;
+}
+let TE = loadTE(), TECODE = '';
+function saveTE() { try { localStorage.setItem(TE_KEY, JSON.stringify(TE)); } catch (e) { /* ohne Speicher weiter */ } }
+function teSection(key, title, items, extra) {
+  return `<details class="card fold"><summary>${title}<small id="cnt_${key}">${t('chosen', { a: TE[key].length })}</small></summary>
+    <div class="row"><button type="button" class="link" data-a="teall" data-g="${key}" data-v="1">${t('all')}</button><button type="button" class="link" data-a="teall" data-g="${key}" data-v="0">${t('none')}</button></div>
+    <div class="chks">${items.map(([id, label]) => `<label class="chk"><input type="checkbox" data-c="te" data-g="${key}" value="${esc(id)}"${TE[key].includes(id) ? ' checked' : ''}><span>${esc(label)}</span></label>`).join('')}</div>${extra || ''}</details>`;
+}
+function vTeacher() {
+  return `<header class="head"><h1>${t('teacher')}</h1></header><p class="muted">${t('teacherDesc')}</p>
+    <section class="card form"><label for="te_n">${t('teTitle')}</label><input id="te_n" data-i="te" type="text" maxlength="60" value="${esc(TE.n)}" placeholder="${t('teTitlePh')}" autocomplete="off"></section>
+    ${teSection('t', t('verbs'), TENSES.map(T => [T.k, T.n]))}
+    ${teSection('vs', t('vocab'), VOCAB_SETS.map(s => [s.id, s.title + ' (' + s.items.length + ')']),
+      `<div class="form"><label for="te_v">${t('ownVocab')}</label><textarea id="te_v" data-i="te" rows="5" spellcheck="false" placeholder="la maison;das Haus&#10;le chien;der Hund">${esc(TE.vt)}</textarea></div>`)}
+    ${teSection('g', t('grammar'), GRAMMAR.map(m => [m.id, L(m.title)]))}
+    ${teSection('lv', t('listen'), LEVELS.map(l => [l, t('lText') + ' ' + l]),
+      `<div class="chks"><label class="chk"><input type="checkbox" data-c="te" data-g="d"${TE.d ? ' checked' : ''}><span>${t('dictation')}</span></label></div>`)}
+    <section class="card"><label class="chk"><input type="checkbox" data-c="te" data-g="c"${TE.c ? ' checked' : ''}><span>${t('challenge')}</span></label></section>
+    <button type="button" class="btn big" data-a="temake">${t('teMake')}</button><p class="hint">${t('teShort')}</p>
+    <div id="teout" aria-live="polite"></div>
+    <button type="button" class="btn ghost" data-a="tehide">${t('teHide')}</button>`;
+}
+function teChange(el) {
+  const g = el.dataset.g;
+  if (g === 'd' || g === 'c') TE[g] = el.checked;
+  else {
+    const s = new Set(TE[g]); if (el.checked) s.add(el.value); else s.delete(el.value); TE[g] = [...s];
+    const c = $('#cnt_' + g); if (c) c.textContent = t('chosen', { a: TE[g].length });
+  }
+  saveTE();
+}
+function parsePairs(text) {
+  return String(text || '').split(/[,\n]+/).map(p => p.trim()).filter(Boolean).map(p => { const i = p.indexOf(';'); return i < 0 ? null : [p.slice(0, i).trim(), p.slice(i + 1).trim()]; })
+    .filter(x => x && x[0] && x[1] && x[0].length < 200 && x[1].length < 200).slice(0, 800);
+}
+function qrSvg(m) {
+  const n = m.length, q = 4; let d = '';
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (m[y][x]) d += `M${x + q} ${y + q}h1v1h-1z`;
+  return `<svg class="qr" role="img" aria-label="QR-Code" viewBox="0 0 ${n + 2 * q} ${n + 2 * q}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+}
+async function teMake() {
+  const out = $('#teout');
+  const c = { n: TE.n.trim().slice(0, 60), t: T_IDS().filter(k => TE.t.includes(k)), g: TE.g, vs: TE.vs, lv: TE.lv, d: !!TE.d, c: !!TE.c, v: parsePairs(TE.vt) };
+  if (!cfgUnpack(cfgPack(c))) { out.innerHTML = `<p class="note warn">${t('teEmpty')}</p>`; return; }
+  const code = await encodeCfg(c), link = location.href.split('#')[0] + '#k=' + code;
+  const m = link.length <= 1800 && typeof qrMatrix === 'function' ? qrMatrix(link) : null;
+  TECODE = code;
+  out.innerHTML = `<section class="card form"><h2>${t('teCode')}</h2><p class="muted">${esc(cfgSummary(cfgUnpack(cfgPack(c))))}</p>
+    <label for="tecode" class="sr">${t('teCode')}</label><textarea id="tecode" readonly rows="${code.length > 60 ? 4 : 1}" class="mono">${esc(code)}</textarea>
+    <button type="button" class="btn" data-a="tecopy" data-t="tecode">${t('copyCode')}</button>
+    <label for="telink">${t('teLink')}</label><textarea id="telink" readonly rows="3" class="mono">${esc(link)}</textarea>
+    <button type="button" class="btn ghost" data-a="tecopy" data-t="telink">${t('copyLink')}</button>
+    ${m ? qrSvg(m) : `<p class="muted">${t('teQrLong')}</p>`}
+    <button type="button" class="btn line" data-a="tetest">${t('teTest')}</button></section>`;
+  out.scrollIntoView({ block: 'start', behavior: calm() ? 'auto' : 'smooth' });
+}
+
+/* ---------- Aktionen (werden in ui.js mit ACT zusammengeführt) ---------- */
+const KACT = {
+  redeem: () => redeem($('#kcode').value),
+  rejoin: () => enterClass(META.klass, META.cfg, ''),
+  joinok: () => enterClass(JOIN.code, JOIN.cfg, $('#jname').value.trim().slice(0, 40)),
+  joinno: () => { JOIN = null; go('verbs'); },
+  leave: leaveClass,
+  theme: el => { const i = +el.dataset.i; if (i <= Math.min(S.sneaks || 0, THEMES.length - 1)) { S.theme = i; save(); render(); } },
+  teall: el => {
+    const g = el.dataset.g, on = el.dataset.v === '1';
+    document.querySelectorAll(`input[data-c="te"][data-g="${g}"]`).forEach(b => { b.checked = on; });
+    TE[g] = on ? [...document.querySelectorAll(`input[data-c="te"][data-g="${g}"]`)].map(b => b.value) : [];
+    const c = $('#cnt_' + g); if (c) c.textContent = t('chosen', { a: TE[g].length }); saveTE();
+  },
+  temake: teMake,
+  tecopy: el => {
+    const box = $('#' + el.dataset.t), done = () => { el.textContent = t('copied'); };
+    const fallback = () => { box.focus(); box.select(); };
+    try { navigator.clipboard.writeText(box.value).then(done, fallback); } catch (e) { fallback(); }
+  },
+  tetest: () => redeem(TECODE),
+  tehide: () => { META.teacher = false; saveMeta(); go('verbs'); }
+};
+
+/* ============================================================
    VerbMaster – Engine (Daten + Konjugation). Keine DOM-Zugriffe.
    ============================================================ */
 
@@ -1545,6 +3102,15 @@ const I18N = {
     dictation: 'Diktat', evaluate: 'Auswerten', transcript: 'Der Text zum Nachlesen', stop: 'Stopp', bestScore: 'Bestes Ergebnis: {a} / {b}', notDone: 'Noch nicht gemacht',
     answerAll: 'Beantworte zuerst alle Fragen.', nextText: 'Nächster Text', qInfo: '{a} Fragen · ca. {b} Min.', levelPick: 'Niveau',
     today: 'Heute', goalLeft: 'Noch {a} bis zum Tagesziel', goalDone: 'Tagesziel erreicht', yourLevel: 'Dein Stand', details: 'Details', daysRow: 'Tage in Folge: {a}',
+    classCode: 'Klassencode', codePh: 'Code oder Link einfügen', codeBtn: 'Code einlösen', codeBad: 'Dieser Code ist ungültig.', codeDesc: 'Hast du von deiner Lehrperson einen Code bekommen? Gib ihn hier ein.',
+    classMode: 'Lernmodus Klasse', classNav: 'Klasse', classOn: 'Lernmodus gestartet', classStart: 'Lernmodus starten', classLeave: 'Zurück zu «Privat»', classBack: 'Zurück in den Lernmodus',
+    yourName: 'Dein Name', classVocab: 'Klassen-Vokabeln', contains: 'Inhalt', sumT: 'Zeiten: {a}', sumV: 'Vokabeln: {a}', sumG: 'Grammatik-Themen: {a}', sumL: 'Hören {a}',
+    proof: 'Nachweis', proofHint: 'Mach einen Screenshot dieser Karte und sende ihn deiner Lehrperson.', colorsT: 'Farben', colorWon: 'Neue Farbe freigeschaltet!',
+    colorInfo: 'Jeder neue Challenge-Rekord schaltet eine neue Farbe frei.', colorsN: 'Farben: {a} / {b}', teacher: 'Lehrer', teacherOn: 'Lehrermaske freigeschaltet',
+    teacherDesc: 'Wähle aus, was die Klasse lernen soll, und erstelle daraus einen Code.', teTitle: 'Titel (optional)', teTitlePh: 'z. B. Klasse 2b – Woche 4', all: 'Alle', none: 'Keine', chosen: '{a} gewählt',
+    ownVocab: 'Eigene Vokabeln (französisch;deutsch – eine pro Zeile oder mit Komma getrennt)', teMake: 'Code erstellen', teEmpty: 'Wähle mindestens einen Inhalt aus.', teCode: 'Code für die Klasse', teLink: 'Link',
+    copyCode: 'Code kopieren', copyLink: 'Link kopieren', teQrLong: 'Der Link ist zu lang für einen QR-Code. Verteile den Link.', teTest: 'Selbst testen', teHide: 'Lehrermaske ausblenden',
+    teShort: 'Ohne Titel und eigene Vokabeln entsteht ein kurzer Code zum Abtippen.',
     semester: '{a}. Semester', video: 'Video', topics: '{a} Themen',
     best: 'Bestenliste', noScores: 'Noch keine Ergebnisse. Spiel deine erste Challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Sneak einlösen',
     sneakWon: 'Du hast 1 Sneak erspielt. Löse ihn unter «Lernen» bei einem gesperrten Level ein.', sneakAsk: '1 Sneak für eine Runde einlösen?', sneakYes: 'Einlösen', cancel: 'Abbrechen',
@@ -1586,6 +3152,15 @@ const I18N = {
     dictation: 'Dictation', evaluate: 'Check answers', transcript: 'The text to read', stop: 'Stop', bestScore: 'Best result: {a} / {b}', notDone: 'Not done yet',
     answerAll: 'Answer all questions first.', nextText: 'Next text', qInfo: '{a} questions · approx. {b} min', levelPick: 'Level',
     today: 'Today', goalLeft: '{a} to go for today’s goal', goalDone: 'Daily goal reached', yourLevel: 'Where you stand', details: 'Details', daysRow: 'Days in a row: {a}',
+    classCode: 'Class code', codePh: 'Paste code or link', codeBtn: 'Redeem code', codeBad: 'This code is not valid.', codeDesc: 'Did your teacher give you a code? Enter it here.',
+    classMode: 'Class mode', classNav: 'Class', classOn: 'Class mode started', classStart: 'Start class mode', classLeave: 'Back to «Private»', classBack: 'Back to class mode',
+    yourName: 'Your name', classVocab: 'Class vocabulary', contains: 'Content', sumT: 'Tenses: {a}', sumV: 'Words: {a}', sumG: 'Grammar topics: {a}', sumL: 'Listening {a}',
+    proof: 'Proof', proofHint: 'Take a screenshot of this card and send it to your teacher.', colorsT: 'Colours', colorWon: 'New colour unlocked!',
+    colorInfo: 'Every new challenge record unlocks a new colour.', colorsN: 'Colours: {a} / {b}', teacher: 'Teacher', teacherOn: 'Teacher view unlocked',
+    teacherDesc: 'Choose what the class should learn and create a code from it.', teTitle: 'Title (optional)', teTitlePh: 'e.g. Class 2b – week 4', all: 'All', none: 'None', chosen: '{a} selected',
+    ownVocab: 'Own vocabulary (french;meaning – one per line or separated by commas)', teMake: 'Create code', teEmpty: 'Select at least one item.', teCode: 'Code for the class', teLink: 'Link',
+    copyCode: 'Copy code', copyLink: 'Copy link', teQrLong: 'The link is too long for a QR code. Share the link instead.', teTest: 'Try it yourself', teHide: 'Hide teacher view',
+    teShort: 'Without a title and own vocabulary you get a short code that can be typed.',
     semester: 'Semester {a}', video: 'Video', topics: '{a} topics',
     best: 'Leaderboard', noScores: 'No results yet. Play your first challenge.', sneaksN: 'Sneaks: {a}', sneakUse: 'Use sneak',
     sneakWon: 'You earned 1 sneak. Use it under «Learn» on a locked level.', sneakAsk: 'Use 1 sneak for one round?', sneakYes: 'Use it', cancel: 'Cancel',
@@ -1627,6 +3202,15 @@ const I18N = {
     dictation: 'Dettato', evaluate: 'Verifica', transcript: 'Il testo da leggere', stop: 'Stop', bestScore: 'Miglior risultato: {a} / {b}', notDone: 'Non ancora fatto',
     answerAll: 'Rispondi prima a tutte le domande.', nextText: 'Testo successivo', qInfo: '{a} domande · ca. {b} min', levelPick: 'Livello',
     today: 'Oggi', goalLeft: 'Ancora {a} per l’obiettivo di oggi', goalDone: 'Obiettivo del giorno raggiunto', yourLevel: 'A che punto sei', details: 'Dettagli', daysRow: 'Giorni di fila: {a}',
+    classCode: 'Codice classe', codePh: 'Incolla codice o link', codeBtn: 'Usa il codice', codeBad: 'Questo codice non è valido.', codeDesc: 'Hai ricevuto un codice dal tuo insegnante? Inseriscilo qui.',
+    classMode: 'Modalità classe', classNav: 'Classe', classOn: 'Modalità classe avviata', classStart: 'Avvia la modalità classe', classLeave: 'Torna a «Privato»', classBack: 'Torna alla modalità classe',
+    yourName: 'Il tuo nome', classVocab: 'Vocaboli della classe', contains: 'Contenuto', sumT: 'Tempi: {a}', sumV: 'Vocaboli: {a}', sumG: 'Temi di grammatica: {a}', sumL: 'Ascolto {a}',
+    proof: 'Attestato', proofHint: 'Fai uno screenshot di questa scheda e invialo al tuo insegnante.', colorsT: 'Colori', colorWon: 'Nuovo colore sbloccato!',
+    colorInfo: 'Ogni nuovo record nella sfida sblocca un nuovo colore.', colorsN: 'Colori: {a} / {b}', teacher: 'Docente', teacherOn: 'Vista docente sbloccata',
+    teacherDesc: 'Scegli che cosa deve imparare la classe e crea un codice.', teTitle: 'Titolo (facoltativo)', teTitlePh: 'p. es. Classe 2b – settimana 4', all: 'Tutti', none: 'Nessuno', chosen: '{a} selezionati',
+    ownVocab: 'Vocaboli propri (francese;significato – uno per riga o separati da virgola)', teMake: 'Crea codice', teEmpty: 'Seleziona almeno un contenuto.', teCode: 'Codice per la classe', teLink: 'Link',
+    copyCode: 'Copia codice', copyLink: 'Copia link', teQrLong: 'Il link è troppo lungo per un codice QR. Condividi il link.', teTest: 'Prova tu', teHide: 'Nascondi vista docente',
+    teShort: 'Senza titolo e vocaboli propri si ottiene un codice breve da digitare.',
     semester: 'Semestre {a}', video: 'Video', topics: '{a} argomenti',
     best: 'Classifica', noScores: 'Ancora nessun risultato. Gioca la tua prima sfida.', sneaksN: 'Sneak: {a}', sneakUse: 'Usa sneak',
     sneakWon: 'Hai vinto 1 sneak. Usalo in «Impara» su un livello bloccato.', sneakAsk: 'Usare 1 sneak per un round?', sneakYes: 'Usa', cancel: 'Annulla',
@@ -1668,6 +3252,15 @@ const I18N = {
     dictation: 'Dictée', evaluate: 'Vérifier', transcript: 'La transcription', stop: 'Stop', bestScore: 'Meilleur résultat : {a} / {b}', notDone: 'Pas encore fait',
     answerAll: 'Réponds d’abord à toutes les questions.', nextText: 'Document suivant', qInfo: '{a} questions · env. {b} min', levelPick: 'Niveau',
     today: 'Aujourd’hui', goalLeft: 'Encore {a} pour l’objectif du jour', goalDone: 'Objectif du jour atteint', yourLevel: 'Où tu en es', details: 'Détails', daysRow: 'Jours de suite : {a}',
+    classCode: 'Code de classe', codePh: 'Colle le code ou le lien', codeBtn: 'Utiliser le code', codeBad: 'Ce code n’est pas valide.', codeDesc: 'Ton enseignant t’a donné un code ? Saisis-le ici.',
+    classMode: 'Mode classe', classNav: 'Classe', classOn: 'Mode classe activé', classStart: 'Démarrer le mode classe', classLeave: 'Retour à «Privé»', classBack: 'Retour au mode classe',
+    yourName: 'Ton nom', classVocab: 'Vocabulaire de la classe', contains: 'Contenu', sumT: 'Temps : {a}', sumV: 'Mots : {a}', sumG: 'Thèmes de grammaire : {a}', sumL: 'Écoute {a}',
+    proof: 'Attestation', proofHint: 'Fais une capture d’écran de cette carte et envoie-la à ton enseignant.', colorsT: 'Couleurs', colorWon: 'Nouvelle couleur débloquée !',
+    colorInfo: 'Chaque nouveau record au défi débloque une nouvelle couleur.', colorsN: 'Couleurs : {a} / {b}', teacher: 'Enseignant', teacherOn: 'Espace enseignant débloqué',
+    teacherDesc: 'Choisis ce que la classe doit apprendre et crée un code.', teTitle: 'Titre (facultatif)', teTitlePh: 'p. ex. Classe 2b – semaine 4', all: 'Tous', none: 'Aucun', chosen: '{a} sélectionnés',
+    ownVocab: 'Vocabulaire personnel (français;signification – un par ligne ou séparés par des virgules)', teMake: 'Créer le code', teEmpty: 'Sélectionne au moins un contenu.', teCode: 'Code pour la classe', teLink: 'Lien',
+    copyCode: 'Copier le code', copyLink: 'Copier le lien', teQrLong: 'Le lien est trop long pour un code QR. Partage le lien.', teTest: 'Tester soi-même', teHide: 'Masquer l’espace enseignant',
+    teShort: 'Sans titre ni vocabulaire personnel, on obtient un code court à saisir.',
     semester: 'Semestre {a}', video: 'Vidéo', topics: '{a} thèmes',
     best: 'Classement', noScores: 'Pas encore de résultats. Joue ton premier défi.', sneaksN: 'Sneaks : {a}', sneakUse: 'Utiliser un sneak',
     sneakWon: 'Tu as gagné 1 sneak. Utilise-le sous «Apprendre» sur un niveau verrouillé.', sneakAsk: 'Utiliser 1 sneak pour une série ?', sneakYes: 'Utiliser', cancel: 'Annuler',
@@ -1783,7 +3376,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '2.6';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.0';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -1794,17 +3387,17 @@ const KEYS = ['é', 'è', 'ê', 'à', 'â', 'ù', 'ç', 'î', 'ô', 'û'];
 /* ---------- Speicher (lokal auf dem Gerät) ---------- */
 function defaults() {
   const nav = (typeof navigator !== 'undefined' && navigator.language || 'de').slice(0, 2);
-  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {}, llevel: 'B1', hist: {} };
+  return { lang: I18N[nav] ? nav : 'de', box: {}, err: {}, custom: [], hi: 0, ov: {}, gram: {}, day: '', days: 0, vocab: [], vbox: {}, scores: [], sneaks: 0, heard: {}, ltext: {}, llevel: 'B1', hist: {}, student: '', theme: 0 };
 }
 function loadState() {
   const d = defaults();
-  try { const r = localStorage.getItem(STORE); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
+  try { const r = localStorage.getItem(storeKey()); if (r) Object.assign(d, JSON.parse(r)); } catch (e) { /* ohne Speicher weiter */ }
   if (!Array.isArray(d.scores)) d.scores = [];
   if (!d.scores.length && d.hi > 0) d.scores = [{ s: d.hi, d: '' }];   // Rekord aus älteren Versionen übernehmen
   return d;
 }
 let S = loadState();
-function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* ohne Speicher weiter */ } }
+function save() { try { localStorage.setItem(storeKey(), JSON.stringify(S)); } catch (e) { /* ohne Speicher weiter */ } }
 
 /* ---------- Sicherung (Export / Import) ---------- */
 function backupText() { return JSON.stringify({ app: 'verbmaster', v: 1, date: new Date().toISOString(), data: S }); }
@@ -1821,6 +3414,7 @@ function readBackup(txt) {
   out.hi = Number.isFinite(d.hi) ? Math.max(0, Math.round(d.hi)) : 0;
   out.days = Number.isFinite(d.days) ? Math.max(0, Math.round(d.days)) : 0;
   out.day = str(d.day) ? d.day : '';
+  out.student = str(d.student) ? d.student.slice(0, 40) : ''; out.theme = Number.isFinite(d.theme) ? Math.max(0, Math.min(THEMES.length - 1, Math.round(d.theme))) : 0;
   out.sneaks = Number.isFinite(d.sneaks) ? Math.max(0, Math.min(99, Math.round(d.sneaks))) : 0;
   if (Array.isArray(d.scores)) out.scores = d.scores.filter(x => isObj(x) && Number.isFinite(x.s) && (x.d === '' || str(x.d))).map(x => ({ s: Math.max(0, Math.round(x.s)), d: x.d })).sort((a, b) => b.s - a.s).slice(0, 10);
   if (!out.scores.length && out.hi > 0) out.scores = [{ s: out.hi, d: '' }];
@@ -1857,13 +3451,13 @@ function forms(v, k) {
 function persons(v, k) { const f = forms(v, k); const out = []; if (f) f.forEach((x, i) => { if (x) out.push(i); }); return out; }
 const boxOf = (k, v) => (S.box[k] || {})[v.fr] || 0;
 function sure(k) { const b = S.box[k] || {}; let n = 0; for (const v of verbs()) if (b[v.fr] >= 2) n++; return n; }
-function level() { let n = 0; while (n < TENSES.length - 1 && sure(TENSES[n].k) >= GOAL) n++; return n; }
+function level() { if (CL()) return 0; let n = 0; while (n < TENSES.length - 1 && sure(TENSES[n].k) >= GOAL) n++; return n; }
 /* ---------- Kleine Effekte ---------- */
 const calm = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
 function burst() {
   if (calm()) return;
   const box = document.createElement('div'); box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
-  const cols = ['#2F7D5B', '#5FA882', '#CFE8DA', '#1F5C42'];
+  const cs = getComputedStyle(document.documentElement), cols = ['--g', '--c2', '--c3', '--gd'].map(v => cs.getPropertyValue(v).trim() || '#2F7D5B');
   for (let i = 0; i < 22; i++) {
     const p = document.createElement('i');
     p.style.cssText = `left:${8 + Math.random() * 84}%;background:${cols[i % cols.length]};animation-delay:${(Math.random() * 0.25).toFixed(2)}s;animation-duration:${(1.1 + Math.random() * 0.7).toFixed(2)}s;--dx:${Math.round(Math.random() * 80 - 40)}px;--rot:${Math.round(Math.random() * 540 - 270)}deg`;
@@ -1909,6 +3503,7 @@ const IC = {
   x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
   ear: svg('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v6H5a1 1 0 0 1-1-1zM20 14h-3v6h2a1 1 0 0 0 1-1z"/>'),
   play: svg('<path d="M7 5l12 7-12 7z"/>', 16),
+  cap: svg('<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c3 2.5 9 2.5 12 0v-4.5"/>'),
   trash: svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 18)
 };
 
@@ -1927,9 +3522,11 @@ function render() {
   document.documentElement.lang = S.lang; document.title = 'Verb' + t('master');
   const full = ['ex', 'chrun', 'gram', 'voc', 'lrun'].includes(V.name);
   $('#nav').hidden = full;
-  $('#nav').innerHTML = [['learn', IC.book], ['challenge', IC.bolt], ['listen', IC.ear], ['progress', IC.bars], ['verbs', IC.plus]].map(([n, ic]) =>
-    `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${t(n === 'verbs' ? 'add' : n)}</span></button>`).join('');
-  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum, ltext: vLText };
+  if (CL()) document.documentElement.dataset.theme = THEMES[Math.min(S.theme || 0, THEMES.length - 1)]; else delete document.documentElement.dataset.theme;
+  $('#nav').classList.toggle('six', navItems().length > 5);
+  $('#nav').innerHTML = navItems().map(([n, ic, label]) =>
+    `<button type="button" data-a="nav" data-n="${n}" class="${navActive(n) ? 'on' : ''}"${navActive(n) ? ' aria-current="page"' : ''}>${ic}<span>${label}</span></button>`).join('');
+  const views = { learn: vLearn, ex: vExercise, sum: vSummary, challenge: vChallenge, chrun: vChRun, chend: vChEnd, progress: vProgress, verbs: vVerbs, gram: vGram, gsum: vGramSum, voc: vVoc, vsum: vVocSum, listen: vListen, lrun: vLRun, lsum: vLSum, ltext: vLText, join: vJoin, teacher: vTeacher };
   // Tastatur offen halten, während die nächste Aufgabe aufgebaut wird (sonst springt der Bildschirm auf dem Handy)
   const keep = $('#kbkeep'), hadFocus = document.activeElement && document.activeElement.id === 'ans';
   if (hadFocus && keep) keep.focus({ preventScroll: true });
@@ -1952,32 +3549,45 @@ function fitViewport() {
 if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
 window.addEventListener('resize', fitViewport);
 function navActive(n) {
-  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && ['lsum', 'ltext'].includes(V.name));
+  return n === V.name || (n === 'learn' && ['sum', 'gsum', 'vsum'].includes(V.name)) || (n === 'challenge' && V.name === 'chend') || (n === 'listen' && ['lsum', 'ltext'].includes(V.name)) || (n === 'verbs' && V.name === 'join');
 }
 
 /* --- Lernen --- */
 function vLearn() {
+  const cl = CL();
+  const tabs = cl ? [cfg().t.length && 'verbs', vocSets().some(s => s.items.length) && 'vocab', gramList().length && 'gram'].filter(Boolean) : ['verbs', 'vocab', 'gram'];
+  if (!tabs.includes(V.tab)) V.tab = tabs[0] || 'verbs';
+  const tabName = { verbs: t('verbs'), vocab: t('vocab'), gram: t('grammar') };
   const head = `<header class="head"><h1 class="brand">Verb<span>${t('master')}</span></h1>
     <label class="lang"><span class="sr">${t('lang')}</span><select id="lang" data-c="lang">${Object.keys(I18N).map(l => `<option value="${l}"${l === S.lang ? ' selected' : ''}>${l.toUpperCase()}</option>`).join('')}</select></label></header>
-    <div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${V.tab === 'verbs'}" data-a="tab" data-n="verbs">${t('verbs')}</button><button type="button" role="tab" aria-selected="${V.tab === 'vocab'}" data-a="tab" data-n="vocab">${t('vocab')}</button><button type="button" role="tab" aria-selected="${V.tab === 'gram'}" data-a="tab" data-n="gram">${t('grammar')}</button></div>`;
+    ${cl ? `<p class="klass">${IC.cap}<span>${esc(cfg().n || t('classMode'))}</span></p>` : ''}
+    ${tabs.length > 1 ? `<div class="seg" role="tablist">${tabs.map(n => `<button type="button" role="tab" aria-selected="${V.tab === n}" data-a="tab" data-n="${n}">${tabName[n]}</button>`).join('')}</div>` : ''}`;
   if (V.tab === 'vocab') {
-    return head + `<div class="list">` + vocSets().map(set => {
+    return head + `<div class="list">` + vocSets().filter(set => !cl || set.items.length).map(set => {
       const N = set.items.length, n = vocSure(set);
       if (!N) return `<button type="button" class="card lvl" data-a="addwords"><span class="dot num">${IC.plus}</span><span class="grow"><b>${esc(set.title)}</b><small>${t('ownEmpty')}</small></span></button>`;
       return `<button type="button" class="card lvl set" data-a="vstart" data-id="${set.id}"><span class="grow"><b>${esc(set.title)}</b><small>${t('wSure', { a: n, b: N })}</small><span class="bar"><i style="width:${Math.round(100 * n / N)}%"></i></span></span></button>`;
-    }).join('') + `<button type="button" class="btn ghost" data-a="addwords">${t('addNow')}</button></div>`;
+    }).join('') + (cl ? '' : `<button type="button" class="btn ghost" data-a="addwords">${t('addNow')}</button>`) + `</div>`;
   }
   if (V.tab === 'gram') {
-    let h = head + `<div class="list">`, grp = null;
-    for (const m of GRAMMAR) {
-      if (m.g !== grp) { grp = m.g; h += `<h2 class="grp">${m.g ? t('semester', { a: m.g }) : t('grammar')}<small>${t('topics', { a: GRAMMAR.filter(x => x.g === m.g).length })}</small></h2>`; }
+    let h = head + `<div class="list">`, grp = null; const gl = gramList();
+    for (const m of gl) {
+      if (m.g !== grp) { grp = m.g; h += `<h2 class="grp">${m.g ? t('semester', { a: m.g }) : t('grammar')}<small>${t('topics', { a: gl.filter(x => x.g === m.g).length })}</small></h2>`; }
       const n = Object.keys(S.gram[m.id] || {}).length;
       h += `<section class="card gcard"><h3>${esc(L(m.title))}</h3><p class="muted">${t('solved', { a: n, b: m.items.length })}</p>
         <div class="bar"><i style="width:${Math.round(100 * n / m.items.length)}%"></i></div>
         <div class="row"><button type="button" class="btn grow" data-a="gstart" data-id="${m.id}">${t('practise')}</button>
         <a class="btn line" href="${esc(videoUrl(m))}" target="_blank" rel="noopener">${IC.play}${t('video')}</a></div></section>`;
     }
-    return h + `<p class="hint">${t('gramMore')}</p></div>`;
+    return h + (cl ? '' : `<p class="hint">${t('gramMore')}</p>`) + `</div>`;
+  }
+  if (cl) {
+    // Lernmodus: alle von der Lehrperson gewählten Zeiten sind offen
+    const N = verbs().length;
+    return head + `<div class="list">` + TENSES.filter(T => cfg().t.includes(T.k)).map(T => {
+      const n = sure(T.k);
+      return `<button type="button" class="card lvl set" data-a="start" data-k="${T.k}"><span class="grow"><b>${T.n}</b><small>${t('nSure', { a: n })} · ${n} / ${N}</small><span class="bar"><i style="width:${Math.round(100 * n / N)}%"></i></span></span></button>`;
+    }).join('') + `</div>`;
   }
   const lv = level();
   let h = head + `<p class="sub">${t('levelOf', { a: lv + 1, b: TENSES.length })} · ${TENSES[lv].m}${S.sneaks > 0 ? ` · <b class="sneak">${t('sneaksN', { a: S.sneaks })}</b>` : ''}</p><div class="list">`;
@@ -2059,13 +3669,14 @@ function vSummary() {
   const lv = level(), up = lv > X.lv;
   return `<div class="center"><span class="dot ok xl">${IC.check}</span><h1>${t('roundDone')}</h1>
     <p class="bignum">${t('score', { a: X.right, b: X.list.length })}</p>
-    ${up ? `<p class="chip">${t('newLevel', { a: TENSES[lv].n })}</p>` : `<p class="muted">${TMAP[X.k].n}: ${t('goal', { a: sure(X.k), b: GOAL })}</p>`}
+    ${up ? `<p class="chip">${t('newLevel', { a: TENSES[lv].n })}</p>` : `<p class="muted">${TMAP[X.k].n}: ${CL() ? t('nSure', { a: sure(X.k) }) : t('goal', { a: sure(X.k), b: GOAL })}</p>`}
     ${X.sneak && !up ? '' : `<button type="button" class="btn big" data-a="start" data-k="${up ? TENSES[lv].k : X.k}">${up ? t('cont') : t('again')}</button>`}
     <button type="button" class="btn ${X.sneak && !up ? 'big' : 'ghost'}" data-a="nav" data-n="learn">${t('overview')}</button></div>`;
 }
 
 /* --- Vokabeln --- */
 function vocSets() {
+  if (CL()) return [{ id: 'klass', title: t('classVocab'), items: cfg().v.map(x => ({ fr: x[0], m: x[1] })) }].concat(VOCAB_SETS.filter(s => cfg().vs.includes(s.id)).map(s => ({ id: s.id, title: s.title, items: s.items.map(x => ({ fr: x[0], m: x[1] })) })));
   return [{ id: 'own', title: t('myWords'), items: S.vocab }].concat(VOCAB_SETS.map(s => ({ id: s.id, title: s.title, items: s.items.map(x => ({ fr: x[0], m: x[1] })) })));
 }
 const vocSure = set => set.items.filter(w => S.vbox[w.fr] >= 2).length;
@@ -2083,8 +3694,8 @@ function vocVariants(fr) {
   return out;
 }
 function vocStart(id) {
-  const set = vocSets().find(s => s.id === id) || vocSets()[0], all = set.items;
-  if (!all.length) { addMode = 'word'; return go('verbs'); }
+  const set = vocSets().find(s => s.id === id) || vocSets().find(s => s.items.length) || vocSets()[0], all = set.items;
+  if (!all.length) { if (CL()) return go('learn'); addMode = 'word'; return go('verbs'); }
   const seen = shuffle(all.filter(w => w.fr in S.vbox && S.vbox[w.fr] < 2)), fresh = all.filter(w => !(w.fr in S.vbox));
   let list = seen.slice(0, fresh.length ? 6 : ROUND).concat(fresh).slice(0, ROUND);
   if (list.length < ROUND) list = list.concat(shuffle(all.filter(w => !list.includes(w))).slice(0, ROUND - list.length));
@@ -2135,13 +3746,14 @@ function board(mark) {
   }).join('')}</ol>`;
 }
 function vChallenge() {
-  return `<header class="head"><h1>${t('challenge')}</h1>${S.sneaks > 0 ? `<b class="sneak">${t('sneaksN', { a: S.sneaks })}</b>` : ''}</header>
+  const badge = CL() ? t('colorsN', { a: Math.min((S.sneaks || 0) + 1, THEMES.length), b: THEMES.length }) : (S.sneaks > 0 ? t('sneaksN', { a: S.sneaks }) : '');
+  return `<header class="head"><h1>${t('challenge')}</h1>${badge ? `<b class="sneak">${badge}</b>` : ''}</header>
     <section class="hero col"><p class="lead">${t('chDesc')}</p>
     <button type="button" class="btn big" data-a="chstart">${t('chStart')}</button></section>
-    <section class="block"><h2>${t('best')}</h2>${board(null)}<p class="hint">${t('sneakInfo')}</p></section>`;
+    <section class="block"><h2>${t('best')}</h2>${board(null)}<p class="hint">${CL() ? t('colorInfo') : t('sneakInfo')}</p></section>`;
 }
 function chQuestion() {
-  const ks = TENSES.slice(0, level() + 1).map(T => T.k);
+  const ks = openTenseKeys();
   const seen = new Set(); for (const k in S.box) for (const f in S.box[k]) seen.add(f);
   const all = verbs(); let pool = all.filter(v => v.custom || seen.has(v.fr));
   if (pool.length < 30) pool = pool.concat(BUILTIN.slice(0, 60));
@@ -2180,7 +3792,11 @@ function chEnd() {
   C.isNew = C.score > S.hi;
   C.entry = { s: C.score, d: new Date().toISOString() };
   if (C.score > 0) { S.scores.push(C.entry); S.scores.sort((a, b) => b.s - a.s); S.scores = S.scores.slice(0, 10); }
-  if (C.isNew) { S.hi = C.score; S.sneaks = (S.sneaks || 0) + 1; }
+  C.newColor = false;
+  if (C.isNew) {
+    S.hi = C.score; S.sneaks = (S.sneaks || 0) + 1;
+    if (CL() && S.sneaks <= THEMES.length - 1) { S.theme = S.sneaks; C.newColor = true; }   // Lernmodus: Sneak = neue Farbe
+  }
   save();
   go('chend'); if (C.isNew) burst();
 }
@@ -2188,7 +3804,7 @@ function vChEnd() {
   return `<header class="head"><h1>${t('timeUp')}</h1></header>
     <section class="hero col"><p class="bignum xl">${C.score}</p><p class="muted">${t('points')}</p>
     <p class="chip">${C.isNew ? t('newRecord') : t('record') + ': ' + S.hi}</p>
-    ${C.isNew ? `<p class="note">${t('sneakWon')}</p>` : ''}
+    ${C.newColor ? `<p class="note">${t('colorWon')}</p>` : (C.isNew && !CL() ? `<p class="note">${t('sneakWon')}</p>` : '')}
     <button type="button" class="btn big" data-a="chstart">${t('again')}</button></section>
     <section class="block"><h2>${t('best')}</h2>${board(C.entry)}</section>
     <button type="button" class="btn ghost" data-a="nav" data-n="learn">${t('overview')}</button>`;
@@ -2233,7 +3849,7 @@ const sameOrAccent = (a, list) => list.includes(a) ? 'ok' : (list.some(x => flat
 const LISTEN = [
   { id: 'verbs', title: 'lVerbs', desc: 'lVerbsD', keys: true, make() {
       // nur je, tu, nous, vous – «il» und «ils» klingen meist gleich. Kein Impératif (klingt wie Présent).
-      const ks = TENSES.slice(0, level() + 1).map(T => T.k).filter(k => k !== 'imp' && k !== 'ipa');
+      const ks = openTenseKeys().filter(k => k !== 'imp' && k !== 'ipa'); if (!ks.length) ks.push('pr');
       for (let n = 0; n < 80; n++) {
         const v = pick(BUILTIN.slice(0, 120).concat(verbs().filter(x => x.custom))), k = pick(ks), f = forms(v, k);
         const is = [0, 1, 3, 4].filter(i => f && f[i]); if (!is.length) continue;
@@ -2250,7 +3866,7 @@ const LISTEN = [
       return { say: text, show: w.fr, sub: w.m, check: val => sameOrAccent(noArt(plain(val)), acc.map(x => noArt(plain(x)))) };
     } },
   { id: 'sent', title: 'lSent', desc: 'lSentD', keys: true, make() {
-      const m = pick(GRAMMAR), it = pick(m.items);
+      const m = pick(gramList().length ? gramList() : GRAMMAR), it = pick(m.items);
       return { say: it.r, show: it.r, sub: L(m.title), check: val => sameOrAccent(plain(val), [plain(it.r)]) };
     } },
   { id: 'num', title: 'lNum', desc: 'lNumD', keys: false, numeric: true, make() {
@@ -2266,13 +3882,14 @@ const minutes = x => Math.max(1, Math.round(x.text.split(/\s+/).length / 110));
 let TX = null;   // laufendes Hörverstehen
 function vListen() {
   const warn = !speechOK ? `<p class="note warn">${t('noSpeech')}</p>` : (voicesSeen && !frVoice ? `<p class="note warn">${t('noFrVoice')}</p>` : '');
-  const dis = speechOK ? '' : ' disabled', lvl = LEVELS.includes(S.llevel) ? S.llevel : 'B1';
+  const lvls = listenLevels(), modes = listenModes();
+  const dis = speechOK ? '' : ' disabled', lvl = lvls.includes(S.llevel) ? S.llevel : (lvls.includes('B1') ? 'B1' : lvls[0]);
   return `<header class="head"><h1>${t('listen')}</h1></header>${warn}
-    <div class="seg" role="tablist" aria-label="${t('levelPick')}">${LEVELS.map(l => `<button type="button" role="tab" aria-selected="${lvl === l}" data-a="llvl" data-n="${l}">${l}</button>`).join('')}</div>
-    <h2 class="grp">${t('lText')}<small>${lvl}</small></h2><p class="muted">${t('lTextD').replace('B1', lvl)}</p>
-    <div class="list">${textsOf(lvl).map((x, i) => `<button type="button" class="card lvl" data-a="ltopen" data-id="${x.id}"${dis}><span class="dot num">${i + 1}</span><span class="grow"><b>${esc(x.title)}</b><small>${t('qInfo', { a: x.qs.length, b: minutes(x) })}</small><small${x.id in S.ltext ? ' class="sneak"' : ''}>${x.id in S.ltext ? t('bestScore', { a: S.ltext[x.id], b: x.qs.length }) : t('notDone')}</small></span></button>`).join('')}</div>
-    <h2 class="grp">${t('dictation')}</h2><p class="muted">${t('listenDesc')}</p>
-    <div class="list">${LISTEN.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${dis}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>`;
+    ${lvls.length > 1 ? `<div class="seg" role="tablist" aria-label="${t('levelPick')}">${lvls.map(l => `<button type="button" role="tab" aria-selected="${lvl === l}" data-a="llvl" data-n="${l}">${l}</button>`).join('')}</div>` : ''}
+    ${lvls.length ? `<h2 class="grp">${t('lText')}<small>${lvl}</small></h2><p class="muted">${t('lTextD').replace('B1', lvl)}</p>
+    <div class="list">${textsOf(lvl).map((x, i) => `<button type="button" class="card lvl" data-a="ltopen" data-id="${x.id}"${dis}><span class="dot num">${i + 1}</span><span class="grow"><b>${esc(x.title)}</b><small>${t('qInfo', { a: x.qs.length, b: minutes(x) })}</small><small${x.id in S.ltext ? ' class="sneak"' : ''}>${x.id in S.ltext ? t('bestScore', { a: S.ltext[x.id], b: x.qs.length }) : t('notDone')}</small></span></button>`).join('')}</div>` : ''}
+    ${modes.length ? `<h2 class="grp">${t('dictation')}</h2><p class="muted">${t('listenDesc')}</p>
+    <div class="list">${modes.map(m => `<button type="button" class="card lvl" data-a="lstart" data-id="${m.id}"${dis}><span class="dot num">${IC.ear}</span><span class="grow"><b>${t(m.title)}</b><small>${t(m.desc)}</small><small class="sneak">${t('heardN', { a: S.heard[m.id] || 0 })}</small></span></button>`).join('')}</div>` : ''}`;
 }
 function ltOpen(id) {
   const tx = TEXTS.find(x => x.id === id) || TEXTS[0];
@@ -2363,31 +3980,35 @@ function vProgress() {
   }).join('');
   // Stand pro Bereich
   const vs = vocSets(), vAll = vs.reduce((a, x) => a + x.items.length, 0), vOk = vs.reduce((a, x) => a + vocSure(x), 0);
-  const gAll = GRAMMAR.reduce((a, m) => a + m.items.length, 0), gOk = GRAMMAR.reduce((a, m) => a + Object.keys(S.gram[m.id] || {}).length, 0);
-  const tAll = TEXTS.reduce((a, x) => a + x.qs.length, 0), tOk = TEXTS.reduce((a, x) => a + Math.min(x.qs.length, S.ltext[x.id] || 0), 0);
+  const cl = CL(), tk = cl ? cfg().t : [], gl = gramList(), txs = cl ? TEXTS.filter(x => cfg().lv.includes(x.lvl || 'B1')) : TEXTS;
+  const gAll = gl.reduce((a, m) => a + m.items.length, 0), gOk = gl.reduce((a, m) => a + Object.keys(S.gram[m.id] || {}).length, 0);
+  const tAll = txs.reduce((a, x) => a + x.qs.length, 0), tOk = txs.reduce((a, x) => a + Math.min(x.qs.length, S.ltext[x.id] || 0), 0);
+  const pairs = tk.reduce((a, k) => a + sure(k), 0);
   const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
-  const areas = [
-    [t('verbs'), Math.round(100 * (lv + Math.min(1, counts[lv] / GOAL)) / TENSES.length), t('levelOf', { a: lv + 1, b: TENSES.length })],
-    [t('vocab'), pct(vOk, vAll), vOk + ' / ' + vAll],
-    [t('grammar'), pct(gOk, gAll), gOk + ' / ' + gAll],
-    [t('listen'), pct(tOk, tAll), tOk + ' / ' + tAll]
-  ];
+  const areas = [];
+  if (!cl) areas.push([t('verbs'), Math.round(100 * (lv + Math.min(1, counts[lv] / GOAL)) / TENSES.length), t('levelOf', { a: lv + 1, b: TENSES.length })]);
+  else if (tk.length) areas.push([t('verbs'), pct(pairs, N * tk.length), pairs + ' / ' + N * tk.length]);
+  if (!cl || vAll) areas.push([t('vocab'), pct(vOk, vAll), vOk + ' / ' + vAll]);
+  if (!cl || gAll) areas.push([t('grammar'), pct(gOk, gAll), gOk + ' / ' + gAll]);
+  if (!cl || tAll) areas.push([t('listen'), pct(tOk, tAll), tOk + ' / ' + tAll]);
+  const shown = cl ? TENSES.filter(T => tk.includes(T.k)) : TENSES;
   const bm = bmsg();
   return `<header class="head"><h1>${t('progress')}</h1></header>
     <section class="goal">
       <div class="gring"><svg role="img" aria-label="${done} / ${DAILY_GOAL}" width="180" height="180" viewBox="0 0 180 180">
-        <circle cx="90" cy="90" r="70" fill="none" stroke="#F1F7F3" stroke-width="14"/>
-        ${frac ? `<circle class="ringfill" cx="90" cy="90" r="70" fill="none" stroke="#2F7D5B" stroke-width="14" stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${(circ * (1 - frac)).toFixed(1)}" transform="rotate(-90 90 90)"/>` : ''}</svg>
+        <circle class="ringbg" cx="90" cy="90" r="70" fill="none" stroke-width="14"/>
+        ${frac ? `<circle class="ringfill" cx="90" cy="90" r="70" fill="none" stroke-width="14" stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${(circ * (1 - frac)).toFixed(1)}" transform="rotate(-90 90 90)"/>` : ''}</svg>
         <div><b>${done}</b><span>/ ${DAILY_GOAL}</span><small>${t('today')}</small></div></div>
       <p class="strong">${done >= DAILY_GOAL ? t('goalDone') : t('goalLeft', { a: DAILY_GOAL - done })}</p>
       <div class="week">${week}</div>
       <p class="muted">${t('daysRow', { a: streak() })}</p>
     </section>
+    ${cl ? proofCard(areas, done) + colorDots() : ''}
     <section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}</small></div>`).join('')}</section>
     <details class="card fold"><summary>${t('details')}</summary>
-      <section class="block"><h2>${t('byTense')}</h2>${TENSES.map((T, i) => `<div class="trow${i > lv ? ' off' : ''}"><div><span>${T.n}</span><span>${i > lv ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`).join('')}</section>
+      <section class="block"><h2>${t('byTense')}</h2>${shown.map(T => { const i = TENSES.indexOf(T), off = !cl && i > lv; return `<div class="trow${off ? ' off' : ''}"><div><span>${T.n}</span><span>${off ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`; }).join('')}</section>
       <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>
-      <section class="block"><h2>${t('challenge')}</h2><p class="muted">${t('record')}: ${S.hi} · ${t('sneaksN', { a: S.sneaks || 0 })}</p></section>
+      <section class="block"><h2>${t('challenge')}</h2><p class="muted">${t('record')}: ${S.hi} · ${cl ? t('colorsN', { a: Math.min((S.sneaks || 0) + 1, THEMES.length), b: THEMES.length }) : t('sneaksN', { a: S.sneaks || 0 })}</p></section>
     </details>
     <details class="card fold"${bm ? ' open' : ''}><summary>${t('backup')}</summary><div class="form"><p class="muted">${t('backupDesc')}</p>
       <button type="button" class="btn" data-a="bexport">${t('exportFile')}</button><button type="button" class="btn ghost" data-a="bcopy">${t('exportCopy')}</button>
@@ -2414,6 +4035,7 @@ function modelOptions() {
   return out.join('');
 }
 function vVerbs() {
+  if (CL()) return vKlass();
   const m = msg; msg = ''; const word = addMode === 'word';
   const seg = `<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${!word}" data-a="addmode" data-n="verb">${t('verbs')}</button><button type="button" role="tab" aria-selected="${word}" data-a="addmode" data-n="word">${t('vocab')}</button></div>`;
   const form = word
@@ -2437,7 +4059,8 @@ function vVerbs() {
       <label for="bulk" class="sr">${t('bulk')}</label><textarea id="bulk" rows="4" spellcheck="false" placeholder="${word ? 'la maison;das Haus,le chien;der Hund' : 'bricoler;basteln,grignoter;knabbern'}"></textarea>
       <button type="button" class="btn" data-a="bulk">${t('bulkBtn')}</button>
       <details><summary>${t('aiPrompt')}</summary><p id="aitext">${esc(t(word ? 'aiTextW' : 'aiText'))}</p><button type="button" class="btn ghost" data-a="copy">${t('copy')}</button></details></section>
-    <section class="block"><h2>${t(word ? 'myWords' : 'myVerbs')}</h2>${rows}</section>`;
+    <section class="block"><h2>${t(word ? 'myWords' : 'myVerbs')}</h2>${rows}</section>
+    ${codeCard()}`;
 }
 /** -> {ok, why, word} */
 function prepWord(fr, mean) {
@@ -2627,6 +4250,7 @@ const ACT = {
   addmode: el => { addMode = el.dataset.n; render(); },
   wdel: el => { const w = S.vocab.splice(+el.dataset.i, 1)[0]; if (w) delete S.vbox[w.fr]; save(); render(); }
 };
+Object.assign(ACT, KACT);
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-a]'); if (!el || el.disabled) return;
   const f = ACT[el.dataset.a]; if (f) f(el);
@@ -2634,13 +4258,21 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   if (e.target.id === 'ans') { e.preventDefault(); V.name === 'chrun' ? chCheck() : V.name === 'gram' ? gNext() : V.name === 'voc' ? vocCheck() : V.name === 'lrun' ? lCheck() : checkAnswer(); }
+  else if (e.target.id === 'kcode') { e.preventDefault(); redeem(e.target.value); }
+  else if (e.target.id === 'jname') { e.preventDefault(); ACT.joinok(); }
   else if (e.target.id === 'fixin') { e.preventDefault(); ACT.fixsave(); }
 });
 document.addEventListener('submit', e => { e.preventDefault(); if (e.target.id === 'addform') submitVerb(); else if (e.target.id === 'wordform') submitWord(); });
-document.addEventListener('input', e => { if (e.target.dataset.i === 'prev') preview(); });
+document.addEventListener('input', e => {
+  const k = e.target.dataset.i;
+  if (k === 'prev') preview();
+  else if (k === 'stud') { S.student = e.target.value.slice(0, 40); save(); }
+  else if (k === 'te') { if (e.target.id === 'te_n') TE.n = e.target.value; else TE.vt = e.target.value; saveTE(); }
+});
 document.addEventListener('change', e => {
   if (e.target.dataset.c === 'lang') { S.lang = e.target.value; save(); render(); }
   else if (e.target.dataset.c === 'prev') preview();
+  else if (e.target.dataset.c === 'te') teChange(e.target);
   else if (e.target.dataset.c === 'bfile' && e.target.files[0]) {
     const fr = new FileReader();
     fr.onload = () => { $('#btext').value = String(fr.result); backupCheck(); };
@@ -2649,6 +4281,13 @@ document.addEventListener('change', e => {
 });
 
 render();
+/* Klassen-Link: …/#k=CODE öffnet direkt die Bestätigung für den Lernmodus */
+if (/^#k=/.test(location.hash)) {
+  const h = location.hash;
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* egal */ }
+  redeem(h);
+}
+window.addEventListener('hashchange', () => { if (/^#k=/.test(location.hash)) redeem(location.hash); });
 
 </script>
 </body>

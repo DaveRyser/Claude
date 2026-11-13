@@ -2387,8 +2387,7 @@ function proofCard(areas, done) {
   try { date = d.toLocaleDateString(S.lang, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { date = localDay(d); }
   return `<section class="proof" aria-label="${t('proof')}"><div class="prow"><b>${esc(c.n || t('classMode'))}</b><span>${esc(date)}</span></div>
     <label class="sr" for="stud">${t('yourName')}</label><input id="stud" data-i="stud" type="text" value="${esc(S.student || '')}" placeholder="${t('yourName')}" autocomplete="off" maxlength="40">
-    <dl><div><dt>${t('today')}</dt><dd>${done} / ${DAILY_GOAL}</dd></div><div><dt>${t('daysRow', { a: '' }).replace(/[\s:]+$/, '')}</dt><dd>${streak()}</dd></div>
-    ${areas.map(a => `<div><dt>${a[0]}${a[3] ? `<small>${a[3]}</small>` : ''}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
+    <dl>${areas.map(a => `<div><dt>${a[0]}${a[3] ? `<small>${a[3]}</small>` : ''}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
     ${c.c && c.t.length ? `<div><dt>${t('record')} ${t('challenge')}</dt><dd>${S.hi}</dd></div>` : ''}</dl>
     <small>VerbMaster · ${t('classCode')} ${hashStr(META.klass)}</small></section><p class="hint">${t('proofHint')}</p>`;
 }
@@ -3380,7 +3379,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.1';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.2';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde

@@ -120,6 +120,7 @@ h1,.brand,.bignum,.timer,.stats b,.dot.num{font-family:'Space Grotesk',Inter,san
 .prow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.prow b{font:700 18px 'Space Grotesk',sans-serif;color:var(--g);overflow-wrap:anywhere}.prow span{font-size:13px;color:var(--mute);white-space:nowrap}
 .proof input{width:100%;height:44px;border:0;border-bottom:1.5px solid var(--line2);padding:0;font-size:18px;font-weight:600;background:transparent;border-radius:0}
 .proof input:focus{outline:0;border-bottom-color:var(--g)}
+.proof .areas{display:flex;flex-direction:column;gap:16px;margin:8px 0 4px}.proof .bar{background:var(--soft)}
 .proof dl{margin:0;display:flex;flex-direction:column}.proof dl div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
 .proof dt{color:var(--mute)}.proof dt small{display:block;font-size:11px}.proof dd{margin:0;font-weight:600;text-align:right}.proof>small{font-size:11px;color:var(--mute)}
 .colors{display:flex;gap:12px;flex-wrap:wrap}
@@ -2387,8 +2388,7 @@ function proofCard(areas, done) {
   try { date = d.toLocaleDateString(S.lang, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { date = localDay(d); }
   return `<section class="proof" aria-label="${t('proof')}"><div class="prow"><b>${esc(c.n || t('classMode'))}</b><span>${esc(date)}</span></div>
     <label class="sr" for="stud">${t('yourName')}</label><input id="stud" data-i="stud" type="text" value="${esc(S.student || '')}" placeholder="${t('yourName')}" autocomplete="off" maxlength="40">
-    <dl>${areas.map(a => `<div><dt>${a[0]}${a[3] ? `<small>${a[3]}</small>` : ''}</dt><dd>${a[2]} · ${a[1]} %</dd></div>`).join('')}
-    ${c.c && c.t.length ? `<div><dt>${t('record')} ${t('challenge')}</dt><dd>${S.hi}</dd></div>` : ''}</dl>
+    <div class="areas">${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}${a[3] ? ' · ' + a[3] : ''}</small></div>`).join('')}</div>
     <small>VerbMaster · ${t('classCode')} ${hashStr(META.klass)}</small></section><p class="hint">${t('proofHint')}</p>`;
 }
 function colorDots() {
@@ -3379,7 +3379,7 @@ const VIDEO_CHANNEL = 'Fit für Franze';
 const videoUrl = m => m.video || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(VIDEO_CHANNEL + ' ' + (m.yt || (typeof m.title === 'string' ? m.title : m.title.fr)));
 
 /* ---------- Einstellungen ---------- */
-const APP_VERSION = '3.2';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
+const APP_VERSION = '3.3';   // bei jeder Veröffentlichung erhöhen (zusammen mit VERSION in sw.js)
 const DAILY_GOAL = 10;  // Aufgaben pro Tag für den Ring auf der Fortschritts-Seite
 const GOAL = 40;        // sichere Verben, um das nächste Level zu öffnen
 const ROUND = 10;       // Aufgaben pro Runde
@@ -4010,8 +4010,7 @@ function vProgress() {
       <div class="week">${week}</div>
       <p class="muted">${t('daysRow', { a: streak() })}</p>
     </section>
-    ${cl ? proofCard(areas, done) + colorDots() : ''}
-    <section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}${a[3] ? ' · ' + a[3] : ''}</small></div>`).join('')}</section>
+    ${cl ? proofCard(areas, done) + colorDots() : `<section class="block areas"><h2>${t('yourLevel')}</h2>${areas.map(a => `<div class="trow"><div><span>${a[0]}</span><span>${a[1]} %</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><small>${a[2]}${a[3] ? ' · ' + a[3] : ''}</small></div>`).join('')}</section>`}
     <details class="card fold"><summary>${t('details')}</summary>
       <section class="block"><h2>${t('byTense')}</h2>${shown.map(T => { const i = TENSES.indexOf(T), off = !cl && i > lv; return `<div class="trow${off ? ' off' : ''}"><div><span>${T.n}</span><span>${off ? t('locked') : counts[i] + ' / ' + N}</span></div><div class="bar"><i style="width:${100 * counts[i] / N}%"></i></div></div>`; }).join('')}</section>
       <section class="block"><h2>${t('hard')}</h2><p class="muted">${hard.length ? t('hardDesc') : t('noHard')}</p><div class="chips">${hard.map(v => `<span>${esc(v.fr)}</span>`).join('')}</div></section>
